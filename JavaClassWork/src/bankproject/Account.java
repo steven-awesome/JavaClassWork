@@ -30,11 +30,13 @@ public abstract class Account {
     public void makeDeposit(double depAmt){
         currentBalance+=depAmt;
         totalDeposits++;
+        System.out.println("Deposit success. New balance: " + currentBalance);
     }
     
     public void makeWithdraw(double wdAmt){
         currentBalance-=wdAmt;
-        totalWithdrawals--;
+        totalWithdrawals++;
+        System.out.println("Withdrawal success. New balance: " + currentBalance);
     }
     
     public void calculateInterest(){
@@ -51,23 +53,25 @@ public abstract class Account {
     }
     
     //Using this method to do checks on whether a transation brings an account below $25 or not
-    public boolean isActiveWD(double chkAmt){
-        if (currentBalance - chkAmt < 25 ){
-            accountStatus = 'I';
-            return true;
+    public char isActiveWD(double chkAmt){
+        if (currentBalance - chkAmt > 25 ){
+            accountStatus = 'A';
         }
-        else return false;
+        else{ 
+            accountStatus = 'I';
+        } 
+        return accountStatus;
     }
     
-    public boolean isActiveDep(double chkAmt){
+    public char isActiveDep(double chkAmt){
         if (currentBalance + chkAmt >= 25 ){
             accountStatus = 'A';
-            return true;
+            System.out.println("Your account is active again");
         }
-        else return false;
+        return accountStatus;
     }
     
-    
+    public abstract void balanceUnderZero(double wtdAmt);
     
     
     

@@ -74,8 +74,15 @@ public class Menu {
         
         switch (choice3){
             case "A":
-                System.out.println("Please enter an amount: ");
+                System.out.println("Please enter an amount to Deposit: ");
                 double caseA = sc.nextDouble();
+                break;
+            case "B":
+                System.out.println("Please enter an amount to Withdraw: ");
+                double caseB = sc.nextDouble();
+                break;
+            case "C":
+                System.out.println("");
                 
         }
         
