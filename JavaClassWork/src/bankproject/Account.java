@@ -50,8 +50,18 @@ public abstract class Account {
         mmServiceCharge = 0;
     }
     
-    public boolean isActive(double chkAmt){
+    //Using this method to do checks on whether a transation brings an account below $25 or not
+    public boolean isActiveWD(double chkAmt){
         if (currentBalance - chkAmt < 25 ){
+            accountStatus = 'I';
+            return true;
+        }
+        else return false;
+    }
+    
+    public boolean isActiveDep(double chkAmt){
+        if (currentBalance + chkAmt >= 25 ){
+            accountStatus = 'A';
             return true;
         }
         else return false;

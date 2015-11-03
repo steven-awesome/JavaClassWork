@@ -18,6 +18,7 @@ public class Savings extends Account {
     @Override
     public void makeWithdraw(double wdAmt){
         if (accountStatus == 'A'){
+            isActiveWD(wdAmt);
             super.makeWithdraw(wdAmt);
         }
         else{
@@ -25,5 +26,14 @@ public class Savings extends Account {
             
         }
     }
+    
+    
+    @Override
+    public void makeDeposit(double depAmt){
+        isActiveDep(depAmt);
+        super.makeDeposit(depAmt);
+    }
+    
+    
     
 }
