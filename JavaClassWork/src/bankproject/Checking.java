@@ -40,7 +40,7 @@ public class Checking extends Account {
     
     public void doMonthlyReport(){
         mmServiceCharge = 5 + (numberWithdrawals * 0.1);
-        super.doMonthyReport();
+        super.doMonthlyReport();
         
     }
     

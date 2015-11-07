@@ -46,38 +46,39 @@ public class TestTest {
 
 
     public void menuSavings(){
-        System.out.println("Savings Account. Please make your selection:\n A: Deposit\n B: Withdrawal\n C: Report\n D: Return to Bank Menu");
-        usr2 = getInput();
-        outerloop:
-        switch (usr2){
-            case "A":
-            {
-                System.out.println("Please enter an amount to Deposit:");
-                sav.makeDeposit(getAmount());
-                break;
 
-            }
+        while(true){
 
 
-            case "B":
-            {
-                System.out.println("Please enter an amount to Withdraw:");
-                sav.makeWithdraw(getAmount());
-                break;
-            }
-            case "C":
-            {
-                sav.doMonthlyReport();
-                break outerloop;
-            }
-            case "D":
-            {
-                Menu();
-                break;
-            }
+            System.out.println("Savings Account. Please make your selection:\n A: Deposit\n B: Withdrawal\n C: Report\n D: Return to Bank Menu");
+            usr2 = getInput();
 
+            switch (usr2){
+                case "A":
+                {
+                    System.out.println("Please enter an amount to Deposit:");
+                    sav.makeDeposit(getAmount());
+                    break;
+                }
+                case "B":
+                {
+                    System.out.println("Please enter an amount to Withdraw:");
+                    sav.makeWithdraw(getAmount());
+                    break;
+                }
+                case "C":
+                {
+                    sav.doMonthlyReport();
+                    break;
+                }
+                case "D":
+                {
+                    Menu();
+                    break;
+                }
+
+            }
         }
-
     }
 
     public void menuChecking(){
@@ -87,10 +88,16 @@ public class TestTest {
 
     public String getInput() {
         String usrInput;
+        String menuText = "menu Savings";
+        Object obj = new Object();
         if (sc.hasNext("[ABC]")){
             usrInput = sc.next();
         }
+        else if (Thread.currentThread().getStackTrace().getEnc.equals(menuText) && sc.hasNext("[ABCD]")){
+            usrInput = sc.next();
+        }
         else usrInput = "ZXC";
+        sc.nextLine();
 
         while(usrInput.equals("ZXC")){
             System.out.println("Please enter a valid Choice");
@@ -98,6 +105,7 @@ public class TestTest {
                 usrInput = sc.next();
             }
             else usrInput = "ZXC";
+            sc.nextLine();
         }
         return usrInput;
     }

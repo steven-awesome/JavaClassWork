@@ -45,7 +45,7 @@ public abstract class Account {
         currentBalance += mmInt;
     }
     
-    public void doMonthyReport(){
+    public void doMonthlyReport(){
         currentBalance -= mmServiceCharge;
         calculateInterest();
         numberDeposits = numberWithdrawals = 0;

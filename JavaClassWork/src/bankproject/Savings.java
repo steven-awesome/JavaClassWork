@@ -50,7 +50,7 @@ public class Savings extends Account {
         if (numberWithdrawals > 4){
             mmServiceCharge += (numberWithdrawals - 4);
         }
-        super.doMonthyReport();
+        super.doMonthlyReport();
     }
     
 }
