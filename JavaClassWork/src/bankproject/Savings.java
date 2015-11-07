@@ -46,7 +46,7 @@ public class Savings extends Account {
     }
 
     @Override
-    public void doMonthyReport(){
+    public void doMonthlyReport(){
         if (numberWithdrawals > 4){
             mmServiceCharge += (numberWithdrawals - 4);
         }
