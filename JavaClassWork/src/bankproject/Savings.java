@@ -14,13 +14,13 @@ public class Savings extends Account {
     public Savings(double curBalance, double annuIntRate) {
         super(curBalance, annuIntRate);
     }
-    
+
     @Override
     public void makeWithdraw(double wdAmt){
         if (accountStatus == 'A'){
             balanceUnderZero(wdAmt);
         }
-        else System.out.println("Account is inactive, please bring balance abover $25");
+        else System.out.println("Account is inactive, please bring balance above $25");
     }
     
     
@@ -49,6 +49,7 @@ public class Savings extends Account {
     public void doMonthlyReport(){
         if (numberWithdrawals > 4){
             mmServiceCharge += (numberWithdrawals - 4);
+            System.out.println("Total service charges: " + mmServiceCharge);
         }
         super.doMonthlyReport();
     }
