@@ -27,13 +27,16 @@ public class TestMain {
                     if (getInput().equals("A")){
                         System.out.println("Please enter an amount to Deposit:");
                         sav.makeDeposit(getAmount());
+                        break outerloop;
                     }
                     else if (getInput().equals("B")){
                         System.out.println("Please enter an amount to Withdraw:");
                         sav.makeWithdraw(getAmount());
+                        break outerloop;
                     }
                     else if (getInput().equals("C")){
                         sav.doMonthlyReport();
+                        break outerloop;
                     }
                     else if (getInput().equals("D")){
                         break outerloop;
