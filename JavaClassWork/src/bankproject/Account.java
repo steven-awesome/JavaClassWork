@@ -78,9 +78,6 @@ public abstract class Account {
 
     
     public void makeDeposit(double depAmt){
-        if ((getNumberWithdrawals() == 0 && getNumberDeposits() == 0) && (getTotalDeposits() != 0 || getTotalWithdrawals() != 0)){
-            currentBalance = startingBalance;
-        }
         currentBalance+=depAmt;
         ++numberDeposits;
         totalDeposits+=depAmt;
@@ -88,9 +85,6 @@ public abstract class Account {
     }
     
     public void makeWithdraw(double wdAmt){
-        if ((getNumberWithdrawals() == 0 && getNumberDeposits() == 0) && (getTotalDeposits() != 0 || getTotalWithdrawals() != 0)){
-            currentBalance = startingBalance;
-        }
         currentBalance-=wdAmt;
         ++numberWithdrawals;
         totalWithdrawals-=wdAmt;
@@ -113,7 +107,6 @@ public abstract class Account {
         numberDeposits = numberWithdrawals = 0;
         mmServiceCharge = 0;
         startingBalance = currentBalance;
-        currentBalance = 0;
     }
     
     //Using this method to do checks on whether a transaction brings an account below $25 or not
@@ -126,7 +119,7 @@ public abstract class Account {
         } 
         return accountStatus;
     }
-    
+    //Parent deposit class that checks if the amount the user wants to deposit bring the balance
     public char isActiveDep(double chkAmt){
         if (currentBalance + chkAmt >= 25 ){
             accountStatus = 'A';
@@ -134,8 +127,6 @@ public abstract class Account {
         }
         return accountStatus;
     }
-    
-    public abstract void balanceUnderZero(double wtdAmt);
     
     
     

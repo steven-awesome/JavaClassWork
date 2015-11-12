@@ -11,18 +11,18 @@ import java.util.Scanner;
  *
  * @author Steven
  */
-public class TestTest {
-    private String usr1;
-    private String usr2;
-    private String usr3;
+public class Menu {
     Scanner sc = new Scanner(System.in);
     Savings sav = new Savings(0,2);
-    Checking chk = new Checking(0,0);
-    double testest;
+    Checking chk = new Checking(0,3);
 
     public void Menu(){
         System.out.println("Welcome to the banking system. Please make your selection:\n A: Savings\n B: Checking\n C: Exit");
 
+        //All the options call their own menuMethods, and switch cases are used to try to make things easier to read.
+
+        //Case "D" was included because the getInput validation includes "D", and its easier to include an extra case than write a new if statement
+        //to deal with each method separately with their own getInput.
         while (true) {
             switch (getInput()) {
                 case "A": {
@@ -77,40 +77,37 @@ public class TestTest {
     }
 
     public void menuChecking(){
-        System.out.println("Checking Account. Please make your selection:\n A: Deposit\n B: Withdrawal\n C: Report\n D: Return to Bank Menu");
 
 
-        switch (getInput()){
-            case "A":
-            {
-                System.out.println("Please enter an amount to Deposit:");
-                chk.makeDeposit(getAmount());
-                break;
-            }
-            case "B":
-            {
-                System.out.println("Please enter an amount to Withdraw:");
-                chk.makeWithdraw(getAmount());
-                break;
-            }
-            case "C":
-            {
-                chk.doMonthlyReport();
-                break;
-            }
-            case "D":
-            {
-                Menu();
-                break;
-            }
+        while(true) {
+            System.out.println("Checking Account. Please make your selection:\n A: Deposit\n B: Withdrawal\n C: Report\n D: Return to Bank Menu");
+            switch (getInput()) {
+                case "A": {
+                    System.out.println("Please enter an amount to Deposit:");
+                    chk.makeDeposit(getAmount());
+                    break;
+                }
+                case "B": {
+                    System.out.println("Please enter an amount to Withdraw:");
+                    chk.makeWithdraw(getAmount());
+                    break;
+                }
+                case "C": {
+                    chk.doMonthlyReport();
+                    break;
+                }
+                case "D": {
+                    Menu();
+                    break;
+                }
 
+            }
         }
     }
 
 
     public String getInput() {
         String usrInput;
-        String menuText = "menuSavings";
         Object obj = new Object();
         if (sc.hasNext("[ABCD]")){
             usrInput = sc.next();
@@ -118,6 +115,7 @@ public class TestTest {
         else usrInput = "ZXC";
         sc.nextLine();
 
+        //ZXC is just garbage input for the loop
         while(usrInput.equals("ZXC")){
             System.out.println("Please enter a valid Choice");
             if (sc.hasNext("[ABCD]")){
@@ -153,7 +151,7 @@ public class TestTest {
 
 
     public static void main(String [] args){
-        TestTest testObj = new TestTest();
+        Menu testObj = new Menu();
         testObj.Menu();
     }
 

@@ -18,7 +18,15 @@ public class Savings extends Account {
     @Override
     public void makeWithdraw(double wdAmt){
         if (accountStatus == 'A'){
-            balanceUnderZero(wdAmt);
+            if (currentBalance - wdAmt <25){
+                accountStatus = 'I';
+                System.out.println("Your account is now Inactive. Please make a deposit to bring balance over $25 to use this account again");
+
+            }
+            else{
+                super.makeWithdraw(wdAmt);
+
+            }
         }
         else System.out.println("Account is inactive, please bring balance above $25");
     }
@@ -29,21 +37,7 @@ public class Savings extends Account {
         isActiveDep(depAmt);
         super.makeDeposit(depAmt);
     }
-    
-    
-    //This is to check is a withdrawal will bring balance below $0, and if it does, charge a $15 fee
-    @Override
-    public void balanceUnderZero(double wtdAmt){
-        if (currentBalance - wtdAmt <25){
-            accountStatus = 'I';
-            System.out.println("Your account is now Inactive. Please make a deposit to bring balance over $25 to use this account again");
-            
-        }
-        else{
-            super.makeWithdraw(wtdAmt);
-            
-        }
-    }
+
 
     @Override
     public void doMonthlyReport(){
