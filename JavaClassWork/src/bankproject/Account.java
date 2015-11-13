@@ -95,7 +95,7 @@ public abstract class Account {
         totalWithdrawals+=wdAmt;
         System.out.println("Withdrawal success. New balance: " + currentBalance);
     }
-    
+    //if mmInt LESS THAN 0, show 0. (can happen if currbal is $3, and monthly report is run and charges $5, balance is negativer
     public void calculateInterest(){
         double mIntRate = (annualInterestRate / 100) / 12.0;
         double mmInt = currentBalance * mIntRate;
