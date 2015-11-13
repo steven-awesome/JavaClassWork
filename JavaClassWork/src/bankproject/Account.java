@@ -98,8 +98,13 @@ public abstract class Account {
     //if mmInt LESS THAN 0, show 0. (can happen if currbal is $3, and monthly report is run and charges $5, balance is negativer
     public void calculateInterest(){
         double mIntRate = (annualInterestRate / 100) / 12.0;
-        double mmInt = currentBalance * mIntRate;
-        currentBalance += mmInt;
+        double mmInt = 0;
+        
+        if(currentBalance >= 0){
+            currentBalance *= mIntRate;
+            currentBalance += mmInt;
+        }
+        
         System.out.println("Total interest: " + mmInt);
     }
     
