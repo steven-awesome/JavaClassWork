@@ -22,6 +22,8 @@ public abstract class Account {
     protected double annualInterestRate;
     protected double mmServiceCharge;
     protected char accountStatus;
+    NumberFormat nF = new NumberFormat();
+    
 
     
     //Constructor
@@ -87,7 +89,7 @@ public abstract class Account {
     public void makeWithdraw(double wdAmt){
         currentBalance-=wdAmt;
         ++numberWithdrawals;
-        totalWithdrawals-=wdAmt;
+        totalWithdrawals+=wdAmt;
         System.out.println("Withdrawal success. New balance: " + currentBalance);
     }
     
@@ -100,12 +102,12 @@ public abstract class Account {
     
     public void doMonthlyReport(){
         currentBalance -= mmServiceCharge;
-        totalDeposits = numberDeposits;
-        totalWithdrawals = numberWithdrawals;
         calculateInterest();
-        System.out.println("Starting Balance: " + startingBalance + " Total Deposits: " + numberDeposits + " Total Withdrawals: " + numberWithdrawals + " Service Charge: " + mmServiceCharge + " Current Balance: " + currentBalance + " Account Status: " + accountStatus);
+        System.out.println("Starting Balance: " + startingBalance + " Total Deposits: " + totalDeposits + " Total Withdrawals: " + totalWithdrawals + " Service Charge: " + mmServiceCharge + " Number of deposits: " + numberDeposits + " Number Withdrawals: " + numberWithdrawals + " Current Balance: " + currentBalance + " Account Status: " + accountStatus);
         numberDeposits = numberWithdrawals = 0;
         mmServiceCharge = 0;
+        totalDeposits = 0;
+        totalWithdrawals = 0;
         startingBalance = currentBalance;
     }
     
