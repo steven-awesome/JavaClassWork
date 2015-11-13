@@ -22,7 +22,8 @@ public abstract class Account {
     protected double annualInterestRate;
     protected double mmServiceCharge;
     protected char accountStatus;
-    NumberFormat nF = new NumberFormat();
+    NumberFormat nF;
+        
     
 
     
@@ -30,6 +31,8 @@ public abstract class Account {
     public Account(double startBal, double annuIntRate){
         startingBalance = startBal;
         annualInterestRate = annuIntRate;
+        nF = NumberFormat.getNumberInstance();
+        nF.setMaximumFractionDigits(2);
     }
 
     //Setters
@@ -103,7 +106,7 @@ public abstract class Account {
     public void doMonthlyReport(){
         currentBalance -= mmServiceCharge;
         calculateInterest();
-        System.out.println("Starting Balance: " + startingBalance + " Total Deposits: " + totalDeposits + " Total Withdrawals: " + totalWithdrawals + " Service Charge: " + mmServiceCharge + " Number of deposits: " + numberDeposits + " Number Withdrawals: " + numberWithdrawals + " Current Balance: " + currentBalance + " Account Status: " + accountStatus);
+        System.out.println("Starting Balance: " + nF.format(startingBalance) + " Total Deposits: " + totalDeposits + " Total Withdrawals: " + totalWithdrawals + " Service Charge: " + nF.format(mmServiceCharge) + " Number of deposits: " + numberDeposits + " Number Withdrawals: " + numberWithdrawals + " Current Balance: " + nF.format(currentBalance) + " Account Status: " + accountStatus);
         numberDeposits = numberWithdrawals = 0;
         mmServiceCharge = 0;
         totalDeposits = 0;
