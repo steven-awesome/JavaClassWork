@@ -95,23 +95,23 @@ public abstract class Account {
         totalWithdrawals+=wdAmt;
         System.out.println("Withdrawal success. New balance: " + currentBalance);
     }
-    //if mmInt LESS THAN 0, show 0. (can happen if currbal is $3, and monthly report is run and charges $5, balance is negativer
+    //annualInterestRate is divided by 100 so that when someone enters "2" in the constructor, its really 0.02 to give an accurate interest rate.
     public void calculateInterest(){
         double mIntRate = (annualInterestRate / 100) / 12.0;
         double mmInt = 0;
         
         if(currentBalance >= 0){
-            currentBalance *= mIntRate;
+            mmInt = currentBalance * mIntRate;
             currentBalance += mmInt;
         }
         
-        System.out.println("Total interest: " + mmInt);
+        System.out.println("Total interest: " + nF.format(mmInt));
     }
     
     public void doMonthlyReport(){
         currentBalance -= mmServiceCharge;
         calculateInterest();
-        System.out.println("Starting Balance: " + nF.format(startingBalance) + " Total Deposits: " + totalDeposits + " Total Withdrawals: " + totalWithdrawals + " Service Charge: " + nF.format(mmServiceCharge) + " Number of deposits: " + numberDeposits + " Number Withdrawals: " + numberWithdrawals + " Current Balance: " + nF.format(currentBalance) + " Account Status: " + accountStatus);
+        System.out.println("Starting Balance: " + nF.format(startingBalance) + " Total of Deposits: " + totalDeposits + " Total of Withdrawals: " + totalWithdrawals + " Service Charge: " + nF.format(mmServiceCharge) + " Number of deposits: " + numberDeposits + " Number Withdrawals: " + numberWithdrawals + " Current Balance: " + nF.format(currentBalance) + " Account Status: " + accountStatus);
         numberDeposits = numberWithdrawals = 0;
         mmServiceCharge = 0;
         totalDeposits = 0;
