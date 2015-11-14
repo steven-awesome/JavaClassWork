@@ -5,6 +5,7 @@
  */
 package bankproject;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -86,16 +87,16 @@ public abstract class Account {
         currentBalance+=depAmt;
         ++numberDeposits;
         totalDeposits+=depAmt;
-        System.out.println("Deposit success. New balance: " + currentBalance);
+        System.out.println("Deposit success. New balance: " + nF.format(currentBalance));
     }
     
     public void makeWithdraw(double wdAmt){
         currentBalance-=wdAmt;
         ++numberWithdrawals;
         totalWithdrawals+=wdAmt;
-        System.out.println("Withdrawal success. New balance: " + currentBalance);
+        System.out.println("Withdrawal success. New balance: " + nF.format(currentBalance));
     }
-    //annualInterestRate is divided by 100 so that when someone enters "2" in the constructor, its really 0.02 to give an accurate interest rate.
+    //annualInterestRate is divided by 100 so that when someone enters "2" in the constructor, it's really 0.02 to give an accurate interest rate.
     public void calculateInterest(){
         double mIntRate = (annualInterestRate / 100) / 12.0;
         double mmInt = 0;
@@ -116,6 +117,8 @@ public abstract class Account {
         mmServiceCharge = 0;
         totalDeposits = 0;
         totalWithdrawals = 0;
+        //I didn't set currentBalance to 0, since from month to month you dont lose your balance
+        //Not sure if this is what was required or not. This way, the 2nd report you do, you can see what balance you started and ended at.
         startingBalance = currentBalance;
     }
     

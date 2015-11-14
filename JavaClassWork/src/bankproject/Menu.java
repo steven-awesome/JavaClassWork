@@ -13,13 +13,13 @@ import java.util.Scanner;
  */
 public class Menu {
     Scanner sc = new Scanner(System.in);
+    //Set starting balance to 0 for both Savings an Checking, and interest rates are 2 and 3 respectively.
     Savings sav = new Savings(0,2);
     Checking chk = new Checking(0,3);
-
+    //All the options call their own menuMethods, and switch cases are used to try to make things easier to read. 
+    //Left out default constructor as a default one will be automatically created.
+    
     public void systemMenu(){
-        
-
-        //All the options call their own menuMethods, and switch cases are used to try to make things easier to read.
 
         //Case "D" was included because the getInput validation includes "D", and its easier to include an extra case than write a new if statement
         //to deal with each method separately with their own getInput.

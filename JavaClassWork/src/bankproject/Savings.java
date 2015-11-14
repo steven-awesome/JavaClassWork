@@ -13,12 +13,16 @@ public class Savings extends Account {
 
     public Savings(double curBalance, double annuIntRate) {
         super(curBalance, annuIntRate);
+        
     }
-
+    
     @Override
     public void makeWithdraw(double wdAmt){
-        if (accountStatus == 'A'){
+        //Check if account is 'A', and wdAmt doesnt bring balance below $0
+        if ((accountStatus == 'A') && (currentBalance - wdAmt > 0)){
+            //If account is 'A' but wdAmt bring balance under $25, make withdraw but set account to 'I'
             if (currentBalance - wdAmt <25){
+                super.makeWithdraw(wdAmt);
                 accountStatus = 'I';
                 System.out.println("Your account is now Inactive. Please make a deposit to bring balance over $25 to use this account again");
 
