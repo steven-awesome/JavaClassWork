@@ -13,23 +13,26 @@ import java.util.Scanner;
  */
 public class Menu {
     Scanner sc = new Scanner(System.in);
+    //Set starting balance to 0 for both Savings an Checking, and interest rates are 2 and 3 respectively.
     Savings sav = new Savings(0,2);
     Checking chk = new Checking(0,3);
-
-    public void Menu(){
-        System.out.println("Welcome to the banking system. Please make your selection:\n A: Savings\n B: Checking\n C: Exit");
-
-        //All the options call their own menuMethods, and switch cases are used to try to make things easier to read.
+    //All the options call their own menuMethods, and switch cases are used to try to make things easier to read. 
+    //Left out default constructor as a default one will be automatically created.
+    
+    public void systemMenu(){
 
         //Case "D" was included because the getInput validation includes "D", and its easier to include an extra case than write a new if statement
         //to deal with each method separately with their own getInput.
         while (true) {
+            System.out.println("Welcome to the banking system. Please make your selection:\n A: Savings\n B: Checking\n C: Exit");
             switch (getInput()) {
                 case "A": {
                     menuSavings();
+                    break;
                 }
                 case "B": {
                     menuChecking();
+                    break;
                 }
                 case "C": {
                     int c = 0;
@@ -69,8 +72,7 @@ public class Menu {
                 }
                 case "D":
                 {
-                    Menu();
-                    break;
+                    return;
                 }
             }
         }
@@ -97,8 +99,7 @@ public class Menu {
                     break;
                 }
                 case "D": {
-                    Menu();
-                    break;
+                    return;
                 }
 
             }
@@ -152,7 +153,7 @@ public class Menu {
 
     public static void main(String [] args){
         Menu testObj = new Menu();
-        testObj.Menu();
+        testObj.systemMenu();
     }
 
 

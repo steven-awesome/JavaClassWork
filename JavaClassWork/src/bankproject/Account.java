@@ -5,6 +5,7 @@
  */
 package bankproject;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -22,7 +23,8 @@ public abstract class Account {
     protected double annualInterestRate;
     protected double mmServiceCharge;
     protected char accountStatus;
-    NumberFormat nF = new NumberFormat();
+    NumberFormat nF;
+        
     
 
     
@@ -30,6 +32,8 @@ public abstract class Account {
     public Account(double startBal, double annuIntRate){
         startingBalance = startBal;
         annualInterestRate = annuIntRate;
+        nF = NumberFormat.getNumberInstance();
+        nF.setMaximumFractionDigits(2);
     }
 
     //Setters
@@ -83,31 +87,38 @@ public abstract class Account {
         currentBalance+=depAmt;
         ++numberDeposits;
         totalDeposits+=depAmt;
-        System.out.println("Deposit success. New balance: " + currentBalance);
+        System.out.println("Deposit success. New balance: " + nF.format(currentBalance));
     }
     
     public void makeWithdraw(double wdAmt){
         currentBalance-=wdAmt;
         ++numberWithdrawals;
         totalWithdrawals+=wdAmt;
-        System.out.println("Withdrawal success. New balance: " + currentBalance);
+        System.out.println("Withdrawal success. New balance: " + nF.format(currentBalance));
     }
-    
+    //annualInterestRate is divided by 100 so that when someone enters "2" in the constructor, it's really 0.02 to give an accurate interest rate.
     public void calculateInterest(){
         double mIntRate = (annualInterestRate / 100) / 12.0;
-        double mmInt = currentBalance * mIntRate;
-        currentBalance += mmInt;
-        System.out.println("Total interest: " + mmInt);
+        double mmInt = 0;
+        
+        if(currentBalance >= 0){
+            mmInt = currentBalance * mIntRate;
+            currentBalance += mmInt;
+        }
+        
+        System.out.println("Total interest: " + nF.format(mmInt));
     }
     
     public void doMonthlyReport(){
         currentBalance -= mmServiceCharge;
         calculateInterest();
-        System.out.println("Starting Balance: " + startingBalance + " Total Deposits: " + totalDeposits + " Total Withdrawals: " + totalWithdrawals + " Service Charge: " + mmServiceCharge + " Number of deposits: " + numberDeposits + " Number Withdrawals: " + numberWithdrawals + " Current Balance: " + currentBalance + " Account Status: " + accountStatus);
+        System.out.println("Starting Balance: " + nF.format(startingBalance) + " Total of Deposits: " + totalDeposits + " Total of Withdrawals: " + totalWithdrawals + " Service Charge: " + nF.format(mmServiceCharge) + " Number of deposits: " + numberDeposits + " Number Withdrawals: " + numberWithdrawals + " Current Balance: " + nF.format(currentBalance) + " Account Status: " + accountStatus);
         numberDeposits = numberWithdrawals = 0;
         mmServiceCharge = 0;
         totalDeposits = 0;
         totalWithdrawals = 0;
+        //I didn't set currentBalance to 0, since from month to month you dont lose your balance
+        //Not sure if this is what was required or not. This way, the 2nd report you do, you can see what balance you started and ended at.
         startingBalance = currentBalance;
     }
     
