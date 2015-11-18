@@ -33,6 +33,7 @@ public class JavaFXApplicationTest extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("JavaFX Welcome");
+        
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -59,7 +60,7 @@ public class JavaFXApplicationTest extends Application {
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btnSign);
-        grid.add(hbBtn, 1, 3);
+        grid.add(hbBtn, 1, 3, 2, 1);
         
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
@@ -102,13 +103,21 @@ public class JavaFXApplicationTest extends Application {
         
         
         
+        
+        
+        Stage second = new Stage();
+        second.setTitle("Second Stage");
+        second.show();
+        //added Exit button after second stage so it closes both stages
         btnExit.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
-                System.exit(0);
+                primaryStage.hide();
+                second.hide();
             }
         });
+        
         
         Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
