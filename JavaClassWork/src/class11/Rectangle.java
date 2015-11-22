@@ -28,7 +28,6 @@ public class Rectangle extends GeometricObject {
         this.width = width;
         this.color = color;
         this.filled = filled;
-        color = super.setColor();
         
     }
     
