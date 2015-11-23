@@ -7,6 +7,7 @@ package labassignment3;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.DAY_OF_WEEK;
 import static java.util.Calendar.MONTH;
@@ -82,12 +83,14 @@ public class LabTest {
         
         daysMax = GC.getActualMaximum(DAY_OF_MONTH);
         
-        GC.getTime().toString();
         
-        calString.append(GC.get(MONTH).toString());
+        
+      
       
         for (int i = 0; i == daysMax; i++){
-            
+            GC.set(DAY_OF_MONTH, i);
+            TS.add(i, ));
+            if ()
             
     }
         
@@ -96,16 +99,17 @@ public class LabTest {
     public String dayName(Date dt){
         ST = new StringBuilder();
         DateFormat fullDate =
-        DateFormat.getDateInstance(DateFormat.FULL);
+        DateFormat.getDateInstance(DateFormat.MONTH_FIELD);
         ST.setLength(GC.getTime().toString().length());
         ST.append(fullDate.format(GC.getTime()));
         
-        for (int i = 0; i < ST.length(); i++){
+        
+        /*for (int i = 0; i < ST.length(); i++){
             
             if (ST.charAt(i) == ','){
                 ST.delete(i, ST.length());
             }
-        }
+        }*/
         
         String s2 = ST.toString().trim();
         

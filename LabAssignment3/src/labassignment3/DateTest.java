@@ -6,6 +6,7 @@
 package labassignment3;
 
 import java.text.DateFormat;
+import static java.util.Calendar.DAY_OF_WEEK;
 import java.util.GregorianCalendar;
 
 /**
@@ -19,7 +20,9 @@ public class DateTest {
         GregorianCalendar GC = new GregorianCalendar(1999, 1, 1);
         s = new StringBuilder();
         DateFormat fullDate =
-        DateFormat.getDateInstance(DateFormat.FULL);
+               DateFormat.getDateInstance(DateFormat.FULL);
+        //fullDate.
+        
         s.setLength(GC.getTime().toString().length());
         s.append(fullDate.format(GC.getTime()));
         
@@ -31,9 +34,9 @@ public class DateTest {
         }
         
         String s2 = s.toString().trim();
+        int ii = GC.get(DAY_OF_WEEK);
         
-        
-        System.out.println(s2);
+        System.out.println(ii);
     }
     
     public static void main(String[] args){
