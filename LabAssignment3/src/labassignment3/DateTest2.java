@@ -19,7 +19,7 @@ import java.util.Scanner;
  */
 public class DateTest2 {
     ArrayList<String> ts;
-    GregorianCalendar gc;; 
+    GregorianCalendar gc; 
     StringBuilder st;
     Scanner sc;
     
@@ -32,6 +32,12 @@ public class DateTest2 {
         gc = new GregorianCalendar(Year, Month, 1);
         
         createCalendar();
+        
+        for (String s : ts){
+            System.out.println(s);
+        }
+        
+        System.out.println();
     }
     
     public int getInput(){
@@ -57,27 +63,28 @@ public class DateTest2 {
     public void createCalendar(){
         ts = new ArrayList(48);
         int daysMax = gc.getActualMaximum(DAY_OF_MONTH);
-
+        
+        if (gc.get(DAY_OF_WEEK) > 1){
+            
+            for (int emptyDays = gc.get(DAY_OF_WEEK) - 1; emptyDays > 0; emptyDays--){
+                ts.add("");
+            }
+        }
+        
         for (int i = 1; i <= daysMax; i++){
             gc.set(DAY_OF_MONTH, i);
-            if (i != gc.get(DAY_OF_WEEK)){
-                ts.add(i-1, "  ");
-            }
-            else{
-                ts.add(i-1, String.valueOf(gc.get(DAY_OF_MONTH)));
-            }
-            
-            System.out.println(String.valueOf(ts.get(i)));
-            
-    }
+            ts.add(String.valueOf(gc.get(DAY_OF_MONTH)));
+        }
         
     }
     
-   // public String printCalendar(){
-    //    for ()
-   //     
-    //    return "";
-    //}
+    public String printCalendar(){
+        for (int i = 0; i < st.length(); i++){
+            
+        }
+        
+       return "";
+    }
     
     
     
