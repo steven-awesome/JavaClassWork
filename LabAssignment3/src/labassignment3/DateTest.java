@@ -17,7 +17,7 @@ public class DateTest {
     StringBuilder s;
     
     public void perform(){
-        GregorianCalendar GC = new GregorianCalendar(1999, 1, 1);
+        GregorianCalendar GC = new GregorianCalendar(2014, 3, 1);
         s = new StringBuilder();
         DateFormat fullDate =
                DateFormat.getDateInstance(DateFormat.FULL);

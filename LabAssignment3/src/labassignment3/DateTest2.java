@@ -71,8 +71,8 @@ public class DateTest2 {
         
         //Sets the first few elements of the array to empty string
         if (gc.get(DAY_OF_WEEK) > 1){
-            for (int emptyDays = gc.get(DAY_OF_WEEK) - 1; emptyDays > 0; emptyDays--){
-                ts.add(" ");
+            for (int emptyDays = gc.get(DAY_OF_WEEK) - 1; emptyDays >= 0; emptyDays--){
+                ts.add("  ");
             }
         }
         
@@ -80,22 +80,30 @@ public class DateTest2 {
         //gc.getActualMaximum(DAY_OF_MONTH) is reached
         for (int i = 1; i <= daysMax; i++){
             gc.set(DAY_OF_MONTH, i);
-            if (gc.get(DAY_OF_WEEK) == 7){
-                ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+"\n");
+            if(gc.get(DAY_OF_MONTH) < 10){
+                if (gc.get(DAY_OF_WEEK) == 1){
+                    ts.add("\n "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
+                }
+                else ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
             }
-            ts.add(String.valueOf(gc.get(DAY_OF_MONTH)));
+            else{
+                if (gc.get(DAY_OF_WEEK) == 1){
+                    ts.add("\n"+String.valueOf(gc.get(DAY_OF_MONTH))+" ");
+                }
+                else ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");     
+            }
+
+            
         }
-        
-        Calendar cal = Calendar.getInstance();
+
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
-        
-        
-        st.append(sdf.format(gc.getTime()) + "\nSu M  T  W  T  F Sa\n================\n");
+
+        st.append("\n"+sdf.format(gc.getTime()) + "\n S  M  T  W  T  F  S\n================\n");
         
         //This will add each arraylist element to a string with a space after.
         //IF DAY_OF_WEEK = Sunday, add new line
         for (int i = 1; i <= daysMax; i++ ){
-            st.append(ts.get(i)+"  ");
+            st.append(ts.get(i));
         }
         
     }
