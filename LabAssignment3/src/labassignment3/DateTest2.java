@@ -84,13 +84,20 @@ public class DateTest2 {
                 if (gc.get(DAY_OF_WEEK) == 1){
                     ts.add("\n "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
                 }
-                else ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
+                else if (gc.get(DAY_OF_MONTH) == 9){
+                    ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");
+                }
+                else {
+                    ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
+                }
             }
             else{
                 if (gc.get(DAY_OF_WEEK) == 1){
                     ts.add("\n"+String.valueOf(gc.get(DAY_OF_MONTH))+" ");
                 }
-                else ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");     
+                else {
+                    ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");
+                }   
             }
 
             
