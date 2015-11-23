@@ -80,6 +80,9 @@ public class DateTest2 {
         //gc.getActualMaximum(DAY_OF_MONTH) is reached
         for (int i = 1; i <= daysMax; i++){
             gc.set(DAY_OF_MONTH, i);
+            if (gc.get(DAY_OF_WEEK) == 7){
+                ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+"\n");
+            }
             ts.add(String.valueOf(gc.get(DAY_OF_MONTH)));
         }
         
@@ -92,9 +95,6 @@ public class DateTest2 {
         //This will add each arraylist element to a string with a space after.
         //IF DAY_OF_WEEK = Sunday, add new line
         for (int i = 1; i <= daysMax; i++ ){
-            if (gc.get(DAY_OF_WEEK) == 7){
-                st.append(ts.get(i)+"\n");
-            }
             st.append(ts.get(i)+"  ");
         }
         
