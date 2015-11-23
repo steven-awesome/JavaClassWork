@@ -5,6 +5,8 @@
  */
 package labassignment3;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import static java.util.Calendar.DAY_OF_MONTH;
@@ -33,13 +35,15 @@ public class DateTest2 {
         
         createCalendar();
         
-        for (String s : ts){
-            System.out.println(s);
-        }
+        //for (String s : ts){
+        //    System.out.println(s);
+        //}
         
-        System.out.println();
+        System.out.println(st.toString());
     }
     
+    
+    //Method for getting input
     public int getInput(){
         sc = new Scanner(System.in);
         int usrInput = 0;
@@ -48,7 +52,7 @@ public class DateTest2 {
             usrInput = sc.nextInt();
         }
         else while(true){
-            System.out.println("Please enter a valid String");
+            System.out.println("Please enter a valid Int");
             if (sc.hasNextInt()){
                 usrInput = sc.nextInt();
                 break;
@@ -62,29 +66,40 @@ public class DateTest2 {
     
     public void createCalendar(){
         ts = new ArrayList(48);
+        st = new StringBuilder();
         int daysMax = gc.getActualMaximum(DAY_OF_MONTH);
         
+        //Sets the first few elements of the array to empty string
         if (gc.get(DAY_OF_WEEK) > 1){
-            
             for (int emptyDays = gc.get(DAY_OF_WEEK) - 1; emptyDays > 0; emptyDays--){
-                ts.add("");
+                ts.add(" ");
             }
         }
         
+        //Adds each DAY_OF_MONTH at the end of the Array, until 
+        //gc.getActualMaximum(DAY_OF_MONTH) is reached
         for (int i = 1; i <= daysMax; i++){
             gc.set(DAY_OF_MONTH, i);
             ts.add(String.valueOf(gc.get(DAY_OF_MONTH)));
         }
         
-    }
-    
-    public String printCalendar(){
-        for (int i = 0; i < st.length(); i++){
-            
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        
+        
+        st.append(sdf.format(gc.getTime()) + "\nSu M  T  W  T  F Sa\n================\n");
+        
+        //This will add each arraylist element to a string with a space after.
+        //IF DAY_OF_WEEK = Sunday, add new line
+        for (int i = 1; i <= daysMax; i++ ){
+            if (gc.get(DAY_OF_WEEK) == 7){
+                st.append(ts.get(i)+"\n");
+            }
+            st.append(ts.get(i)+"  ");
         }
         
-       return "";
     }
+    
     
     
     
