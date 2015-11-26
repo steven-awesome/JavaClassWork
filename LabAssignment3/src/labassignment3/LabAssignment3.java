@@ -19,7 +19,7 @@ import java.util.Scanner;
  *
  * @author Steven
  */
-public class DateTest2 {
+public class LabAssignment3 {
     ArrayList<String> ts;
     GregorianCalendar gc; 
     StringBuilder st;
@@ -75,6 +75,8 @@ public class DateTest2 {
         
         //Adds each DAY_OF_MONTH at the end of the Array, until 
         //gc.getActualMaximum(DAY_OF_MONTH) is reached
+        //Seperate cases are defined to handle spacing for single digits and double digits
+        //
         for (int i = 1; i <= daysMax; i++){
             gc.set(DAY_OF_MONTH, i);
             if (gc.get(DAY_OF_MONTH) < 10){
@@ -107,7 +109,6 @@ public class DateTest2 {
         st.append("\n"+sdf.format(gc.getTime()) + "\nSu Mo Tu We Th Fr Sa\n========================\n");
         
         //This will add each arraylist element to a string with a space after.
-        //IF DAY_OF_WEEK = Sunday, add new line
         for (String str : ts){
             st.append(str);
         }
@@ -120,7 +121,7 @@ public class DateTest2 {
     
     
     public static void main(String[] args){
-        DateTest2 dt = new DateTest2();
+        LabAssignment3 dt = new LabAssignment3();
         dt.Perform();
     }
     
