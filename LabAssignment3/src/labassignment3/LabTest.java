@@ -87,14 +87,15 @@ public class LabTest {
         
       
       
-        for (int i = 0; i == daysMax; i++){
+        /*for (int i = 0; i == daysMax; i++){
             GC.set(DAY_OF_MONTH, i);
             TS.add(i, ));
             if ()
             
+    }*/
+        return "";
     }
-        
-    }
+    
     
     public String dayName(Date dt){
         ST = new StringBuilder();

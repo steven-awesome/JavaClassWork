@@ -28,7 +28,7 @@ public class DateTest2 {
     public void Perform(){
         System.out.println("Please enter the Year: ");
         int Year = getInput();
-        System.out.println("Please enter the Month: ");
+        System.out.println("Please enter the Month (0-11 for Janurary to December): ");
         int Month = getInput();
         
         gc = new GregorianCalendar(Year, Month, 1);
@@ -48,7 +48,7 @@ public class DateTest2 {
         sc = new Scanner(System.in);
         int usrInput = 0;
         
-        if (sc.hasNext()){
+        if (sc.hasNextInt()){
             usrInput = sc.nextInt();
         }
         else while(true){
@@ -80,7 +80,7 @@ public class DateTest2 {
         //gc.getActualMaximum(DAY_OF_MONTH) is reached
         for (int i = 1; i <= daysMax; i++){
             gc.set(DAY_OF_MONTH, i);
-            if (String.valueOf(gc.get(DAY_OF_MONTH)).length() == 1){
+            if (gc.get(DAY_OF_MONTH) < 10){
                 if (gc.get(DAY_OF_WEEK) == 1 && gc.get(DAY_OF_MONTH) == 1){
                     ts.add(" "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
                 }

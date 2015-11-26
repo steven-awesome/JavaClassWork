@@ -6,7 +6,10 @@
 package labassignment3;
 
 import java.text.DateFormat;
+import java.util.Calendar;
+import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.DAY_OF_WEEK;
+import static java.util.Calendar.MONTH;
 import java.util.GregorianCalendar;
 
 /**
@@ -17,13 +20,13 @@ public class DateTest {
     StringBuilder s;
     
     public void perform(){
-        GregorianCalendar GC = new GregorianCalendar(2014, 3, 1);
+        GregorianCalendar GC = new GregorianCalendar(2013, 2, 0);
         s = new StringBuilder();
         DateFormat fullDate =
                DateFormat.getDateInstance(DateFormat.FULL);
         //fullDate.
         
-        s.setLength(GC.getTime().toString().length());
+        /*s.setLength(GC.getTime().toString().length());
         s.append(fullDate.format(GC.getTime()));
         
         for (int i = 0; i < s.length(); i++){
@@ -33,10 +36,11 @@ public class DateTest {
             }
         }
         
-        String s2 = s.toString().trim();
-        int ii = GC.get(DAY_OF_WEEK);
+        String s2 = s.toString().trim();*/
+        int mm = GC.get(Calendar.MONTH);
+        int gg = GC.getActualMaximum(DAY_OF_MONTH);
         
-        System.out.println(ii);
+        System.out.println(mm+"   "+gg);
     }
     
     public static void main(String[] args){
