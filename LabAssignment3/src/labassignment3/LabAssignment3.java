@@ -47,16 +47,21 @@ public class LabAssignment3 {
         
         if (sc.hasNextInt()){
             usrInput = sc.nextInt();
+        } else {
+            usrInput = -1;
         }
-        else while(true){
-            System.out.println("Please enter a valid Int");
+        sc.nextLine();
+        
+        while(usrInput <0){
+            System.out.println("Please enter a valid Integer");
             if (sc.hasNextInt()){
                 usrInput = sc.nextInt();
-                break;
+            } else {
+                usrInput = -1;
             }
             sc.nextLine();
         }
-        sc.nextLine();
+            
         
         return usrInput;
     }
