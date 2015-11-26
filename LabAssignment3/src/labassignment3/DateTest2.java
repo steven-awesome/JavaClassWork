@@ -35,9 +35,6 @@ public class DateTest2 {
         
         createCalendar();
         
-        //for (String s : ts){
-        //    System.out.println(s);
-        //}
         
         System.out.println(st.toString());
     }
@@ -70,9 +67,9 @@ public class DateTest2 {
         int daysMax = gc.getActualMaximum(DAY_OF_MONTH);
         
         //Sets the first few elements of the array to empty string
-        if (gc.get(DAY_OF_WEEK) > 1){
-            for (int emptyDays = gc.get(DAY_OF_WEEK)-1; emptyDays >= 0; emptyDays--){
-                ts.add("   ");
+        if (gc.get(DAY_OF_WEEK) > 1) {
+            for (int emptyDays = gc.get(DAY_OF_WEEK) - 1; emptyDays > 0; emptyDays--) {
+            ts.add("   ");
             }
         }
         
@@ -83,26 +80,24 @@ public class DateTest2 {
             if (gc.get(DAY_OF_MONTH) < 10){
                 if (gc.get(DAY_OF_WEEK) == 1 && gc.get(DAY_OF_MONTH) == 1){
                     ts.add(" "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
-                }
-                else if (gc.get(DAY_OF_WEEK) == 1 && gc.get(DAY_OF_MONTH) != 1){
+                } else if (gc.get(DAY_OF_WEEK) == 1 && gc.get(DAY_OF_MONTH) != 1){
                     if (gc.get(DAY_OF_MONTH) == 9){
                         ts.add("\n "+String.valueOf(gc.get(DAY_OF_MONTH))+" ");
+                    } else{ 
+                        ts.add("\n "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
                     }
-                    else ts.add("\n "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
-                }
-                else if (gc.get(DAY_OF_WEEK) != 1 && gc.get(DAY_OF_MONTH) == 1){
+                } else if (gc.get(DAY_OF_WEEK) != 1 && gc.get(DAY_OF_MONTH) == 1){
                     ts.add(" "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
-                }
-                else if (gc.get(DAY_OF_WEEK) != 1 && gc.get(DAY_OF_MONTH) == 9){
+                } else if (gc.get(DAY_OF_WEEK) != 1 && gc.get(DAY_OF_MONTH) == 9){
                     ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");
+                } else {
+                    ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
                 }
-                else ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
-            }
-            else {
+            } else{
                 if (gc.get(DAY_OF_WEEK) == 1){
                     ts.add("\n"+String.valueOf(gc.get(DAY_OF_MONTH))+" ");
-                }
-                else ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");
+                }else 
+                    ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");
             }
             
         }
@@ -113,8 +108,8 @@ public class DateTest2 {
         
         //This will add each arraylist element to a string with a space after.
         //IF DAY_OF_WEEK = Sunday, add new line
-        for (int i = 1; i <= daysMax; i++ ){
-            st.append(ts.get(i));
+        for (String str : ts){
+            st.append(str);
         }
         
     }
