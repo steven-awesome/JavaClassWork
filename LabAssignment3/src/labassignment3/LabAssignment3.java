@@ -131,29 +131,3 @@ public class LabAssignment3 {
     }
     
 }
-
-
-
-/*gc.set(DAY_OF_MONTH, i);
-            if(gc.get(DAY_OF_MONTH) < 10){
-                if (gc.get(DAY_OF_WEEK) == 1){
-                    ts.add("\n "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
-                }
-                else if (gc.get(DAY_OF_MONTH) == 9){
-                    ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");
-                }
-                else if (gc.get(DAY_OF_WEEK) != 1 && gc.get(DAY_OF_MONTH) == 1){
-                    ts.add(" "+String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
-                }
-                else {
-                    ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+"  ");
-                }
-            }
-            else{
-                if (gc.get(DAY_OF_WEEK) == 1){
-                    ts.add("\n"+String.valueOf(gc.get(DAY_OF_MONTH))+" ");
-                }
-                else {
-                    ts.add(String.valueOf(gc.get(DAY_OF_MONTH))+" ");
-                }   
-            }*/
