@@ -27,7 +27,7 @@ public class Class1_3 {
     
     public void perform(){
         sc = new Scanner(System.in);
-        System.out.println("Please enter an integer: ");
+        System.out.println("Please enter 10 Integers between 0 and 9: ");
         arList = new int[10];
         
         for (int i = 0; i < 10; i++){
@@ -42,7 +42,7 @@ public class Class1_3 {
         int[] tempArray = new int[10];
         
         for (int i = 0; i < list.length-1; i++){
-            tempArray[i] = Arrays.binarySearch(list, list[i]);
+            tempArray[i] = 
             
             for (int j : list){
                
