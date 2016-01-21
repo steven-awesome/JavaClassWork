@@ -9,16 +9,20 @@ package Java2Class3;
  *
  * @author smorrissey
  */
-public class Exrcise9 {
+public class Fan {
     //--------------------
-    private int speed;
+    public final int SLOW = 1, MEDIUM = 2, FAST = 3;
+    int speed;
     private boolean on = false;
     private double radius = 5;
     String color;
     //--------------------
     
-    public Exrcise9(){
-        super();
+    public Fan(){
+       speed = SLOW;
+       on = false;
+       radius  =4;
+       color = "blue";
     }
     //---------------------
     
@@ -34,7 +38,7 @@ public class Exrcise9 {
         this.on = on;
     }
     
-    public boolean getOn(){
+    public boolean isOn(){
         return on;
     }
     
@@ -57,7 +61,7 @@ public class Exrcise9 {
     
     @Override
     public String toString(){
-        
+        return "Speed: " + getSpeed() + "\nRadius: " + getRadius() + "\nColor: " + getColor() + "\nOn?: " + isOn();
     }
     
     
