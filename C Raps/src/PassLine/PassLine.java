@@ -53,14 +53,25 @@ public class PassLine {
         }
         
         while (pt = true){
+            int tempPT;
             
-            System.out.println("Point roll: ");
+            
             die.rollTheDie();
             tempPT = die.getOneDie();
+            System.out.println("Point roll: " + tempPT);
+            
+            if (tempPT == plb.getPoint()){
+                System.out.println("You win!");
+                br.add(amt);
+                break;
+            }
+            else if (tempPT == 7){
+                System.out.println("You lose");
+                br.subtract(amt);
+                break;
+            }
             
         }
-        
-        System.out.println("Result: " + temp);
         
     }
     
@@ -69,7 +80,9 @@ public class PassLine {
         int temp;
         
         die.rollTheDie();
-        temp = die.getOneDie()
+        plb.setPoint(die.getOneDie()); 
+        temp = plb.getPoint();
+        return temp;
     }
     
     

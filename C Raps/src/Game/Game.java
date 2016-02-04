@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 package Game;
-import DataBean.Bankroll;
 import PassLine.PassLine;
-import PassLine.PassLineBean;
-import TheDie.TheDie;
 import java.util.Scanner;
+import Any7.Any7;
+import FieldBet.FieldBet;
         
 
 /**
@@ -17,51 +16,54 @@ import java.util.Scanner;
  */
 public class Game {
     PassLine pl;
-    PassLineBean plb;
-    TheDie die;
-    Bankroll bRoll;
-    
+    Any7 a7;
+    FieldBet fb;
     Scanner sc;
-    
-    public void pefform(){
-        
-    }
     
     public int getInput(){
         sc = new Scanner(System.in);
-        
-        int ans = sc.next().charAt(0);
+        int ans = sc.nextInt();
         return ans;
     }
     
     public void menu(){
+        pl = new PassLine();
+        int choice;
          while (true) {
-            System.out.println("Craps Game.\nA: Passline Bet\nB: Field Bet\nC: Any 7");
+            System.out.println("Craps Game.\n1: Passline Bet\n2: Field Bet\n3: Any 7\n4: Exit");
+            choice = getInput();
             
             try{
-                switch (getInput()) {
+
+                switch (choice) {
                     case 1: {
                         pl.PassLineBet();
                         break;
                     }
                     case 2: {
+                        fb.fieldBetGame();
                         break;
                     }
                     case 3: {
-                        int c = 0;
-                        System.exit(c);
+                        a7.any7Game();
+                        break;
                     }
                     case 4: {
-                        System.out.println("Please enter a valid Choice: ");
-                        break;
+                        System.exit(0);
                     }
 
                 }
             }
             catch (NullPointerException npe){
-                System.out.println("Please enter a valid choice");
+                npe.printStackTrace();
         }
     }
+    }
+    
+    public static void main (String[] args){
+        Game g = new Game();
+        g.menu();
+        System.exit(0);
     }
     
 }
