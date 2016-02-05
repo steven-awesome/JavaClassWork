@@ -7,6 +7,7 @@ package Game;
 import PassLine.PassLine;
 import java.util.Scanner;
 import Any7.Any7;
+import DataBean.Bankroll;
 import FieldBet.FieldBet;
         
 
@@ -26,8 +27,24 @@ public class Game {
         return ans;
     }
     
+    public int getAmountInput(Bankroll br){
+        int amt=0;
+        
+        while (true) {
+                System.out.println("Your bankroll is: " + br.getFormattedMoney() + " "
+                        + "\nPlease do not go below your bankroll amount");
+                if (amt - br.getMoney() < 0) {
+                        amt = sc.nextInt();
+                }
+        }
+        
+        return amt;
+    }
+    
     public void menu(){
         pl = new PassLine();
+        a7 = new Any7();
+        fb = new FieldBet();
         int choice;
          while (true) {
             System.out.println("Craps Game.\n1: Passline Bet\n2: Field Bet\n3: Any 7\n4: Exit");
