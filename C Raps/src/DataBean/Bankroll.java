@@ -53,14 +53,5 @@ public class Bankroll implements BankrollInterface {
     public int hashCode() {
         return super.hashCode(); 
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   
 }

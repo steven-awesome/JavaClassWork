@@ -17,27 +17,27 @@ import TheDie.TheDie;
 public class FieldBet {
     
     PassLineBean plb;
-    TheDie die;
+    TheDie die1;
+    TheDie die2;
     Bankroll br;
     Game gm;
     
         
     
-    public void fieldBetGame(){
+    public void fieldBetGame(Bankroll br){
         plb = new PassLineBean();
-        die = new TheDie();
-        br = new Bankroll();
+        die1 = new TheDie();
+        die2 = new TheDie();
         gm = new Game();
-        int amt = 0;
+        double amt = 0;
         int temp;
         
         System.out.println("This is the Field Bet game. Enter an amount to roll the dice");
-        amt = gm.getInput();
+        amt = gm.getAmountInput(br);
         
-        die.rollTheDie();
-        temp=die.getOneDie();
-        die.rollTheDie();
-        temp+=die.getOneDie();
+        die1.rollTheDie();
+        die2.rollTheDie();
+        temp = die1.getOneDie() + die2.getOneDie();
         
         
         switch(temp){

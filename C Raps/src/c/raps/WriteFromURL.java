@@ -35,7 +35,6 @@ public class WriteFromURL {
         catch(Exception e){
             e.printStackTrace();
         }
-        sb.
         output.println(sb.toString());
         output.println("total: ");
 

@@ -12,28 +12,28 @@ import Game.Game;
 public class PassLine {
     
     PassLineBean plb;
-    TheDie die;
+    TheDie die1;
+    TheDie die2;
     Bankroll br;
     Game gm;
     
     public PassLine(){}
     
     
-    public void PassLineBet(){
+    public void PassLineBet(Bankroll br){
         plb = new PassLineBean();
-        die = new TheDie();
-        br = new Bankroll();
+        die1 = new TheDie();
+        die2 = new TheDie();
         gm = new Game();
-        int amt;
+        int amt = 0;
         boolean pt;
         
+        System.out.println("This is the PassLine Bet game. Enter an amount to roll the dice");
+        gm.getAmountInput(br);
         
-        System.out.println("This is the Come Out Roll. Enter an amount to roll the dice");
-        amt = gm.getInput();
-        die.rollTheDie();
-        plb.setComeOutRoll(die.getOneDie());
-        die.rollTheDie();
-        plb.setComeOutRoll(plb.getComeOutRoll()+die.getOneDie());
+        die1.rollTheDie();
+        die2.rollTheDie();
+        plb.setComeOutRoll(die1.getOneDie()+die2.getOneDie());
         
         System.out.println("Roll: " + plb.getComeOutRoll());
         
@@ -52,14 +52,18 @@ public class PassLine {
             pt = true;
         }
         
+        
+        //================POINT GAME=====================
+            /*Changed method to just auto reroll since you have no choice but to keep rolling anyway*/
         while (pt = true){
             int tempPT;
             
-            
-            die.rollTheDie();
-            tempPT = die.getOneDie();
+            die1.rollTheDie();
+            die2.rollTheDie();
+            tempPT = die1.getOneDie()+die2.getOneDie();
             System.out.println("Point roll: " + tempPT);
             
+            //If dice roll equals Point, you win, else if dice roll equals 7, you lose
             if (tempPT == plb.getPoint()){
                 System.out.println("You win!");
                 br.add(amt);
@@ -73,17 +77,6 @@ public class PassLine {
             
         }
         
-    }
-    
-    public int point(){
-        die = new TheDie();
-        int temp;
-        
-        die.rollTheDie();
-        plb.setPoint(die.getOneDie()); 
-        temp = plb.getPoint();
-        return temp;
-    }
-    
+    }    
     
 }

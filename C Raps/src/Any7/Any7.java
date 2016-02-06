@@ -16,31 +16,36 @@ import TheDie.TheDie;
  */
 public class Any7 {
     PassLineBean plb;
-    TheDie die;
+    TheDie die1;
+    TheDie die2;
     Bankroll br;
     Game gm;
     
         
     
-    public void any7Game(){
+    public void any7Game(Bankroll br){
         plb = new PassLineBean();
-        die = new TheDie();
+        die1 = new TheDie();
+        die2 = new TheDie();
         br = new Bankroll();
         gm = new Game();
-        int amt;
+        double amt;
         int temp;
         
         System.out.println("This is the Any 7 game. Enter an amount to roll the dice");
-        amt = gm.getInput();
+        amt = gm.getAmountInput(br);
         
-        die.rollTheDie();
-        temp=die.getOneDie();
-        die.rollTheDie();
-        temp+=die.getOneDie();
+        die1.rollTheDie();
+        die2.rollTheDie();
+        temp = die1.getOneDie() + die2.getOneDie();
         
-        if (die.getOneDie() == 7){
+        if (temp == 7){
             System.out.println("You win!");
             br.add(amt*4);
+        }
+        else{
+            System.out.println("You lose");
+            br.subtract(amt);
         }
         
     }
