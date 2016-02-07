@@ -27,7 +27,7 @@ public class Bankroll implements BankrollInterface {
     @Override
     public String getFormattedMoney(){
         
-        return String.format("$%s", money);
+        return String.format("$%.2f", money);
     }
     
     @Override
