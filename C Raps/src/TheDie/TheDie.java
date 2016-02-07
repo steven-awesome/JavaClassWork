@@ -36,7 +36,13 @@ public class TheDie implements DieInterface {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+        if(obj instanceof TheDie){
+            TheDie td = (TheDie) obj;
+            if(oneDie == td.getOneDie()){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class TheDie implements DieInterface {
 
     @Override
     public String toString() {
-        return "" + Integer.toString(oneDie);
+        return "Die Roll: " + oneDie;
     }
     
     

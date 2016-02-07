@@ -27,7 +27,6 @@ public class Any7 {
         plb = new PassLineBean();
         die1 = new TheDie();
         die2 = new TheDie();
-        br = new Bankroll();
         gm = new Game();
         double amt;
         int temp;
@@ -39,6 +38,7 @@ public class Any7 {
         die2.rollTheDie();
         temp = die1.getOneDie() + die2.getOneDie();
         
+        System.out.println("Roll: " + temp);
         if (temp == 7){
             System.out.println("You win!");
             br.add(amt*4);

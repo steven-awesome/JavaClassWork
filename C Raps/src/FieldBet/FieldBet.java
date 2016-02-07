@@ -38,7 +38,7 @@ public class FieldBet {
         die1.rollTheDie();
         die2.rollTheDie();
         temp = die1.getOneDie() + die2.getOneDie();
-        
+        System.out.println("Roll: " + temp);
         
         switch(temp){
             case 3:

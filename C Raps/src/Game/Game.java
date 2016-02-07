@@ -20,7 +20,7 @@ public class Game implements GameInterface {
     Any7 a7;
     FieldBet fb;
     Scanner sc;
-    Bankroll br = new Bankroll(100);;
+    Bankroll br = new Bankroll(100);
     
     //This method just gets a number, catches any exception and asks for another number
     @Override
@@ -49,19 +49,23 @@ public class Game implements GameInterface {
         while (true) {
             try{
                 amt = sc.nextDouble();
+                if ((br.getMoney() - amt) < 0) {
+                    System.out.println("Your bankroll is: " + br.getFormattedMoney() + " "
+                                + "\nPlease do not go below your bankroll amount");
+                 }
+                else if (amt < 1){
+                    System.out.println("Please enter a positive amount: ");
+                }
+                else{
+                    break;
+                }
+                    
             }
             catch(Exception e){
                     System.out.println("Please enter a valid amount");
                     sc.nextLine();
             }
-            if ((br.getMoney() - amt) >= 0) {
-                    amt = sc.nextInt();
-                    break;
-            }
-            else{
-                System.out.println("Your bankroll is: " + br.getFormattedMoney() + " "
-                    + "\nPlease do not go below your bankroll amount");
-            }
+            
         }
         return amt;
     }
@@ -73,24 +77,36 @@ public class Game implements GameInterface {
         fb = new FieldBet();
         int choice;
          while (true) {
-            System.out.println("Craps Game.\n1: Passline Bet\n2: Field Bet\n3: Any 7\n4: Exit");
+             
+             if(br.getMoney() == 0){
+                 System.out.println("Game Over");
+                 System.exit(0);
+             }
+            System.out.println("Craps Game.\n1: Passline Bet\n2: Field Bet\n3: Any 7\n4: Bankroll balance\n5: Exit");
             choice = getInput();
             
             try{
                 switch (choice) {
                     case 1: {
                         pl.PassLineBet(br);
+                        System.out.println(br.toString());
                         break;
                     }
                     case 2: {
                         fb.fieldBetGame(br);
+                        System.out.println(br.toString());
                         break;
                     }
                     case 3: {
                         a7.any7Game(br);
+                        System.out.println(br.toString());
                         break;
                     }
                     case 4: {
+                        System.out.println(br.toString());
+                        break;
+                    }
+                    case 5: {
                         System.exit(0);
                     }
                     default: {

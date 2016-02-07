@@ -33,8 +33,14 @@ public class PassLineBean {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return super.equals(o); //To change body of generated methods, choose Tools | Templates.
+    public boolean equals(Object obj) {
+        if( obj instanceof PassLineBean){
+            PassLineBean plb = (PassLineBean) obj;
+            if(this.getComeOutRoll() == plb.getComeOutRoll() && this.getPoint() == plb.getPoint()){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -44,7 +50,8 @@ public class PassLineBean {
 
     @Override
     public String toString() {
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+        return "Come Out Roll: " + this.getComeOutRoll() + " \n" +
+                "Point: " + this.getPoint();
     }
     
     

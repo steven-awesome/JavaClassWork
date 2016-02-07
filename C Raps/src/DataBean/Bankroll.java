@@ -41,12 +41,18 @@ public class Bankroll implements BankrollInterface {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj); 
+        if(obj instanceof Bankroll){
+            Bankroll b = (Bankroll) obj;
+            if(this.getMoney() == b.getMoney()){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public String toString() {
-        return super.toString(); 
+        return "Bankroll balance: " + this.getFormattedMoney(); 
     }
 
     @Override

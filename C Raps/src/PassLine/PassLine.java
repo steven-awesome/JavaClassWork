@@ -25,17 +25,17 @@ public class PassLine {
         die1 = new TheDie();
         die2 = new TheDie();
         gm = new Game();
-        int amt = 0;
+        double amt = 0;
         boolean pt;
         
         System.out.println("This is the PassLine Bet game. Enter an amount to roll the dice");
-        gm.getAmountInput(br);
+        amt = gm.getAmountInput(br);
         
         die1.rollTheDie();
         die2.rollTheDie();
         plb.setComeOutRoll(die1.getOneDie()+die2.getOneDie());
         
-        System.out.println("Roll: " + plb.getComeOutRoll());
+        System.out.println("Come Out Roll: " + plb.getComeOutRoll());
         
         
         if (plb.getComeOutRoll() == 7 || plb.getComeOutRoll() == 11){
@@ -50,12 +50,10 @@ public class PassLine {
             plb.setPoint(plb.getComeOutRoll());
             System.out.println("The Point is now: " + plb.getPoint());
             pt = true;
-        }
-        
-        
-        //================POINT GAME=====================
+            
+            //================POINT GAME=====================
             /*Changed method to just auto reroll since you have no choice but to keep rolling anyway*/
-        while (pt = true){
+            while (pt = true){
             int tempPT;
             
             die1.rollTheDie();
@@ -76,6 +74,11 @@ public class PassLine {
             }
             
         }
+        }
+        
+        
+        
+        
         
     }    
     
