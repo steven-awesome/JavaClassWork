@@ -71,6 +71,7 @@ public class Game implements GameInterface {
     }
     
     //Menu method which displays to user
+    @Override
     public void menu(){
         pl = new PassLine();
         a7 = new Any7();

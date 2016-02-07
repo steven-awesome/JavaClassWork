@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Game;
+package Any7;
 
 import Bankroll.Bankroll;
 
@@ -11,8 +11,6 @@ import Bankroll.Bankroll;
  *
  * @author fista
  */
-public interface GameInterface {
-    public int getInput();
-    public double getAmountInput(Bankroll br);
-    public void menu();
+public interface Any7Interface {
+    public void any7Game(Bankroll br);
 }

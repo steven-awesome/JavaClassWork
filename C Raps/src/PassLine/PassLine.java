@@ -9,7 +9,7 @@ import Bankroll.Bankroll;
 import Game.Game;
 
 
-public class PassLine {
+public class PassLine implements PassLineInterface{
     
     PassLineBean plb;
     TheDie die1;
@@ -20,6 +20,7 @@ public class PassLine {
     public PassLine(){}
     
     
+    @Override
     public void PassLineBet(Bankroll br){
         plb = new PassLineBean();
         die1 = new TheDie();

@@ -14,7 +14,7 @@ import TheDie.TheDie;
  *
  * @author fista
  */
-public class FieldBet {
+public class FieldBet implements FieldBetInterface{
     
     PassLineBean plb;
     TheDie die1;
@@ -24,6 +24,7 @@ public class FieldBet {
     
         
     
+    @Override
     public void fieldBetGame(Bankroll br){
         plb = new PassLineBean();
         die1 = new TheDie();

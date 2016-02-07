@@ -14,7 +14,7 @@ import TheDie.TheDie;
  *
  * @author fista
  */
-public class Any7 {
+public class Any7 implements Any7Interface {
     PassLineBean plb;
     TheDie die1;
     TheDie die2;
@@ -23,6 +23,7 @@ public class Any7 {
     
         
     
+    @Override
     public void any7Game(Bankroll br){
         plb = new PassLineBean();
         die1 = new TheDie();
