@@ -5,7 +5,7 @@
  */
 package FieldBet;
 
-import DataBean.Bankroll;
+import Bankroll.Bankroll;
 import Game.Game;
 import PassLine.PassLineBean;
 import TheDie.TheDie;

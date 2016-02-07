@@ -5,7 +5,7 @@
  */
 package Game;
 
-import DataBean.Bankroll;
+import Bankroll.Bankroll;
 
 /**
  *

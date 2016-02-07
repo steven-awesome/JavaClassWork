@@ -5,7 +5,7 @@
  */
 package PassLine;
 import TheDie.TheDie;
-import DataBean.Bankroll;
+import Bankroll.Bankroll;
 import Game.Game;
 
 
