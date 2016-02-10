@@ -38,11 +38,12 @@ public class TestEncryption {
         
         RandomAccessFile rafI = new RandomAccessFile(filenameInput, "r");
         RandomAccessFile rafO = new RandomAccessFile(filenameOutput, "rw");
+    
         
-        char test;
+        int test;
         while (rafI.getFilePointer() < rafI.length()){
-            test = rafI.readChar();
-            rafO.wr
+            test = rafI.read();
+            rafO.writeByte(test+5);
         }
         
         
