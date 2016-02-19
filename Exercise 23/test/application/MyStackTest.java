@@ -6,6 +6,7 @@
 package application;
 
 import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  *
@@ -43,14 +44,15 @@ public class MyStackTest extends TestCase {
     /**
      * Test of getSize method, of class MyStack.
      */
+    @Test
     public void testGetSize() {
         System.out.println("getSize");
         MyStack instance = new MyStack();
-        int expResult = 0;
+        instance.push("sss");
+        instance.push("ttt");
+        int expResult = 2;
         int result = instance.getSize();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
