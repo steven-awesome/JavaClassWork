@@ -31,10 +31,12 @@ public class FishDAOImpl implements FishDAO {
     String url = "jdbc:derby://localhost:1527/fishDB";
     String user = "fish";
     String password = "fish";
+    Scanner sc;
 
     public FishDAOImpl() {
         super();
     }
+    
 
     /**
      * Retrieve all the records for the given table and returns the data as an
@@ -93,7 +95,33 @@ public class FishDAOImpl implements FishDAO {
         // If there is no record with the desired id then this will be returned
         // as a null pointer
         FishData fishData = null;
-
+        
+        String preparedSQL = "SELECT * "
+            + "FROM Fish WHERE ID = ?";
+        
+        try(    
+                Connection connection = DriverManager.getConnection(url, user,
+                password);
+                PreparedStatement ps = 
+                        connection.prepareStatement(preparedSQL)){
+                        ps.setLong(1,id);
+                        ResultSet rs = ps.executeQuery();
+                     
+                    fishData.setCommonName(rs.getString("COMMONNAME"));
+                    fishData.setDiet(rs.getString("DIET"));
+                    fishData.setKh(rs.getString("KH"));
+                    fishData.setLatin(rs.getString("LATIN"));
+                    fishData.setPh(rs.getString("PH"));
+                    fishData.setFishSize(rs.getString("FISHSIZE"));
+                    fishData.setSpeciesOrigin(rs.getString("SPECIESORIGIN"));
+                    fishData.setStocking(rs.getString("STOCKING"));
+                    fishData.setTankSize(rs.getString("TANKSIZE"));
+                    fishData.setTemp(rs.getString("TEMP"));
+                    fishData.setId(rs.getLong("ID"));
+                }
+        catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
 
         return fishData;
     }
@@ -111,6 +139,37 @@ public class FishDAOImpl implements FishDAO {
     public ArrayList<FishData> findDiet(String diet) throws SQLException {
 
         ArrayList<FishData> rows = new ArrayList<>();
+        String preparedSQL = "SELECT * "
+            + "FROM Fish WHERE diet = ?";
+        try(
+                Connection connection = DriverManager.getConnection(url, user, 
+                        password);
+                PreparedStatement ps = connection.prepareStatement(preparedSQL))
+        {
+            ps.setString(1,diet);
+                        ResultSet rs = ps.executeQuery();
+        
+        
+            while (rs.next()) {
+                    FishData fishData = new FishData();
+                    fishData.setCommonName(rs.getString("COMMONNAME"));
+                    fishData.setDiet(rs.getString("DIET"));
+                    fishData.setKh(rs.getString("KH"));
+                    fishData.setLatin(rs.getString("LATIN"));
+                    fishData.setPh(rs.getString("PH"));
+                    fishData.setFishSize(rs.getString("FISHSIZE"));
+                    fishData.setSpeciesOrigin(rs.getString("SPECIESORIGIN"));
+                    fishData.setStocking(rs.getString("STOCKING"));
+                    fishData.setTankSize(rs.getString("TANKSIZE"));
+                    fishData.setTemp(rs.getString("TEMP"));
+                    fishData.setId(rs.getLong("ID"));
+
+                    rows.add(fishData);
+                }
+        }
+        catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
 
         
         return rows;
@@ -129,6 +188,33 @@ public class FishDAOImpl implements FishDAO {
     public int create(FishData fishData) throws SQLException {
 
         int result = -1;
+        
+        String preparedSQL = "INSERT INTO Fish (COMMONNAME, DIET, FISHSIZE, KH, LATIN, "
+                            + "PH, SPECIESORIGIN, STOCKING, TANKSIZE, TEMP) "
+                                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try(
+                Connection connection = DriverManager.getConnection(url, user, 
+                        password);
+                PreparedStatement ps = connection.prepareStatement(preparedSQL))
+                    {
+                        ps.setString(1,fishData.getCommonName());
+                        ps.setString(2, fishData.getDiet());
+                        ps.setString(3, fishData.getFishSize());
+                        ps.setString(4, fishData.getKh());
+                        ps.setString(5, fishData.getLatin());
+                        ps.setString(6, fishData.getPh());
+                        ps.setString(7, fishData.getSpeciesOrigin());
+                        ps.setString(8, fishData.getStocking());
+                        ps.setString(9, fishData.getTankSize());
+                        ps.setString(10, fishData.getTemp());
+
+                        result = ps.executeUpdate();
+
+                    }
+        catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
         
         
         return result;
@@ -150,7 +236,19 @@ public class FishDAOImpl implements FishDAO {
     public int delete(int id) throws SQLException {
 
         int result = -1;
-
+        String prepareSQL = "DELETE FROM FISH "+
+                            "WHERE ID = ?";
+        try(
+                Connection connection = DriverManager.getConnection(url, user, password);
+                PreparedStatement ps = connection.prepareStatement(prepareSQL)
+                ){
+            ps.setInt(1, id);
+            result = ps.executeUpdate();
+            
+        }
+        catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
         
         return result;
     }
@@ -170,6 +268,42 @@ public class FishDAOImpl implements FishDAO {
 
         int result = -1;
 
+        String preparedSQL = "UPDATE Fish SET "
+                            + "COMMONNAME = ?, "
+                            + "DIET = ?, "
+                            + "FISHSIZE = ?, "
+                            + "KH = ?, "
+                            + "LATIN = ?, "
+                            + "PH = ?, "
+                            + "SPECIESORIGIN = ?, "
+                            + "STOCKING = ?, "
+                            + "TANKSIZE = ?, "
+                            + "TEMP = ? "
+                            + "WHERE ID = ?";
+
+        try(
+                Connection connection = DriverManager.getConnection(url, user, 
+                        password);
+                PreparedStatement ps = connection.prepareStatement(preparedSQL))
+                    {
+                        ps.setString(1,fishData.getCommonName());
+                        ps.setString(2, fishData.getDiet());
+                        ps.setString(3, fishData.getFishSize());
+                        ps.setString(4, fishData.getKh());
+                        ps.setString(5, fishData.getLatin());
+                        ps.setString(6, fishData.getPh());
+                        ps.setString(7, fishData.getSpeciesOrigin());
+                        ps.setString(8, fishData.getStocking());
+                        ps.setString(9, fishData.getTankSize());
+                        ps.setString(10, fishData.getTemp());
+                        ps.setLong(11, fishData.getId());
+
+                        result = ps.executeUpdate();
+
+                    }
+        catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
         
         return result;
     }
