@@ -8,6 +8,10 @@ import data.PatientBean;
 import data.InpatientBean;
 import data.MedicationBean;
 import data.SurgicalBean;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
@@ -19,6 +23,10 @@ public class dbSQLScripts {
     public InpatientBean inpatient;
     public MedicationBean meds;
     public SurgicalBean surgical;
+    
+    String url = "jdbc:derby://localhost:1527/Hospital";
+    String user = "hospital";
+    String password = "hospital";
 
     public dbSQLScripts() {
         patient = new PatientBean();
@@ -29,13 +37,62 @@ public class dbSQLScripts {
     
     
     
-    public int createPatient(PatientBean patient){
+    public int createPatient(PatientBean patient) throws SQLException{
         
         int result = -1;
         
+         String preparedSQL = "INSERT INTO Patient (PATIENTID, LASTNAME, FIRSNAME,  DIAGNOSIS, "
+                            + "ADMISSIONDATE, RELEASEDATE) "
+                                + "VALUES (?, ?, ?, ?, ?, ?";
+        
         try(
-                
-            )
+                Connection connection = DriverManager.getConnection(url, user, password);
+                PreparedStatement ps = connection.prepareStatement(preparedSQL);
+            ){
+            ps.setInt(1, patient.getPatiendID());
+            ps.setString(2, patient.getFirstName());
+            ps.setString(3, patient.getLastName());
+            ps.setString(4, patient.getDiagnosis());
+            ps.setDate(5, patient.getAdmissonDate());
+            ps.setDate(6, patient.getReleaseDate());
+            
+            result = ps.executeUpdate();
+        }
+        catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
+        
+        return result;
         
     }
+    
+    public int createInpatientRecord(InpatientBean ipb) throws SQLException{
+        
+        int result = -1;
+        
+         String preparedSQL = "INSERT INTO Patient (PATIENTID, DATEOFSTAY, ROOMNUMBER,  DAILYRATE, "
+                            + "SUPPLIES, SERVICES) "
+                                + "VALUES (?, ?, ?, ?, ?, ?";
+        
+        try(
+                Connection connection = DriverManager.getConnection(url, user, password);
+                PreparedStatement ps = connection.prepareStatement(preparedSQL);
+            ){
+            ps.setInt(1, ipb.getPatiendID());
+            ps.setDate(2, ipb.getDateOfStay());
+            ps.setString(3, ipb.getRoomNumber());
+            ps.setDouble(4, ipb.getDailyRate());
+            ps.setDouble(5, ipb.getSupplies());
+            ps.setDouble(6, ipb.getServices());
+            
+            result = ps.executeUpdate();
+        }
+        catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
+        
+        return result;
+        
+    }
+    
 }
