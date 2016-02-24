@@ -11,7 +11,7 @@ import java.sql.Date;
  *
  * @author Steven
  */
-public class PatientBean {
+public class PatientBean implements Comparable {
     
     private int patiendID;
     private String lastName;
@@ -84,6 +84,11 @@ public class PatientBean {
     @Override
     public String toString() {
         return super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 
     }
     
     

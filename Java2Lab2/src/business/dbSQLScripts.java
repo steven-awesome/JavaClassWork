@@ -78,7 +78,7 @@ public class dbSQLScripts {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(preparedSQL);
             ){
-            ps.setInt(1, ipb.getPatiendID());
+            ps.setInt(1, ipb.getPatientID());
             ps.setDate(2, ipb.getDateOfStay());
             ps.setString(3, ipb.getRoomNumber());
             ps.setDouble(4, ipb.getDailyRate());
