@@ -24,7 +24,7 @@ public class ShowCircleCentered extends Application {
     circle.centerYProperty().bind(pane.heightProperty().divide(2));
     circle.setRadius(50);
     circle.setStroke(Color.BLACK); 
-    circle.setFill(Color.WHITE);
+    circle.setFill(Color.RED);
     pane.getChildren().add(circle); // Add circle to the pane
 
     // Create a scene and place it in the stage
