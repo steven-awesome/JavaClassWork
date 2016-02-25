@@ -8,6 +8,7 @@ package java2class11fx;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,10 +43,14 @@ public class Java2Class11FX extends Application {
         btn4.setText("Divide");
         HBox hbox1 = new HBox();
         HBox hbox2 = new HBox();
+        hbox1.setPadding(new Insets(0,3,10,3));
         
         l1.setText("Number 1: ");
         l2.setText("Number 2: ");
         l3.setText("Number 3: ");
+        l1.setMinWidth(60);
+        l2.setMinWidth(60);
+        l3.setMinWidth(60);
         
         GridPane pane = new GridPane();
         pane.add(hbox1, 1, 0);
