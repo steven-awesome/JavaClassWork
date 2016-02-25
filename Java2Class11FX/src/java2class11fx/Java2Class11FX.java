@@ -8,6 +8,7 @@ package java2class11fx;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -49,6 +50,8 @@ public class Java2Class11FX extends Application {
         GridPane pane = new GridPane();
         pane.add(hbox1, 1, 0);
         pane.add(hbox2, 1, 1);
+        
+        hbox2.setAlignment(Pos.CENTER);
         
         hbox1.getChildren().addAll(l1, t1, l2, t2, l3, t3);
         hbox2.getChildren().addAll(btn1, btn2, btn3, btn4);

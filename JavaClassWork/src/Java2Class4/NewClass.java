@@ -5,7 +5,9 @@
  */
 package Java2Class4;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -23,14 +25,13 @@ public class NewClass {
                 System.out.println("File already exists");
                 System.exit(0);
             }
+        BufferedReader br = new BufferedReader(new FileReader(file));
         
-        Scanner input = new Scanner(file);
+        String line;
         
-        
-        while(input.hasNext()){
-            String s1 = input.nex();
+        while((line = br.readLine()) != null){
             
-            if (input.next().equalsIgnoreCase("john")){
+            if (line.contains("john")){
                 s.append("\n"+s1);
             }
         }

@@ -35,10 +35,10 @@ public class Class1_3 {
             arList[i-1] = usrInput;
         }
         
-        eliminateDuplicates(arList);
+       // eliminateDuplicates(arList);
     }
 
-    public static int[] eliminateDuplicates(int[] list){
+    /*public static int[] eliminateDuplicates(int[] list){
         int[] tempArray = new int[10];
         
         for (int i = 0; i < list.length-1; i++){
@@ -51,7 +51,7 @@ public class Class1_3 {
                 }
             }
         }
-    }
+    }*/
     
     
     public static void main(String[] args){
