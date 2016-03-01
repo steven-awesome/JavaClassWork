@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package business;
+package application;
 
+import business.DBSQLScripts;
 import data.PatientBean;
 import java.sql.SQLException;
 
@@ -13,16 +14,16 @@ import java.sql.SQLException;
  *
  * @author Steven
  */
-class Patient {
+class Application {
     
     
 
-    public Patient() {
+    public Application() {
         
     }
     
     public void perform(){
-        dbSQLScripts dbsql = new dbSQLScripts();
+        DBSQLScripts dbsql = new DBSQLScripts();
         PatientBean ptb = null;
         try{
             ptb = dbsql.findByID(1);
@@ -36,7 +37,7 @@ class Patient {
     
     
     public static void main(String[] args){
-        Patient pt = new Patient();
+        Application pt = new Application();
         pt.perform();
         
     }

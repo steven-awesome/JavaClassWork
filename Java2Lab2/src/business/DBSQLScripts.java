@@ -19,7 +19,7 @@ import java.util.ArrayList;
  *
  * @author Steven
  */
-public class dbSQLScripts {
+public class DBSQLScripts {
 
     public PatientBean patient;
     public InpatientBean inpatient;
@@ -30,7 +30,7 @@ public class dbSQLScripts {
     String user = "hospital";
     String password = "hospital";
 
-    public dbSQLScripts() {
+    public DBSQLScripts() {
         patient = new PatientBean();
         inpatient = new InpatientBean();
         meds = new MedicationBean();
