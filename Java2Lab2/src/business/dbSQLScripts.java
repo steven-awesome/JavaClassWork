@@ -60,9 +60,6 @@ public class dbSQLScripts {
             
             result = ps.executeUpdate();
         }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
-        }
         
         return result;
         
@@ -88,9 +85,6 @@ public class dbSQLScripts {
             ps.setDouble(6, ipb.getServices());
             
             result = ps.executeUpdate();
-        }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
         }
         
         return result;
@@ -118,9 +112,6 @@ public class dbSQLScripts {
             
             result = ps.executeUpdate();
         }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
-        }
         
         return result;
         
@@ -145,9 +136,6 @@ public class dbSQLScripts {
             ps.setDouble(5, medication.getUnits());
             
             result = ps.executeUpdate();
-        }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
         }
         
         return result;
@@ -183,9 +171,6 @@ public class dbSQLScripts {
                 pt.add(pt1);
             }
         }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
-        }
         return pt;
     }
     
@@ -212,9 +197,6 @@ public class dbSQLScripts {
                     pt.setAdmissionDate(resultSet.getDate("ADMISSIONDATE"));
                     pt.setReleaseDate(resultSet.getDate("RELEASEDATE"));
                 }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
-        }
         
         return pt;
     }
@@ -243,9 +225,6 @@ public class dbSQLScripts {
                     pt.setAdmissionDate(resultSet.getDate("ADMISSIONDATE"));
                     pt.setReleaseDate(resultSet.getDate("RELEASEDATE"));
                 }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
-        }
         
         return pt;
     }
@@ -278,9 +257,6 @@ public class dbSQLScripts {
                     ps.setInt(7, id);
                     result = ps.executeUpdate();
                     }
-         catch (SQLException sqlex){
-            sqlex.printStackTrace();
-        }
          
          return result;
      }
@@ -299,9 +275,6 @@ public class dbSQLScripts {
             ps.setInt(1, id);
             result = ps.executeUpdate();
             
-        }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
         }
         
         return result;

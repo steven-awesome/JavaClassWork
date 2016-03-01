@@ -73,7 +73,48 @@ public class PatientBean {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o); //To change body of generated methods, choose Tools | Templates.
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        PatientBean other = (PatientBean) o;
+        if (patientID != other.patientID) {
+            return false;
+        }
+        if (lastName == null) {
+            if (other.lastName != null) {
+                return false;
+            }
+        } else if (!lastName.equals(other.lastName)) {
+            return false;
+        }
+        if (firstName == null) {
+            if (other.firstName != null) {
+                return false;
+            }
+        } else if (!firstName.equals(other.firstName)) {
+            return false;
+        }
+        if (diagnosis == null) {
+            if (other.diagnosis != null) {
+                return false;
+            }
+        } else if (!diagnosis.equals(other.diagnosis)) {
+            return false;
+        }
+         if (!admissionDate.equals(other.admissionDate)) {
+            return false;
+        }
+         if (!releaseDate.equals(other.releaseDate)) {
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
@@ -83,11 +124,14 @@ public class PatientBean {
 
     @Override
     public String toString() {
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
-    }
+        String s = "            Patient ID = " + patientID + "\n" + 
+                   "   Last Name = " + lastName + "\n" + 
+                   "         First Name = " + firstName + "\n" + 
+                   "            Diagnosis = " + diagnosis + "\n" + 
+                   "            Admission Date = " + admissionDate.toString() + "\n" + 
+                   "          Release Date = " + releaseDate.toString() + "\n";
 
-    
-    
-    
-    
+        return s;
+    }
 }
+

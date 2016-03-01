@@ -92,7 +92,40 @@ public class SurgicalBean {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o); //To change body of generated methods, choose Tools | Templates.
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        SurgicalBean other = (SurgicalBean) o;
+        if (patientID != other.patientID) {
+            return false;
+        }
+        if (!dateOfSurgery.equals(other.dateOfSurgery)) {
+                return false;
+        }
+        if (surgery == null) {
+            if (other.surgery != null) {
+                return false;
+            }
+        } else if (!surgery.equals(other.surgery)) {
+            return false;
+        }
+        if (roomFee != other.roomFee) {
+            return false;
+        }
+        if (surgeonFee != other.surgeonFee) {
+            return false;
+        }
+        if (supplies != other.supplies) {
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
@@ -102,7 +135,14 @@ public class SurgicalBean {
 
     @Override
     public String toString() {
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+        String s = "            Patient ID = " + patientID + "\n" + 
+                   "   Date Of Surgery = " + dateOfSurgery.toString() + "\n" + 
+                   "         Surgery = " + surgery + "\n" + 
+                   "            Room Fee = " + roomFee + "\n" + 
+                   "            Surgeon Fee = " + surgeonFee + "\n" + 
+                   "          Supplies = " + supplies + "\n";
+
+        return s;
     }
     
     

@@ -93,7 +93,40 @@ public class InpatientBean {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o); //To change body of generated methods, choose Tools | Templates.
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        InpatientBean other = (InpatientBean) o;
+        if (patientID != other.patientID) {
+            return false;
+        }
+        if (!dateOfStay.equals(other.dateOfStay)) {
+                return false;
+        }
+        if (roomNumber == null) {
+            if (other.roomNumber != null) {
+                return false;
+            }
+        } else if (!roomNumber.equals(other.roomNumber)) {
+            return false;
+        }
+        if (dailyRate != other.dailyRate) {
+            return false;
+        }
+        if (supplies != other.supplies) {
+            return false;
+        }
+        if (services != other.services) {
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
@@ -103,7 +136,14 @@ public class InpatientBean {
 
     @Override
     public String toString() {
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+        String s = "            Patient ID = " + patientID + "\n" + 
+                   "   Date Of Stay = " + dateOfStay.toString() + "\n" + 
+                   "         Room Number = " + roomNumber + "\n" + 
+                   "            Daily Rate = " + dailyRate + "\n" + 
+                   "            Supplies = " + supplies + "\n" + 
+                   "          Services = " + services + "\n";
+
+        return s;
     }
     
     

@@ -82,7 +82,37 @@ public class MedicationBean {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o); //To change body of generated methods, choose Tools | Templates.
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        MedicationBean other = (MedicationBean) o;
+        if (patientID != other.patientID) {
+            return false;
+        }
+        if (!dateOfMed.equals(other.dateOfMed)) {
+                return false;
+        }
+        if (med == null) {
+            if (other.med != null) {
+                return false;
+            }
+        } else if (!med.equals(other.med)) {
+            return false;
+        }
+        if (unitCost != other.unitCost) {
+            return false;
+        }
+        if (units != other.units) {
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
@@ -92,7 +122,13 @@ public class MedicationBean {
 
     @Override
     public String toString() {
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+        String s = "            Patient ID = " + patientID + "\n" + 
+                   "   Date Of Med = " + dateOfMed.toString() + "\n" + 
+                   "         Med = " + med + "\n" + 
+                   "            Unit Cost = " + unitCost + "\n" + 
+                   "            Units = " + units + "\n";
+
+        return s;
     }
     
     
