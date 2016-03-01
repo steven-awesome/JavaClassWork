@@ -11,20 +11,20 @@ import java.sql.Date;
  *
  * @author Steven
  */
-public class PatientBean implements Comparable {
+public class PatientBean {
     
-    private int patiendID;
+    private int patientID;
     private String lastName;
     private String firstName;
     private String diagnosis;
-    private Date admissonDate;
+    private Date admissionDate;
     private Date releaseDate;
 
     public PatientBean() {
     }
 
-    public Date getAdmissonDate() {
-        return admissonDate;
+    public Date getAdmissionDate() {
+        return admissionDate;
     }
 
     public String getDiagnosis() {
@@ -39,16 +39,16 @@ public class PatientBean implements Comparable {
         return lastName;
     }
 
-    public int getPatiendID() {
-        return patiendID;
+    public int getPatientID() {
+        return patientID;
     }
 
     public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setAdmissonDate(Date admissonDate) {
-        this.admissonDate = admissonDate;
+    public void setAdmissionDate(Date admissionDate) {
+        this.admissionDate = admissionDate;
     }
 
     public void setDiagnosis(String diagnosis) {
@@ -63,8 +63,8 @@ public class PatientBean implements Comparable {
         this.lastName = lastName;
     }
 
-    public void setPatiendID(int patiendID) {
-        this.patiendID = patiendID;
+    public void setPatientID(int patientID) {
+        this.patientID = patientID;
     }
 
     public void setReleaseDate(Date releaseDate) {
@@ -86,10 +86,6 @@ public class PatientBean implements Comparable {
         return super.toString(); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public int compareTo(Object o) {
-        return 
-    }
     
     
     

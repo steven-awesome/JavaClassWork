@@ -5,7 +5,12 @@
  */
 package interfaces;
 
+import data.InpatientBean;
+import data.MedicationBean;
 import data.PatientBean;
+import data.SurgicalBean;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,8 +18,18 @@ import data.PatientBean;
  */
 public interface dbSQLInterface {
     
-    public int createPatient(PatientBean patient);
+    public int createPatient(PatientBean patient) throws SQLException;
+    public int createInpatientRecord(InpatientBean ipb) throws SQLException;
+    public int createSurgicalRecord(SurgicalBean surgical) throws SQLException;
+    public int createMedicationRecord(MedicationBean medication) throws SQLException;
     
+    public ArrayList<PatientBean> findAll() throws SQLException;
+    public PatientBean findByID(int id) throws SQLException;
+    public PatientBean findByLastName(String lName) throws SQLException;
+    
+    public int update(PatientBean ptb, int id) throws SQLException;
+    
+    public int delete(int id) throws SQLException;
     
     
 }
