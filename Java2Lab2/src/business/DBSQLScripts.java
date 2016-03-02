@@ -174,19 +174,24 @@ public class DBSQLScripts {
         return pt;
     }
     
-    public PatientBean findByID(int id) throws SQLException {
+    public ArrayList<Object> findByID(int id) throws SQLException {
         
-        PatientBean pt = new PatientBean();
+        ArrayList<Object> pats = new ArrayList();
 
         String selectQuery = "SELECT * "
                             + "FROM PATIENT "
-                            + "WHERE ID = ?";
+                            + "WHERE PATIENTID = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user,
                 password);
                 PreparedStatement ps = 
                         connection.prepareStatement(selectQuery)) 
                 {
+                    PatientBean pt = new PatientBean();
+                    InpatientBean ipb = new InpatientBean();
+                    SurgicalBean sb = new SurgicalBean();
+                    MedicationBean mb = new MedicationBean();
+                    
                     ps.setInt(1, id);
                     ResultSet resultSet = ps.executeQuery();
 
@@ -196,25 +201,55 @@ public class DBSQLScripts {
                     pt.setDiagnosis(resultSet.getString("DIAGNOSIS"));
                     pt.setAdmissionDate(resultSet.getDate("ADMISSIONDATE"));
                     pt.setReleaseDate(resultSet.getDate("RELEASEDATE"));
+                    ipb.setPatientID(resultSet.getInt("PATIENTID"));
+                    ipb.setDateOfStay(resultSet.getDate("DATEOFSTAY"));
+                    ipb.setRoomNumber(resultSet.getString("ROOMNUMBER"));
+                    ipb.setDailyRate(resultSet.getDouble("DAILYRATE"));
+                    ipb.setSupplies(resultSet.getDouble("SUPPLIES"));
+                    ipb.setServices(resultSet.getDouble("SERVICES"));
+                    sb.setPatientID(resultSet.getInt("PATIENTID"));
+                    sb.setDateOfSurgery(resultSet.getDate("DATEOFSURGERY"));
+                    sb.setSurgery(resultSet.getString("SURGERY"));
+                    sb.setRoomFee(resultSet.getDouble("ROOMFEE"));
+                    sb.setSurgeonFee(resultSet.getDouble("SURGEONFEE"));
+                    sb.setSupplies(resultSet.getDouble("SUPPLIES"));
+                    mb.setPatientID(resultSet.getInt("PATIENTID"));
+                    mb.setDateOfMed(resultSet.getDate("DATEOFMED"));
+                    mb.setMed(resultSet.getString("MED"));
+                    mb.setUnitCost(resultSet.getDouble("UNITCOST"));
+                    mb.setUnits(resultSet.getDouble("UNITS"));
+                    
+                    pats.add(pt);
+                    pats.add(ipb);
+                    pats.add(sb);
+                    pats.add(mb);
                 }
         
-        return pt;
+        return pats;
     }
     
-     public PatientBean findByLastName(String lName) throws SQLException {
+     public ArrayList<Object> findByLastName(String lName) throws SQLException {
 
         int result = -1;
-        PatientBean pt = new PatientBean();
+        ArrayList<Object> pats = new ArrayList();
 
         String selectQuery = "SELECT * "
-                            + "FROM PATIENT "
-                            + "WHERE LASTNAME = ?";
+                            + "FROM PATIENT, INPATIENT, SURGICAL, MEDICATION "
+                            + "WHERE PATIENT.PATIENTID = INPATIENT.PATIENTID"
+                            + "AND INPATIENT.PATIENTID = SURGICAL.PATIENTID"
+                            + "AND SURGICAL.PATIENTID = MEDICATION.PATIENTID"
+                            + "AND LASTNAME = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user,
                 password);
                 PreparedStatement ps = 
                         connection.prepareStatement(selectQuery)) 
                 {
+                    PatientBean pt = new PatientBean();
+                    InpatientBean ipb = new InpatientBean();
+                    SurgicalBean sb = new SurgicalBean();
+                    MedicationBean mb = new MedicationBean();
+                    
                     ps.setString(1, lName);
                     ResultSet resultSet = ps.executeQuery();
 
@@ -224,9 +259,31 @@ public class DBSQLScripts {
                     pt.setDiagnosis(resultSet.getString("DIAGNOSIS"));
                     pt.setAdmissionDate(resultSet.getDate("ADMISSIONDATE"));
                     pt.setReleaseDate(resultSet.getDate("RELEASEDATE"));
+                    ipb.setPatientID(resultSet.getInt("PATIENTID"));
+                    ipb.setDateOfStay(resultSet.getDate("DATEOFSTAY"));
+                    ipb.setRoomNumber(resultSet.getString("ROOMNUMBER"));
+                    ipb.setDailyRate(resultSet.getDouble("DAILYRATE"));
+                    ipb.setSupplies(resultSet.getDouble("SUPPLIES"));
+                    ipb.setServices(resultSet.getDouble("SERVICES"));
+                    sb.setPatientID(resultSet.getInt("PATIENTID"));
+                    sb.setDateOfSurgery(resultSet.getDate("DATEOFSURGERY"));
+                    sb.setSurgery(resultSet.getString("SURGERY"));
+                    sb.setRoomFee(resultSet.getDouble("ROOMFEE"));
+                    sb.setSurgeonFee(resultSet.getDouble("SURGEONFEE"));
+                    sb.setSupplies(resultSet.getDouble("SUPPLIES"));
+                    mb.setPatientID(resultSet.getInt("PATIENTID"));
+                    mb.setDateOfMed(resultSet.getDate("DATEOFMED"));
+                    mb.setMed(resultSet.getString("MED"));
+                    mb.setUnitCost(resultSet.getDouble("UNITCOST"));
+                    mb.setUnits(resultSet.getDouble("UNITS"));
+                    
+                    pats.add(pt);
+                    pats.add(ipb);
+                    pats.add(sb);
+                    pats.add(mb);
                 }
         
-        return pt;
+        return pats;
     }
      
      //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////

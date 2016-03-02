@@ -8,6 +8,7 @@ package application;
 import business.DBSQLScripts;
 import data.PatientBean;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 /**
@@ -24,14 +25,17 @@ class Application {
     
     public void perform(){
         DBSQLScripts dbsql = new DBSQLScripts();
-        PatientBean ptb = null;
+        ArrayList<Object> ptb = null;
         try{
             ptb = dbsql.findByID(1);
         }
         catch (SQLException sqlex){
             sqlex.printStackTrace();
         }
-        System.out.println(ptb.toString());
+        System.out.println(ptb.get(0).toString());
+        System.out.println(ptb.get(1).toString());
+        System.out.println(ptb.get(2).toString());
+        System.out.println(ptb.get(3).toString());
     }
     
     
