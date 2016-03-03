@@ -5,22 +5,18 @@
  */
 package business;
 
-import data.InpatientBean;
 import data.MedicationBean;
-import data.PatientBean;
-import data.SurgicalBean;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  *
  * @author fista
  */
-public class InpatientDAO {
+public class MedicationDAO {
     
     String url = "jdbc:derby://localhost:1527/Hospital";
     String user = "hospital";
@@ -30,24 +26,23 @@ public class InpatientDAO {
     
     /////////////////////////////////////////////CREATE RECORD////////////////////////////////////////
     
-    public int createInpatientRecord(InpatientBean ipb) throws SQLException{
+    public int createMedicationlRecord(MedicationBean mb) throws SQLException{
         
         int result = -1;
         
-         String preparedSQL = "INSERT INTO INPATIENT (PATIENTID, DATEOFSTAY, ROOMNUMBER, DAILYRATE, "
-                            + "SUPPLIES, SERVICES) "
-                                + "VALUES (?, ?, ?, ?, ?, ?)";
+         String preparedSQL = "INSERT INTO MEDICATION (PATIENTID, DATEOFMED, MED, UNITCOST, "
+                            + "UNITS) "
+                                + "VALUES (?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(preparedSQL);
             ){
-            ps.setInt(1, ipb.getPatientID());
-            ps.setDate(2, ipb.getDateOfStay());
-            ps.setString(3, ipb.getRoomNumber());
-            ps.setDouble(4, ipb.getDailyRate());
-            ps.setDouble(5, ipb.getSupplies());
-            ps.setDouble(6, ipb.getServices());
+            ps.setInt(1, mb.getPatientID());
+            ps.setDate(2, mb.getDateOfMed());
+            ps.setString(3, mb.getMed());
+            ps.setDouble(4, mb.getUnitCost());
+            ps.setDouble(5, mb.getUnits());
             
             result = ps.executeUpdate();
         }
@@ -58,12 +53,12 @@ public class InpatientDAO {
     
     /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
     
-    public InpatientBean findByID(int id) throws SQLException {
+    public MedicationBean findByID(int id) throws SQLException {
         
-        InpatientBean ipb = new InpatientBean();
+        MedicationBean mb = new MedicationBean();
 
         String selectQuery = "SELECT * "
-                            + "FROM INPATIENT "
+                            + "FROM MEDICATION "
                             + "WHERE PATIENTID = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user,
@@ -76,44 +71,41 @@ public class InpatientDAO {
                     
                     while(rs.next()){
 
-                        ipb.setPatientID(rs.getInt("PATIENTID"));
-                        ipb.setDateOfStay(rs.getDate("DATEOFSTAY"));
-                        ipb.setRoomNumber(rs.getString("ROOMNUMBER"));
-                        ipb.setDailyRate(rs.getDouble("DAILYRATE"));
-                        ipb.setSupplies(rs.getDouble("SUPPLIES"));
-                        ipb.setServices(rs.getDouble("SERVICES"));
+                        mb.setPatientID(rs.getInt("PATIENTID"));
+                        mb.setDateOfMed(rs.getDate("DATEOFMED"));
+                        mb.setMed(rs.getString("MED"));
+                        mb.setUnitCost(rs.getDouble("UNITCOST"));
+                        mb.setUnits(rs.getDouble("UNITS"));
                     }
 
                 }
         
-        return ipb;
+        return mb;
     }
     
     //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////
     
-     public int update(InpatientBean ipb, int id) throws SQLException{
+     public int update(MedicationBean mb, int id) throws SQLException{
          int result = -1;
          
-         String prepareStatement = "UPDATE INPATIENT "
+         String prepareStatement = "UPDATE MEDICATION "
                  + "SET "
                  + "PATIENTID = ?, "
-                 + "DATEOFSTAY = ?, "
-                 + "ROOMNUMBER = ?, "
-                 + "DAILYRATE = ?, "
-                 + "SUPPLIES = ?, "
-                 + "SERVICES = ? "
+                 + "DATEOFMED = ?, "
+                 + "MED = ?, "
+                 + "UNITCOST = ?, "
+                 + "UNITS = ? "
                  + "WHERE ID = ?";
          
          try(
                  Connection connection = DriverManager.getConnection(url, user, password);
                  PreparedStatement ps = connection.prepareStatement(prepareStatement)
                  ){
-                    ps.setInt(1, ipb.getPatientID());
-                    ps.setDate(2, ipb.getDateOfStay());
-                    ps.setString(3, ipb.getRoomNumber());
-                    ps.setDouble(4, ipb.getDailyRate());
-                    ps.setDouble(5, ipb.getSupplies());
-                    ps.setDouble(6, ipb.getServices());
+                    ps.setInt(1, mb.getPatientID());
+                    ps.setDate(2, mb.getDateOfMed());
+                    ps.setString(3, mb.getMed());
+                    ps.setDouble(4, mb.getUnitCost());
+                    ps.setDouble(5, mb.getUnits());
                     ps.setInt(7, id);
                     result = ps.executeUpdate();
                     }
@@ -126,7 +118,7 @@ public class InpatientDAO {
      public int delete(int id) throws SQLException{
          int result = -1;
          
-         String prepareStatement = "DELETE FROM INPATIENT "+
+         String prepareStatement = "DELETE FROM MEDICATION "+
                             "WHERE ID = ?";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);

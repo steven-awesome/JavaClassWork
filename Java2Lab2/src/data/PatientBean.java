@@ -125,11 +125,11 @@ public class PatientBean {
     @Override
     public String toString() {
         String s = "            Patient ID = " + patientID + "\n" + 
-                   "   Last Name = " + lastName + "\n" + 
-                   "         First Name = " + firstName + "\n" + 
-                   "            Diagnosis = " + diagnosis + "\n" + 
-                   "            Admission Date = " + admissionDate.toString() + "\n" + 
-                   "          Release Date = " + releaseDate.toString() + "\n";
+                       "         Last Name = " + lastName + "\n" + 
+                       "         First Name = " + firstName + "\n" + 
+                       "            Diagnosis = " + diagnosis + "\n" + 
+                       "      Admission Date = " + admissionDate.toString() + "\n" + 
+                       "          Release Date = " + releaseDate.toString() + "\n";
 
         return s;
     }

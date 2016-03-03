@@ -38,7 +38,21 @@ class Application {
         System.out.println(ptb.get(3).toString());
     }
     
-    
+    /*public void perform(){
+        DBSQLScripts dbsql = new DBSQLScripts();
+        ArrayList<Object> ptb = null;
+        String s = "Wayne";
+        try{
+            ptb = dbsql.findByLastName(s);
+        }
+        catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
+        System.out.println(ptb.get(0).toString());
+        System.out.println(ptb.get(1).toString());
+        System.out.println(ptb.get(2).toString());
+        System.out.println(ptb.get(3).toString());
+    }*/
     
     public static void main(String[] args){
         Application pt = new Application();

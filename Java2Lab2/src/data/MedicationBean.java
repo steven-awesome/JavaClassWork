@@ -122,11 +122,11 @@ public class MedicationBean {
 
     @Override
     public String toString() {
-        String s = "            Patient ID = " + patientID + "\n" + 
-                   "   Date Of Med = " + dateOfMed.toString() + "\n" + 
-                   "         Med = " + med + "\n" + 
-                   "            Unit Cost = " + unitCost + "\n" + 
-                   "            Units = " + units + "\n";
+        String s =  "            Patient ID = " + patientID + "\n" + 
+                        "           Date Of Med = " + dateOfMed.toString() + "\n" + 
+                        "                   Med = " + med + "\n" + 
+                        "            Unit Cost = " + unitCost + "\n" + 
+                        "                  Units = " + units + "\n";
 
         return s;
     }

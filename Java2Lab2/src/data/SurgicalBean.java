@@ -135,12 +135,12 @@ public class SurgicalBean {
 
     @Override
     public String toString() {
-        String s = "            Patient ID = " + patientID + "\n" + 
-                   "   Date Of Surgery = " + dateOfSurgery.toString() + "\n" + 
-                   "         Surgery = " + surgery + "\n" + 
-                   "            Room Fee = " + roomFee + "\n" + 
-                   "            Surgeon Fee = " + surgeonFee + "\n" + 
-                   "          Supplies = " + supplies + "\n";
+        String s =  "            Patient ID = " + patientID + "\n" + 
+                        "   Date Of Surgery = " + dateOfSurgery.toString() + "\n" + 
+                        "               Surgery = " + surgery + "\n" + 
+                        "           Room Fee = " + roomFee + "\n" + 
+                        "        Surgeon Fee = " + surgeonFee + "\n" + 
+                        "              Supplies = " + supplies + "\n";
 
         return s;
     }

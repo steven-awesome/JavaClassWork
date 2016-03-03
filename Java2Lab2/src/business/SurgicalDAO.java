@@ -5,22 +5,18 @@
  */
 package business;
 
-import data.InpatientBean;
-import data.MedicationBean;
-import data.PatientBean;
 import data.SurgicalBean;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  *
  * @author fista
  */
-public class InpatientDAO {
+public class SurgicalDAO {
     
     String url = "jdbc:derby://localhost:1527/Hospital";
     String user = "hospital";
@@ -30,24 +26,24 @@ public class InpatientDAO {
     
     /////////////////////////////////////////////CREATE RECORD////////////////////////////////////////
     
-    public int createInpatientRecord(InpatientBean ipb) throws SQLException{
+    public int createSurgicalRecord(SurgicalBean sb) throws SQLException{
         
         int result = -1;
         
-         String preparedSQL = "INSERT INTO INPATIENT (PATIENTID, DATEOFSTAY, ROOMNUMBER, DAILYRATE, "
-                            + "SUPPLIES, SERVICES) "
+         String preparedSQL = "INSERT INTO SURGICAL (PATIENTID, DATEOFSURGERY, SURGERY,  ROOMFEE, "
+                            + "SURGEONFEE, SUPPLIES) "
                                 + "VALUES (?, ?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(preparedSQL);
             ){
-            ps.setInt(1, ipb.getPatientID());
-            ps.setDate(2, ipb.getDateOfStay());
-            ps.setString(3, ipb.getRoomNumber());
-            ps.setDouble(4, ipb.getDailyRate());
-            ps.setDouble(5, ipb.getSupplies());
-            ps.setDouble(6, ipb.getServices());
+            ps.setInt(1, sb.getPatientID());
+            ps.setDate(2, sb.getDateOfSurgery());
+            ps.setString(3, sb.getSurgery());
+            ps.setDouble(4, sb.getRoomFee());
+            ps.setDouble(5, sb.getSurgeonFee());
+            ps.setDouble(6, sb.getSupplies());
             
             result = ps.executeUpdate();
         }
@@ -58,12 +54,12 @@ public class InpatientDAO {
     
     /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
     
-    public InpatientBean findByID(int id) throws SQLException {
+    public SurgicalBean findByID(int id) throws SQLException {
         
-        InpatientBean ipb = new InpatientBean();
+        SurgicalBean sb = new SurgicalBean();
 
         String selectQuery = "SELECT * "
-                            + "FROM INPATIENT "
+                            + "FROM SURGICAL "
                             + "WHERE PATIENTID = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user,
@@ -76,44 +72,44 @@ public class InpatientDAO {
                     
                     while(rs.next()){
 
-                        ipb.setPatientID(rs.getInt("PATIENTID"));
-                        ipb.setDateOfStay(rs.getDate("DATEOFSTAY"));
-                        ipb.setRoomNumber(rs.getString("ROOMNUMBER"));
-                        ipb.setDailyRate(rs.getDouble("DAILYRATE"));
-                        ipb.setSupplies(rs.getDouble("SUPPLIES"));
-                        ipb.setServices(rs.getDouble("SERVICES"));
+                        sb.setPatientID(rs.getInt("PATIENTID"));
+                        sb.setDateOfSurgery(rs.getDate("DATEOFSURGERY"));
+                        sb.setSurgery(rs.getString("SURGERY"));
+                        sb.setRoomFee(rs.getDouble("ROOMFEE"));
+                        sb.setSurgeonFee(rs.getDouble("SURGEONFEE"));
+                        sb.setSupplies(rs.getDouble("SUPPLIES"));
                     }
 
                 }
         
-        return ipb;
+        return sb;
     }
     
     //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////
     
-     public int update(InpatientBean ipb, int id) throws SQLException{
+     public int update(SurgicalBean sb, int id) throws SQLException{
          int result = -1;
          
-         String prepareStatement = "UPDATE INPATIENT "
+         String prepareStatement = "UPDATE SURGICAL "
                  + "SET "
                  + "PATIENTID = ?, "
-                 + "DATEOFSTAY = ?, "
-                 + "ROOMNUMBER = ?, "
-                 + "DAILYRATE = ?, "
-                 + "SUPPLIES = ?, "
-                 + "SERVICES = ? "
+                 + "DATEOFSURGERY = ?, "
+                 + "SURGERY = ?, "
+                 + "ROOMFEE = ?, "
+                 + "SURGEONFEE = ?, "
+                 + "SUPPLIES = ? "
                  + "WHERE ID = ?";
          
          try(
                  Connection connection = DriverManager.getConnection(url, user, password);
                  PreparedStatement ps = connection.prepareStatement(prepareStatement)
                  ){
-                    ps.setInt(1, ipb.getPatientID());
-                    ps.setDate(2, ipb.getDateOfStay());
-                    ps.setString(3, ipb.getRoomNumber());
-                    ps.setDouble(4, ipb.getDailyRate());
-                    ps.setDouble(5, ipb.getSupplies());
-                    ps.setDouble(6, ipb.getServices());
+                    ps.setInt(1, sb.getPatientID());
+                    ps.setDate(2, sb.getDateOfSurgery());
+                    ps.setString(3, sb.getSurgery());
+                    ps.setDouble(4, sb.getRoomFee());
+                    ps.setDouble(5, sb.getSurgeonFee());
+                    ps.setDouble(6, sb.getSupplies());
                     ps.setInt(7, id);
                     result = ps.executeUpdate();
                     }
@@ -126,7 +122,7 @@ public class InpatientDAO {
      public int delete(int id) throws SQLException{
          int result = -1;
          
-         String prepareStatement = "DELETE FROM INPATIENT "+
+         String prepareStatement = "DELETE FROM SURGICAL "+
                             "WHERE ID = ?";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);

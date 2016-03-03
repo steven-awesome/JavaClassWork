@@ -136,12 +136,12 @@ public class InpatientBean {
 
     @Override
     public String toString() {
-        String s = "            Patient ID = " + patientID + "\n" + 
-                   "   Date Of Stay = " + dateOfStay.toString() + "\n" + 
-                   "         Room Number = " + roomNumber + "\n" + 
-                   "            Daily Rate = " + dailyRate + "\n" + 
-                   "            Supplies = " + supplies + "\n" + 
-                   "          Services = " + services + "\n";
+        String s =  "            Patient ID = " + patientID + "\n" + 
+                        "        Date Of Stay = " + dateOfStay.toString() + "\n" + 
+                        "       Room Number = " + roomNumber + "\n" + 
+                        "            Daily Rate = " + dailyRate + "\n" + 
+                        "            Supplies = " + supplies + "\n" + 
+                        "          Services = " + services + "\n";
 
         return s;
     }

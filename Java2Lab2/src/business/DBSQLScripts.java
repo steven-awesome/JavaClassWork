@@ -43,9 +43,9 @@ public class DBSQLScripts {
         
         int result = -1;
         
-         String preparedSQL = "INSERT INTO Patient (PATIENTID, LASTNAME, FIRSNAME,  DIAGNOSIS, "
+         String preparedSQL = "INSERT INTO Patient (PATIENTID, LASTNAME, FIRSNAME, DIAGNOSIS, "
                             + "ADMISSIONDATE, RELEASEDATE) "
-                                + "VALUES (?, ?, ?, ?, ?, ?";
+                                + "VALUES (?, ?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
@@ -69,9 +69,9 @@ public class DBSQLScripts {
         
         int result = -1;
         
-         String preparedSQL = "INSERT INTO Patient (PATIENTID, DATEOFSTAY, ROOMNUMBER,  DAILYRATE, "
+         String preparedSQL = "INSERT INTO Patient (PATIENTID, DATEOFSTAY, ROOMNUMBER, DAILYRATE, "
                             + "SUPPLIES, SERVICES) "
-                                + "VALUES (?, ?, ?, ?, ?, ?";
+                                + "VALUES (?, ?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
@@ -95,9 +95,9 @@ public class DBSQLScripts {
         
         int result = -1;
         
-         String preparedSQL = "INSERT INTO Patient (PATIENTID, DATEOFSTAY, ROOMNUMBER,  DAILYRATE, "
-                            + "SUPPLIES, SERVICES) "
-                                + "VALUES (?, ?, ?, ?, ?, ?";
+         String preparedSQL = "INSERT INTO SURGICAL (PATIENTID, DATEOFSURGERY, SURGERY, ROOMFEE, "
+                            + "SURGEONFEE, SUPPLIES) "
+                                + "VALUES (?, ?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
@@ -121,9 +121,9 @@ public class DBSQLScripts {
         
         int result = -1;
         
-         String preparedSQL = "INSERT INTO Patient (PATIENTID, DATEOFSTAY, ROOMNUMBER,  DAILYRATE, "
-                            + "SUPPLIES, SERVICES) "
-                                + "VALUES (?, ?, ?, ?, ?, ?";
+         String preparedSQL = "INSERT INTO MEDICATION (PATIENTID, DATEOFMED, MED, UNITCOST, "
+                            + "UNITS) "
+                                + "VALUES (?, ?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
@@ -149,7 +149,7 @@ public class DBSQLScripts {
 
         ArrayList<PatientBean> pt = new ArrayList<>();
 
-        String selectQuery = "SELECT PATIENTID, LASTNAME, FIRSNAME,  DIAGNOSIS, "
+        String selectQuery = "SELECT PATIENTID, LASTNAME, FIRSNAME, DIAGNOSIS, "
                             + "ADMISSIONDATE, RELEASEDATE "
                             + "FROM PATIENT";
 
@@ -157,16 +157,16 @@ public class DBSQLScripts {
                 password);
                 PreparedStatement ps = connection
                 .prepareStatement(selectQuery);
-                ResultSet resultSet = ps.executeQuery()
+                ResultSet rs = ps.executeQuery()
                 ) {
-            while (resultSet.next()) {
+            while (rs.next()) {
                 PatientBean pt1 = new PatientBean();
-                pt1.setPatientID(resultSet.getInt("PATIENTID"));
-                pt1.setLastName(resultSet.getString("LASTNAME"));
-                pt1.setFirstName(resultSet.getString("FIRSNAME"));
-                pt1.setDiagnosis(resultSet.getString("DIAGNOSIS"));
-                pt1.setAdmissionDate(resultSet.getDate("ADMISSIONDATE"));
-                pt1.setReleaseDate(resultSet.getDate("RELEASEDATE"));
+                pt1.setPatientID(rs.getInt("PATIENTID"));
+                pt1.setLastName(rs.getString("LASTNAME"));
+                pt1.setFirstName(rs.getString("FIRSNAME"));
+                pt1.setDiagnosis(rs.getString("DIAGNOSIS"));
+                pt1.setAdmissionDate(rs.getDate("ADMISSIONDATE"));
+                pt1.setReleaseDate(rs.getDate("RELEASEDATE"));
 
                 pt.add(pt1);
             }
@@ -178,9 +178,15 @@ public class DBSQLScripts {
         
         ArrayList<Object> pats = new ArrayList();
 
-        String selectQuery = "SELECT * "
+        String selectQuery = "SELECT PATIENT.PATIENTID AS PID, PATIENT.LASTNAME, PATIENT.FIRSTNAME, PATIENT.DIAGNOSIS, PATIENT.ADMISSIONDATE, PATIENT.RELEASEDATE, "
+                                        + "INPATIENT.DATEOFSTAY, INPATIENT.ROOMNUMBER, INPATIENT.DAILYRATE, INPATIENT.SUPPLIES, INPATIENT.SERVICES, "
+                                        + "SURGICAL.DATEOFSURGERY, SURGICAL.SURGERY,  SURGICAL.ROOMFEE, SURGICAL.SURGEONFEE, SURGICAL.SUPPLIES, "
+                                        + "MEDICATION.DATEOFMED, MEDICATION.MED, MEDICATION.UNITCOST, MEDICATION.UNITS "
                             + "FROM PATIENT "
-                            + "WHERE PATIENTID = ?";
+                            + "LEFT JOIN INPATIENT ON PATIENT.PATIENTID = INPATIENT.PATIENTID "
+                            + "INNER JOIN SURGICAL ON INPATIENT.PATIENTID = SURGICAL.PATIENTID "
+                            + "INNER JOIN MEDICATION ON SURGICAL.PATIENTID = MEDICATION.PATIENTID "
+                            + "WHERE PATIENT.PATIENTID = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user,
                 password);
@@ -193,31 +199,32 @@ public class DBSQLScripts {
                     MedicationBean mb = new MedicationBean();
                     
                     ps.setInt(1, id);
-                    ResultSet resultSet = ps.executeQuery();
+                    ResultSet rs = ps.executeQuery();
+                    
+                    while (rs.next()){
 
-                    pt.setPatientID(resultSet.getInt("PATIENTID"));
-                    pt.setLastName(resultSet.getString("LASTNAME"));
-                    pt.setFirstName(resultSet.getString("FIRSNAME"));
-                    pt.setDiagnosis(resultSet.getString("DIAGNOSIS"));
-                    pt.setAdmissionDate(resultSet.getDate("ADMISSIONDATE"));
-                    pt.setReleaseDate(resultSet.getDate("RELEASEDATE"));
-                    ipb.setPatientID(resultSet.getInt("PATIENTID"));
-                    ipb.setDateOfStay(resultSet.getDate("DATEOFSTAY"));
-                    ipb.setRoomNumber(resultSet.getString("ROOMNUMBER"));
-                    ipb.setDailyRate(resultSet.getDouble("DAILYRATE"));
-                    ipb.setSupplies(resultSet.getDouble("SUPPLIES"));
-                    ipb.setServices(resultSet.getDouble("SERVICES"));
-                    sb.setPatientID(resultSet.getInt("PATIENTID"));
-                    sb.setDateOfSurgery(resultSet.getDate("DATEOFSURGERY"));
-                    sb.setSurgery(resultSet.getString("SURGERY"));
-                    sb.setRoomFee(resultSet.getDouble("ROOMFEE"));
-                    sb.setSurgeonFee(resultSet.getDouble("SURGEONFEE"));
-                    sb.setSupplies(resultSet.getDouble("SUPPLIES"));
-                    mb.setPatientID(resultSet.getInt("PATIENTID"));
-                    mb.setDateOfMed(resultSet.getDate("DATEOFMED"));
-                    mb.setMed(resultSet.getString("MED"));
-                    mb.setUnitCost(resultSet.getDouble("UNITCOST"));
-                    mb.setUnits(resultSet.getDouble("UNITS"));
+                        pt.setPatientID(rs.getInt("PID"));
+                        pt.setLastName(rs.getString("LASTNAME"));
+                        pt.setFirstName(rs.getString("FIRSTNAME"));
+                        pt.setDiagnosis(rs.getString("DIAGNOSIS"));
+                        pt.setAdmissionDate(rs.getDate("ADMISSIONDATE"));
+                        pt.setReleaseDate(rs.getDate("RELEASEDATE"));
+                        ipb.setDateOfStay(rs.getDate("DATEOFSTAY"));
+                        ipb.setRoomNumber(rs.getString("ROOMNUMBER"));
+                        ipb.setDailyRate(rs.getDouble("DAILYRATE"));
+                        ipb.setSupplies(rs.getDouble("SUPPLIES"));
+                        ipb.setServices(rs.getDouble("SERVICES"));
+                        sb.setDateOfSurgery(rs.getDate("DATEOFSURGERY"));
+                        sb.setSurgery(rs.getString("SURGERY"));
+                        sb.setRoomFee(rs.getDouble("ROOMFEE"));
+                        sb.setSurgeonFee(rs.getDouble("SURGEONFEE"));
+                        sb.setSupplies(rs.getDouble("SUPPLIES"));
+                        mb.setDateOfMed(rs.getDate("DATEOFMED"));
+                        mb.setMed(rs.getString("MED"));
+                        mb.setUnitCost(rs.getDouble("UNITCOST"));
+                        mb.setUnits(rs.getDouble("UNITS"));
+                    
+                    }
                     
                     pats.add(pt);
                     pats.add(ipb);
@@ -233,12 +240,15 @@ public class DBSQLScripts {
         int result = -1;
         ArrayList<Object> pats = new ArrayList();
 
-        String selectQuery = "SELECT * "
-                            + "FROM PATIENT, INPATIENT, SURGICAL, MEDICATION "
-                            + "WHERE PATIENT.PATIENTID = INPATIENT.PATIENTID"
-                            + "AND INPATIENT.PATIENTID = SURGICAL.PATIENTID"
-                            + "AND SURGICAL.PATIENTID = MEDICATION.PATIENTID"
-                            + "AND LASTNAME = ?";
+        String selectQuery = "SELECT PATIENT.PATIENTID AS PID, PATIENT.LASTNAME, PATIENT.FIRSTNAME, PATIENT.DIAGNOSIS, PATIENT.ADMISSIONDATE, PATIENT.RELEASEDATE, "
+                                        + "INPATIENT.DATEOFSTAY, INPATIENT.ROOMNUMBER, INPATIENT.DAILYRATE, INPATIENT.SUPPLIES, INPATIENT.SERVICES, "
+                                        + "SURGICAL.DATEOFSURGERY, SURGICAL.SURGERY,  SURGICAL.ROOMFEE, SURGICAL.SURGEONFEE, SURGICAL.SUPPLIES, "
+                                        + "MEDICATION.DATEOFMED, MEDICATION.MED, MEDICATION.UNITCOST, MEDICATION.UNITS "
+                            + "FROM PATIENT "
+                            + "LEFT JOIN INPATIENT ON PATIENT.PATIENTID = INPATIENT.PATIENTID "
+                            + "INNER JOIN SURGICAL ON INPATIENT.PATIENTID = SURGICAL.PATIENTID "
+                            + "INNER JOIN MEDICATION ON SURGICAL.PATIENTID = MEDICATION.PATIENTID "
+                            + "AND PATIENT.LASTNAME = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user,
                 password);
@@ -251,31 +261,34 @@ public class DBSQLScripts {
                     MedicationBean mb = new MedicationBean();
                     
                     ps.setString(1, lName);
-                    ResultSet resultSet = ps.executeQuery();
+                    ResultSet rs = ps.executeQuery();
+                    
+                    while(rs.next()){
 
-                    pt.setPatientID(resultSet.getInt("PATIENTID"));
-                    pt.setLastName(resultSet.getString("LASTNAME"));
-                    pt.setFirstName(resultSet.getString("FIRSNAME"));
-                    pt.setDiagnosis(resultSet.getString("DIAGNOSIS"));
-                    pt.setAdmissionDate(resultSet.getDate("ADMISSIONDATE"));
-                    pt.setReleaseDate(resultSet.getDate("RELEASEDATE"));
-                    ipb.setPatientID(resultSet.getInt("PATIENTID"));
-                    ipb.setDateOfStay(resultSet.getDate("DATEOFSTAY"));
-                    ipb.setRoomNumber(resultSet.getString("ROOMNUMBER"));
-                    ipb.setDailyRate(resultSet.getDouble("DAILYRATE"));
-                    ipb.setSupplies(resultSet.getDouble("SUPPLIES"));
-                    ipb.setServices(resultSet.getDouble("SERVICES"));
-                    sb.setPatientID(resultSet.getInt("PATIENTID"));
-                    sb.setDateOfSurgery(resultSet.getDate("DATEOFSURGERY"));
-                    sb.setSurgery(resultSet.getString("SURGERY"));
-                    sb.setRoomFee(resultSet.getDouble("ROOMFEE"));
-                    sb.setSurgeonFee(resultSet.getDouble("SURGEONFEE"));
-                    sb.setSupplies(resultSet.getDouble("SUPPLIES"));
-                    mb.setPatientID(resultSet.getInt("PATIENTID"));
-                    mb.setDateOfMed(resultSet.getDate("DATEOFMED"));
-                    mb.setMed(resultSet.getString("MED"));
-                    mb.setUnitCost(resultSet.getDouble("UNITCOST"));
-                    mb.setUnits(resultSet.getDouble("UNITS"));
+                        pt.setPatientID(rs.getInt("PATIENTID"));
+                        pt.setLastName(rs.getString("LASTNAME"));
+                        pt.setFirstName(rs.getString("FIRSNAME"));
+                        pt.setDiagnosis(rs.getString("DIAGNOSIS"));
+                        pt.setAdmissionDate(rs.getDate("ADMISSIONDATE"));
+                        pt.setReleaseDate(rs.getDate("RELEASEDATE"));
+                        ipb.setPatientID(rs.getInt("PATIENTID"));
+                        ipb.setDateOfStay(rs.getDate("DATEOFSTAY"));
+                        ipb.setRoomNumber(rs.getString("ROOMNUMBER"));
+                        ipb.setDailyRate(rs.getDouble("DAILYRATE"));
+                        ipb.setSupplies(rs.getDouble("SUPPLIES"));
+                        ipb.setServices(rs.getDouble("SERVICES"));
+                        sb.setPatientID(rs.getInt("PATIENTID"));
+                        sb.setDateOfSurgery(rs.getDate("DATEOFSURGERY"));
+                        sb.setSurgery(rs.getString("SURGERY"));
+                        sb.setRoomFee(rs.getDouble("ROOMFEE"));
+                        sb.setSurgeonFee(rs.getDouble("SURGEONFEE"));
+                        sb.setSupplies(rs.getDouble("SUPPLIES"));
+                        mb.setPatientID(rs.getInt("PATIENTID"));
+                        mb.setDateOfMed(rs.getDate("DATEOFMED"));
+                        mb.setMed(rs.getString("MED"));
+                        mb.setUnitCost(rs.getDouble("UNITCOST"));
+                        mb.setUnits(rs.getDouble("UNITS"));
+                    }
                     
                     pats.add(pt);
                     pats.add(ipb);
