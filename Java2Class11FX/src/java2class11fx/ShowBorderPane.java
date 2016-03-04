@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package layouts;
+package java2class11fx;
 
 /**
  *
  * @author aminranj
  */
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -36,13 +37,19 @@ public class ShowBorderPane extends Application {
     primaryStage.setScene(scene); // Place the scene in the stage
     primaryStage.show(); // Display the stage
   }
-} 
-
-// Define a custom pane to hold a label in the center of the pane
-class CustomPane extends StackPane {
+  
+  class CustomPane extends StackPane {
   public CustomPane(String title) {
     getChildren().add(new Label(title));
     setStyle("-fx-border-color: red");
     setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
   }
+} 
+
+// Define a custom pane to hold a label in the center of the pane
+
+  
+  public static void main(String[] args) {
+        launch(args);
+    }
 }
