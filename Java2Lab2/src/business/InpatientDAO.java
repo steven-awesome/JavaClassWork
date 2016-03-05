@@ -36,7 +36,7 @@ public class InpatientDAO {
         
          String preparedSQL = "INSERT INTO INPATIENT (PATIENTID, DATEOFSTAY, ROOMNUMBER, DAILYRATE, "
                             + "SUPPLIES, SERVICES) "
-                                + "VALUES (?, ?, ?, ?, ?, ?)";
+                                + "VALUES ((SELECT PATIENTID FROM PATIENT WHERE PATIENTID = ?), ?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
@@ -57,6 +57,35 @@ public class InpatientDAO {
     }
     
     /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
+    
+    public ArrayList<InpatientBean> findAll() throws SQLException {
+
+        ArrayList<InpatientBean> arIPB = new ArrayList<>();
+
+        String selectQuery = "SELECT PATIENTID, DATEOFSTAY, ROOMNUMBER, DAILYRATE, "
+                            + "SUPPLIES, SERVICES"
+                            + "FROM PATIENT";
+
+        try (Connection connection = DriverManager.getConnection(url, user,
+                password);
+                PreparedStatement ps = connection
+                .prepareStatement(selectQuery);
+                ResultSet rs = ps.executeQuery()
+                ) {
+            while (rs.next()) {
+                InpatientBean ipb = new InpatientBean();
+                ipb.setPatientID(rs.getInt("PATIENTID"));
+                ipb.setDateOfStay(rs.getDate("DATEOFSTAY"));
+                ipb.setRoomNumber(rs.getString("ROOMNUMBER"));
+                ipb.setDailyRate(rs.getDouble("DAILYRATE"));
+                ipb.setSupplies(rs.getDouble("SUPPLIES"));
+                ipb.setServices(rs.getDouble("SERVICES"));
+
+                arIPB.add(ipb);
+            }
+        }
+        return arIPB;
+    }
     
     public ArrayList<InpatientBean> findByID(int id) throws SQLException {
         

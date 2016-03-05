@@ -45,20 +45,19 @@ public class PatientDAO implements PatientInterface {
         
         int result = -1;
         
-         String preparedSQL = "INSERT INTO Patient (PATIENTID, LASTNAME, FIRSNAME, DIAGNOSIS, "
+         String preparedSQL = "INSERT INTO Patient (LASTNAME, FIRSTNAME, DIAGNOSIS, "
                             + "ADMISSIONDATE, RELEASEDATE) "
-                                + "VALUES (?, ?, ?, ?, ?, ?)";
+                                + "VALUES (?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(preparedSQL);
             ){
-            ps.setInt(1, patient.getPatientID());
-            ps.setString(2, patient.getFirstName());
-            ps.setString(3, patient.getLastName());
-            ps.setString(4, patient.getDiagnosis());
-            ps.setDate(5, patient.getAdmissionDate());
-            ps.setDate(6, patient.getReleaseDate());
+            ps.setString(1, patient.getFirstName());
+            ps.setString(2, patient.getLastName());
+            ps.setString(3, patient.getDiagnosis());
+            ps.setDate(4, patient.getAdmissionDate());
+            ps.setDate(5, patient.getReleaseDate());
             
             result = ps.executeUpdate();
         }
@@ -74,7 +73,7 @@ public class PatientDAO implements PatientInterface {
 
         ArrayList<PatientBean> pt = new ArrayList<>();
 
-        String selectQuery = "SELECT PATIENTID, LASTNAME, FIRSNAME, DIAGNOSIS, "
+        String selectQuery = "SELECT PATIENTID, LASTNAME, FIRSTNAME, DIAGNOSIS, "
                             + "ADMISSIONDATE, RELEASEDATE "
                             + "FROM PATIENT";
 
@@ -88,7 +87,7 @@ public class PatientDAO implements PatientInterface {
                 PatientBean pt1 = new PatientBean();
                 pt1.setPatientID(rs.getInt("PATIENTID"));
                 pt1.setLastName(rs.getString("LASTNAME"));
-                pt1.setFirstName(rs.getString("FIRSNAME"));
+                pt1.setFirstName(rs.getString("FIRSTNAME"));
                 pt1.setDiagnosis(rs.getString("DIAGNOSIS"));
                 pt1.setAdmissionDate(rs.getDate("ADMISSIONDATE"));
                 pt1.setReleaseDate(rs.getDate("RELEASEDATE"));
@@ -162,7 +161,7 @@ public class PatientDAO implements PatientInterface {
 
                         pt.setPatientID(rs.getInt("PATIENTID"));
                         pt.setLastName(rs.getString("LASTNAME"));
-                        pt.setFirstName(rs.getString("FIRSNAME"));
+                        pt.setFirstName(rs.getString("FIRSTNAME"));
                         pt.setDiagnosis(rs.getString("DIAGNOSIS"));
                         pt.setAdmissionDate(rs.getDate("ADMISSIONDATE"));
                         pt.setReleaseDate(rs.getDate("RELEASEDATE"));
@@ -182,25 +181,23 @@ public class PatientDAO implements PatientInterface {
          
          String prepareStatement = "UPDATE PATIENT "
                  + "SET "
-                 + "PATIENTID = ?, "
                  + "LASTNAME = ?, "
-                 + "FIRSNAME = ?, "
+                 + "FIRSTNAME = ?, "
                  + "DIAGNOSIS = ?, "
                  + "ADMISSIONDATE = ?, "
                  + "RELEASEDATE = ? "
-                 + "WHERE ID = ?";
+                 + "WHERE PATIENTID = ?";
          
          try(
                  Connection connection = DriverManager.getConnection(url, user, password);
                  PreparedStatement ps = connection.prepareStatement(prepareStatement)
                  ){
-                    ps.setInt(1, ptb.getPatientID());
-                    ps.setString(2, ptb.getLastName());
-                    ps.setString(3, ptb.getFirstName());
-                    ps.setString(4, ptb.getDiagnosis());
-                    ps.setDate(5, ptb.getAdmissionDate());
-                    ps.setDate(6, ptb.getReleaseDate());
-                    ps.setInt(7, id);
+                    ps.setString(1, ptb.getLastName());
+                    ps.setString(2, ptb.getFirstName());
+                    ps.setString(3, ptb.getDiagnosis());
+                    ps.setDate(4, ptb.getAdmissionDate());
+                    ps.setDate(5, ptb.getReleaseDate());
+                    ps.setInt(6, id);
                     result = ps.executeUpdate();
                     }
          
@@ -213,8 +210,8 @@ public class PatientDAO implements PatientInterface {
      public int delete(int id) throws SQLException{
          int result = -1;
          
-         String prepareStatement = "DELETE FROM PATIENT "+
-                            "WHERE ID = ?";
+         String prepareStatement = "DELETE INNER JOIN INPATIENT ON PATIENT.PATIENTID = INPATIENT.PATIENTID FROM PATIENT "+
+                            "WHERE PATIENTID = ?";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(prepareStatement)
@@ -227,22 +224,5 @@ public class PatientDAO implements PatientInterface {
         return result;
          
          
-     }
-     
-     
-     
-     
-     
-     
+     }    
 }
-
-
-/*String selectQuery = "SELECT PATIENT.PATIENTID AS PID, PATIENT.LASTNAME, PATIENT.FIRSTNAME, PATIENT.DIAGNOSIS, PATIENT.ADMISSIONDATE, PATIENT.RELEASEDATE, "
-                                        + "INPATIENT.DATEOFSTAY, INPATIENT.ROOMNUMBER, INPATIENT.DAILYRATE, INPATIENT.SUPPLIES, INPATIENT.SERVICES, "
-                                        + "SURGICAL.DATEOFSURGERY, SURGICAL.SURGERY,  SURGICAL.ROOMFEE, SURGICAL.SURGEONFEE, SURGICAL.SUPPLIES, "
-                                        + "MEDICATION.DATEOFMED, MEDICATION.MED, MEDICATION.UNITCOST, MEDICATION.UNITS "
-                            + "FROM PATIENT "
-                            + "LEFT JOIN INPATIENT ON PATIENT.PATIENTID = INPATIENT.PATIENTID "
-                            + "INNER JOIN SURGICAL ON INPATIENT.PATIENTID = SURGICAL.PATIENTID "
-                            + "INNER JOIN MEDICATION ON SURGICAL.PATIENTID = MEDICATION.PATIENTID "
-                            + "WHERE PATIENT.PATIENTID = ?";*/

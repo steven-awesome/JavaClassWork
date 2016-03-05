@@ -6,6 +6,8 @@
 package business;
 
 import data.PatientBean;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -32,40 +35,49 @@ public class PatientDAOTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
     }
 
     /**
      * Test of createPatient method, of class PatientDAO.
      */
+    /*
+    @Ignore
+    @After
     @Test
     public void testCreatePatient() throws Exception {
         System.out.println("createPatient");
-        PatientBean patient = null;
+        Date dateAdmit = Date.valueOf("2016-01-01");
+        Date dateRelease = Date.valueOf("2016-02-01");
+        PatientBean patient = new PatientBean();
+        patient.setLastName("TestLastName");
+        patient.setFirstName("TestFistName");
+        patient.setDiagnosis("TestDiagnosis");
+        patient.setAdmissionDate(dateAdmit);
+        patient.setReleaseDate(dateRelease);
+        
         PatientDAO instance = new PatientDAO();
-        int expResult = 0;
+        ArrayList<PatientBean> expResult = instance.findByID(instance.findAll().size()-1);
         int result = instance.createPatient(patient);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.get(0), patient);
     }
 
     /**
      * Test of findAll method, of class PatientDAO.
      */
+    
     @Test
     public void testFindAll() throws Exception {
         System.out.println("findAll");
         PatientDAO instance = new PatientDAO();
-        ArrayList<PatientBean> expResult = null;
-        ArrayList<PatientBean> result = instance.findAll();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expResult = 5;
+        ArrayList<PatientBean> result = new ArrayList();
+        result = instance.findAll();
+        assertEquals(expResult, result.size());
     }
 
     /**
@@ -74,13 +86,24 @@ public class PatientDAOTest {
     @Test
     public void testFindByID() throws Exception {
         System.out.println("findByID");
-        int id = 0;
+        int id = 1;
+        Date dateAdmit = Date.valueOf("2014-01-23");
+        Date dateRelease = Date.valueOf("2016-01-25");
+        PatientBean pb = new PatientBean();
+        pb.setPatientID(1);
+        pb.setLastName("Wayne");
+        pb.setFirstName("Bruce");
+        pb.setDiagnosis("Asthma");
+        pb.setAdmissionDate(dateAdmit);
+        pb.setReleaseDate(dateRelease);
+        
         PatientDAO instance = new PatientDAO();
+        
         ArrayList<PatientBean> expResult = null;
+        
+        
         ArrayList<PatientBean> result = instance.findByID(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(pb, result.get(0));
     }
 
     /**
@@ -89,41 +112,62 @@ public class PatientDAOTest {
     @Test
     public void testFindByLastName() throws Exception {
         System.out.println("findByLastName");
-        String lName = "";
+        String lName = "Wayne";
+        Date dateAdmit = Date.valueOf("2016-01-01");
+        Date dateRelease = Date.valueOf("2016-02-01");
+        PatientBean pb = new PatientBean();
+        pb.setPatientID(1);
+        pb.setLastName("Wayne");
+        pb.setFirstName("Bruce");
+        pb.setDiagnosis("Asthma");
+        pb.setAdmissionDate(dateAdmit);
+        pb.setReleaseDate(dateRelease);
         PatientDAO instance = new PatientDAO();
         ArrayList<PatientBean> expResult = null;
         ArrayList<PatientBean> result = instance.findByLastName(lName);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(pb, result.get(0));
+
     }
 
     /**
      * Test of update method, of class PatientDAO.
      */
+    @Ignore
+    @Before
+    @After
     @Test
     public void testUpdate() throws Exception {
         System.out.println("update");
-        PatientBean ptb = null;
+        
+        Date dateAdmit = Date.valueOf("2013-01-01");
+        Date dateRelease = Date.valueOf("2013-02-01");
+        PatientBean pb = new PatientBean();
+        pb.setPatientID(6);
+        pb.setLastName("Wayne");
+        pb.setFirstName("Bruce");
+        pb.setDiagnosis("Asthma");
+        pb.setAdmissionDate(dateAdmit);
+        pb.setReleaseDate(dateRelease);
         int id = 0;
         PatientDAO instance = new PatientDAO();
         int expResult = 0;
-        int result = instance.update(ptb, id);
+        int result = instance.update(pb, id);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of delete method, of class PatientDAO.
      */
+    @Ignore
+    @Before
     @Test
     public void testDelete() throws Exception {
         System.out.println("delete");
-        int id = 0;
+        int id = 6;
         PatientDAO instance = new PatientDAO();
-        int expResult = 0;
-        int result = instance.delete(id);
+        int expResult = 5;
+        instance.delete(id);
+        int result = instance.findAll().size();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -5,7 +5,9 @@
  */
 package application;
 
+import business.InpatientDAO;
 import business.PatientDAO;
+import data.InpatientBean;
 import data.MedicationBean;
 import data.PatientBean;
 import java.sql.Date;
@@ -63,6 +65,39 @@ class Application {
         
     }
     
+    public void testInpatient() {
+        InpatientDAO indao = new InpatientDAO();
+        ArrayList<InpatientBean> arIPB = new ArrayList();
+        InpatientBean ipb = new InpatientBean();
+        Date dateStay = Date.valueOf("2016-01-03");
+        ipb.setPatientID(1);
+        ipb.setDateOfStay(dateStay);
+        ipb.setRoomNumber("Test1");
+        ipb.setDailyRate(123);
+        ipb.setSupplies(456);
+        ipb.setServices(789);
+        
+        try{
+            int result = indao.createInpatientRecord(ipb);
+            System.out.println(result);
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        
+    }
+    
+    public void delete(){
+        PatientDAO dbsql = new PatientDAO();
+        
+        try{
+        dbsql.delete(1);
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
     /*public void perform(){
         DBSQLScripts dbsql = new DBSQLScripts();
         ArrayList<Object> ptb = null;
@@ -81,7 +116,7 @@ class Application {
     
     public static void main(String[] args){
         Application pt = new Application();
-        pt.perform();
+        pt.delete();
         
     }
     

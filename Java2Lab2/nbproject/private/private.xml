@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab2/src/business/MedicationDAO.java</file>
             <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab2/src/business/InpatientDAO.java</file>
-            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab2/src/business/DBSQLScripts.java</file>
+            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab2/src/business/PatientDAO.java</file>
+            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab2/src/business/MasterDAOScripts.java</file>
             <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab2/src/application/Application.java</file>
+            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab2/src/business/SurgicalDAO.java</file>
+            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab2/test/business/MedicationDAOTest.java</file>
         </group>
     </open-files>
 </project-private>
