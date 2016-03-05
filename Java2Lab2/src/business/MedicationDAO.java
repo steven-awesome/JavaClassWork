@@ -6,6 +6,7 @@
 package business;
 
 import data.MedicationBean;
+import interfaces.MedicationInterface;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author fista
  */
-public class MedicationDAO {
+public class MedicationDAO implements MedicationInterface{
     
     String url = "jdbc:derby://localhost:1527/Hospital";
     String user = "hospital";
@@ -27,7 +28,8 @@ public class MedicationDAO {
     
     /////////////////////////////////////////////CREATE RECORD////////////////////////////////////////
     
-    public int createMedicationlRecord(MedicationBean mb) throws SQLException{
+    @Override
+    public int createMedicationRecord(MedicationBean mb) throws SQLException{
         
         int result = -1;
         
@@ -54,7 +56,8 @@ public class MedicationDAO {
     
     /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
     
-    public ArrayList<MedicationBean> findByID(int id) throws SQLException {
+    @Override
+    public ArrayList<MedicationBean> findMedicationByID(int id) throws SQLException {
         
         ArrayList<MedicationBean> arMB = new ArrayList();
         MedicationBean mb = new MedicationBean();
@@ -88,6 +91,7 @@ public class MedicationDAO {
     
     //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////
     
+    @Override
      public int update(MedicationBean mb, int id) throws SQLException{
          int result = -1;
          
@@ -118,6 +122,7 @@ public class MedicationDAO {
      
      ///////////////////////////////////////DELETE RECORD///////////////////////////////////////////
      
+    @Override
      public int delete(int id) throws SQLException{
          int result = -1;
          

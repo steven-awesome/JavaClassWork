@@ -16,16 +16,13 @@ import java.util.ArrayList;
  *
  * @author Steven
  */
-public interface dbSQLInterface {
+public interface PatientInterface {
     
     public int createPatient(PatientBean patient) throws SQLException;
-    public int createInpatientRecord(InpatientBean ipb) throws SQLException;
-    public int createSurgicalRecord(SurgicalBean surgical) throws SQLException;
-    public int createMedicationRecord(MedicationBean medication) throws SQLException;
     
     public ArrayList<PatientBean> findAll() throws SQLException;
-    public PatientBean findByID(int id) throws SQLException;
-    public PatientBean findByLastName(String lName) throws SQLException;
+    public ArrayList<PatientBean> findByID(int id) throws SQLException;
+    public ArrayList<PatientBean> findByLastName(String lName) throws SQLException;
     
     public int update(PatientBean ptb, int id) throws SQLException;
     

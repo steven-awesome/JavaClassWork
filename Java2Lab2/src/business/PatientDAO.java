@@ -8,6 +8,7 @@ import data.PatientBean;
 import data.InpatientBean;
 import data.MedicationBean;
 import data.SurgicalBean;
+import interfaces.PatientInterface;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author Steven
  */
-public class PatientDAO {
+public class PatientDAO implements PatientInterface {
 
     public PatientBean patient;
     public InpatientBean inpatient;
@@ -39,6 +40,7 @@ public class PatientDAO {
     
     //////////////////////////////////CREATE RECORDS///////////////////////////////////////
     
+    @Override
     public int createPatient(PatientBean patient) throws SQLException{
         
         int result = -1;
@@ -67,6 +69,7 @@ public class PatientDAO {
     
     //////////////////////////////////////QUERIES////////////////////////////////////////////////
     
+    @Override
     public ArrayList<PatientBean> findAll() throws SQLException {
 
         ArrayList<PatientBean> pt = new ArrayList<>();
@@ -96,6 +99,7 @@ public class PatientDAO {
         return pt;
     }
     
+    @Override
     public ArrayList<PatientBean> findByID(int id) throws SQLException {
         
         ArrayList<PatientBean> pats = new ArrayList();
@@ -132,6 +136,7 @@ public class PatientDAO {
         return pats;
     }
     
+    @Override
      public ArrayList<PatientBean> findByLastName(String lName) throws SQLException {
 
         int result = -1;
@@ -171,6 +176,7 @@ public class PatientDAO {
      
      //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////
     
+    @Override
      public int update(PatientBean ptb, int id) throws SQLException{
          int result = -1;
          
@@ -203,6 +209,7 @@ public class PatientDAO {
      
      ///////////////////////////////////////DELETE RECORD///////////////////////////////////////////
      
+    @Override
      public int delete(int id) throws SQLException{
          int result = -1;
          

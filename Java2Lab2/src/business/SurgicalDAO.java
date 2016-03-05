@@ -6,6 +6,7 @@
 package business;
 
 import data.SurgicalBean;
+import interfaces.SurgicalInterface;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author fista
  */
-public class SurgicalDAO {
+public class SurgicalDAO implements SurgicalInterface {
     
     String url = "jdbc:derby://localhost:1527/Hospital";
     String user = "hospital";
@@ -27,6 +28,7 @@ public class SurgicalDAO {
     
     /////////////////////////////////////////////CREATE RECORD////////////////////////////////////////
     
+    @Override
     public int createSurgicalRecord(SurgicalBean sb) throws SQLException{
         
         int result = -1;
@@ -55,6 +57,7 @@ public class SurgicalDAO {
     
     /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
     
+    @Override
     public ArrayList<SurgicalBean> findSurgicalByID(int id) throws SQLException {
         
         ArrayList<SurgicalBean> arSB = new ArrayList();
@@ -90,6 +93,7 @@ public class SurgicalDAO {
     
     //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////
     
+    @Override
      public int update(SurgicalBean sb, int id) throws SQLException{
          int result = -1;
          
@@ -122,6 +126,7 @@ public class SurgicalDAO {
      
      ///////////////////////////////////////DELETE RECORD///////////////////////////////////////////
      
+    @Override
      public int delete(int id) throws SQLException{
          int result = -1;
          
