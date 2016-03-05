@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -53,8 +54,9 @@ public class MedicationDAO {
     
     /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
     
-    public MedicationBean findByID(int id) throws SQLException {
+    public ArrayList<MedicationBean> findByID(int id) throws SQLException {
         
+        ArrayList<MedicationBean> arMB = new ArrayList();
         MedicationBean mb = new MedicationBean();
 
         String selectQuery = "SELECT * "
@@ -76,11 +78,12 @@ public class MedicationDAO {
                         mb.setMed(rs.getString("MED"));
                         mb.setUnitCost(rs.getDouble("UNITCOST"));
                         mb.setUnits(rs.getDouble("UNITS"));
+                        
+                        arMB.add(mb);
                     }
-
                 }
         
-        return mb;
+        return arMB;
     }
     
     //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////

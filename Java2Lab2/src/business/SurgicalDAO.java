@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -54,8 +55,9 @@ public class SurgicalDAO {
     
     /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
     
-    public SurgicalBean findByID(int id) throws SQLException {
+    public ArrayList<SurgicalBean> findSurgicalByID(int id) throws SQLException {
         
+        ArrayList<SurgicalBean> arSB = new ArrayList();
         SurgicalBean sb = new SurgicalBean();
 
         String selectQuery = "SELECT * "
@@ -78,11 +80,12 @@ public class SurgicalDAO {
                         sb.setRoomFee(rs.getDouble("ROOMFEE"));
                         sb.setSurgeonFee(rs.getDouble("SURGEONFEE"));
                         sb.setSupplies(rs.getDouble("SUPPLIES"));
+                        
+                        arSB.add(sb);
                     }
-
                 }
         
-        return sb;
+        return arSB;
     }
     
     //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////

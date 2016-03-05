@@ -58,8 +58,9 @@ public class InpatientDAO {
     
     /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
     
-    public InpatientBean findByID(int id) throws SQLException {
+    public ArrayList<InpatientBean> findByID(int id) throws SQLException {
         
+        ArrayList<InpatientBean> arIPB = new ArrayList();
         InpatientBean ipb = new InpatientBean();
 
         String selectQuery = "SELECT * "
@@ -82,11 +83,13 @@ public class InpatientDAO {
                         ipb.setDailyRate(rs.getDouble("DAILYRATE"));
                         ipb.setSupplies(rs.getDouble("SUPPLIES"));
                         ipb.setServices(rs.getDouble("SERVICES"));
+                        
+                        arIPB.add(ipb);
                     }
 
                 }
         
-        return ipb;
+        return arIPB;
     }
     
     //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////

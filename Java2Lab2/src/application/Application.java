@@ -5,7 +5,7 @@
  */
 package application;
 
-import business.DBSQLScripts;
+import business.PatientDAO;
 import data.PatientBean;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,18 +24,19 @@ class Application {
     }
     
     public void perform(){
-        DBSQLScripts dbsql = new DBSQLScripts();
-        ArrayList<Object> ptb = null;
+        PatientDAO dbsql = new PatientDAO();
+        ArrayList<PatientBean> ptb = null;
         try{
-            ptb = dbsql.findByID(1);
+            ptb = dbsql.findByID(2);
         }
         catch (SQLException sqlex){
             sqlex.printStackTrace();
         }
-        System.out.println(ptb.get(0).toString());
-        System.out.println(ptb.get(1).toString());
-        System.out.println(ptb.get(2).toString());
-        System.out.println(ptb.get(3).toString());
+            
+        for(PatientBean pb : ptb){
+            System.out.println(pb.toString());
+        }
+        
     }
     
     /*public void perform(){
