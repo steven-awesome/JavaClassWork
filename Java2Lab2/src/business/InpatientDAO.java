@@ -9,6 +9,7 @@ import data.InpatientBean;
 import data.MedicationBean;
 import data.PatientBean;
 import data.SurgicalBean;
+import interfaces.InpatientInterface;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  *
  * @author fista
  */
-public class InpatientDAO {
+public class InpatientDAO implements InpatientInterface {
     
     String url = "jdbc:derby://localhost:1527/Hospital";
     String user = "hospital";
@@ -30,6 +31,7 @@ public class InpatientDAO {
     
     /////////////////////////////////////////////CREATE RECORD////////////////////////////////////////
     
+    @Override
     public int createInpatientRecord(InpatientBean ipb) throws SQLException{
         
         int result = -1;
@@ -56,15 +58,16 @@ public class InpatientDAO {
         
     }
     
-    /////////////////////////////////////////////////////QUERY//////////////////////////////////////////////
+    /////////////////////////////////////////////////////QUERIES//////////////////////////////////////////////
     
+    // I made a find all method for troubleshooting
     public ArrayList<InpatientBean> findAll() throws SQLException {
 
         ArrayList<InpatientBean> arIPB = new ArrayList<>();
 
         String selectQuery = "SELECT PATIENTID, DATEOFSTAY, ROOMNUMBER, DAILYRATE, "
-                            + "SUPPLIES, SERVICES"
-                            + "FROM PATIENT";
+                            + "SUPPLIES, SERVICES "
+                            + "FROM INPATIENT";
 
         try (Connection connection = DriverManager.getConnection(url, user,
                 password);
@@ -87,6 +90,7 @@ public class InpatientDAO {
         return arIPB;
     }
     
+    @Override
     public ArrayList<InpatientBean> findByID(int id) throws SQLException {
         
         ArrayList<InpatientBean> arIPB = new ArrayList();
@@ -123,6 +127,7 @@ public class InpatientDAO {
     
     //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////
     
+    @Override
      public int update(InpatientBean ipb, int id) throws SQLException{
          int result = -1;
          
@@ -133,7 +138,7 @@ public class InpatientDAO {
                  + "DAILYRATE = ?, "
                  + "SUPPLIES = ?, "
                  + "SERVICES = ? "
-                 + "WHERE PATIENTID = ?";
+                 + "WHERE ID = ?";
          
          try(
                  Connection connection = DriverManager.getConnection(url, user, password);
@@ -153,9 +158,10 @@ public class InpatientDAO {
      
      ///////////////////////////////////////DELETE RECORD///////////////////////////////////////////
      
+    @Override
      public int delete(int id) throws SQLException{
          int result = -1;
-         
+         //This statement deletes all records matching to a patient
          String prepareStatement = "DELETE FROM INPATIENT "+
                             "WHERE INPATIENT.ID IN (SELECT ID FROM INPATIENT WHERE PATIENTID = ?)";
         try(

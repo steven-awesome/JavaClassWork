@@ -11,10 +11,8 @@ import business.MedicationDAO;
 import business.PatientDAO;
 import data.InpatientBean;
 import data.MedicationBean;
-import data.PatientBean;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
@@ -24,12 +22,16 @@ import java.util.ArrayList;
  */
 class Application {
     
-    
+    //THIS IS A MANUAL TEST FILE. As I understood,
+    //we were not supposed to do a user interface so I wasn't sure
+    //what the Application package was for since we are testing everthing works
+    //in our jUnit Tests
 
     public Application() {
         
     }
-    
+    //THIS METHOD PROVES THAT THE FIND ALL WORKS. FOR SOME REASON IT WONT
+    //WORK DURING UNIT TESTING?
     public void findMaster(){
         MasterDAOScripts mScripts = new MasterDAOScripts();
         ArrayList<Object> arList = new ArrayList();
@@ -37,7 +39,7 @@ class Application {
         try{
             arList = mScripts.findRecordsByID(1);
             
-            for (int i = 0; i < arList.size()-1; i++){
+            for (int i = 0; i < arList.size(); i++){
                 System.out.println(arList.get(i).toString());
                 System.out.println("====================");
             }
@@ -49,14 +51,29 @@ class Application {
     }
     
     public void perform() throws SQLException{
-        MedicationDAO dbsql = new MedicationDAO();
-        PatientBean ptb = new PatientBean();
-            
-        Timestamp ts = Timestamp.valueOf("2014-01-24 11:00:00.00");
-        Date date = new Date(ts.getTime());
-
+        System.out.println("update");
+        InpatientBean ipb = new InpatientBean();
+        InpatientDAO indao = new InpatientDAO();
+        Date dateStay = Date.valueOf("2009-01-03");
+        ArrayList<InpatientBean> findResult = new ArrayList();
         
-         MedicationBean mb = new MedicationBean();
+        ipb.setID(1);
+        ipb.setDateOfStay(dateStay);
+        ipb.setRoomNumber("Test2");
+        ipb.setDailyRate(333);
+        ipb.setSupplies(444);
+        ipb.setServices(555);
+        indao.update(ipb, 8);
+        
+        System.out.println(ipb.toString());
+        
+    }
+    
+    public void testFindMedication() throws SQLException{
+        System.out.println("findByID");
+        int id = 1;
+        Date date = Date.valueOf("2014-01-24");
+        MedicationBean mb = new MedicationBean();
         mb.setID(1);
         mb.setPatientID(1);
         mb.setDateOfMed(date);
@@ -64,18 +81,11 @@ class Application {
         mb.setUnitCost(1.25);
         mb.setUnits(5);
         
-        dbsql.createMedicationRecord(mb);
+        MedicationDAO instance = new MedicationDAO();
         
-         MedicationBean mb1 = new MedicationBean();
-        mb1.setID(1);
-        mb1.setPatientID(1);
-        mb1.setDateOfMed(date);
-        mb1.setMed("Snickers");
-        mb1.setUnitCost(1.25);
-        mb1.setUnits(5);
+        ArrayList<MedicationBean> result = instance.findMedicationByID(id);
         
-       
-        
+        System.out.println(result.get(0).toString());
     }
     
     public void testInpatient() {
@@ -112,26 +122,10 @@ class Application {
             ex.printStackTrace();
         }
     }
-    /*public void perform(){
-        DBSQLScripts dbsql = new DBSQLScripts();
-        ArrayList<Object> ptb = null;
-        String s = "Wayne";
-        try{
-            ptb = dbsql.findByLastName(s);
-        }
-        catch (SQLException sqlex){
-            sqlex.printStackTrace();
-        }
-        System.out.println(ptb.get(0).toString());
-        System.out.println(ptb.get(1).toString());
-        System.out.println(ptb.get(2).toString());
-        System.out.println(ptb.get(3).toString());
-    }*/
     
     public static void main(String[] args) throws SQLException{
         Application pt = new Application();
-        pt.delete();
-        
-    }
+        pt.testInpatient();
+}
     
 }

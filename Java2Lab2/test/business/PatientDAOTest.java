@@ -45,7 +45,7 @@ public class PatientDAOTest {
         PatientBean result = new PatientBean();
         
         result = instance.findByLastName("TestLastName");
-
+        //CLEANS UP AFTER EVERY TEST
         instance.delete(result.getPatientID());
     }
 
@@ -77,7 +77,7 @@ public class PatientDAOTest {
     /**
      * Test of findAll method, of class PatientDAO.
      */
-    
+    //This tests that the findAll method returns the corrcet ammount of objects
     @Test
     public void testFindAll() throws Exception {
         System.out.println("findAll");
@@ -117,6 +117,8 @@ public class PatientDAOTest {
     /**
      * Test of findByLastName method, of class PatientDAO.
      */
+    
+    //Here I am testing that the mocked object is the same as a query returns for PatientID '1'
     @Test
     public void testFindByLastName() throws Exception {
         System.out.println("findByLastName");
@@ -156,9 +158,8 @@ public class PatientDAOTest {
         pb.setDiagnosis("Asthma");
         pb.setAdmissionDate(dateAdmit);
         pb.setReleaseDate(dateRelease);
-        
-        
         int result = instance.update(pb, id);
+        //tests that the pb object is equal to a query on the same PatientID
         assertEquals(pb, instance.findByID(id));
         
         result = instance.update(pbOriginal, id);
@@ -176,6 +177,7 @@ public class PatientDAOTest {
         int expResult = 5;
         instance.delete(pID);
         int result = instance.findAll().size();
+        //This tests that after a delete, the size is back to the original table
         assertEquals(expResult, result);
     }
     

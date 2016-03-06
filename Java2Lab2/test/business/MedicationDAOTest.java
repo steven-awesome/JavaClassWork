@@ -6,6 +6,7 @@
 package business;
 
 import data.MedicationBean;
+import data.PatientBean;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,6 +16,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import java.sql.Date;
+import java.sql.SQLException;
 
 /**
  *
@@ -26,19 +28,44 @@ public class MedicationDAOTest {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws SQLException {
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws SQLException {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
+        System.out.println("Test set up");
+        PatientDAO pdao = new PatientDAO();
+        Date dateAdmit = Date.valueOf("2015-01-23");
+        Date dateRelease = Date.valueOf("2015-01-25");
+        PatientBean patient = new PatientBean();
+        patient.setLastName("TestLastName");
+        patient.setFirstName("TestFirstName");
+        patient.setDiagnosis("TestDiagnosis");
+        patient.setAdmissionDate(dateAdmit);
+        patient.setReleaseDate(dateRelease);
+        pdao.createPatient(patient);
+        Date date = Date.valueOf("2011-01-25");
+        MedicationBean mb = new MedicationBean();
+        mb.setPatientID(pdao.findByLastName("TestLastName").getPatientID());
+        mb.setDateOfMed(date);
+        mb.setMed("TestCandy");
+        mb.setUnitCost(123);
+        mb.setUnits(456);
+        MedicationDAO instance = new MedicationDAO();
+        instance.createMedicationRecord(mb);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
+        System.out.println("Test tear down");
+        PatientDAO pdao = new PatientDAO();
+        MedicationDAO instance = new MedicationDAO();
+        instance.delete(pdao.findByLastName("TestLastName").getPatientID());
+        pdao.delete(pdao.findByLastName("TestLastName").getPatientID());
     }
 
     /**
@@ -49,14 +76,15 @@ public class MedicationDAOTest {
         System.out.println("createMedicationlRecord");
         Date date = Date.valueOf("2011-01-25");
         MedicationBean mb = new MedicationBean();
-        mb.setPatientID(1);
+        PatientDAO pdao = new PatientDAO();
+        mb.setPatientID(pdao.findByLastName("TestLastName").getPatientID());
         mb.setDateOfMed(date);
-        mb.setMed("TestCandy");
-        mb.setUnitCost(123);
-        mb.setUnits(456);
+        mb.setMed("TestCreateMed");
+        mb.setUnitCost(111);
+        mb.setUnits(222);
         MedicationDAO instance = new MedicationDAO();
         instance.createMedicationRecord(mb);
-        ArrayList<MedicationBean> result = instance.findMedicationByID(1);
+        ArrayList<MedicationBean> result = instance.findMedicationByID(pdao.findByLastName("TestLastName").getPatientID());
         assertEquals(mb, result.get(result.size()-1));
     }
 
@@ -79,45 +107,49 @@ public class MedicationDAOTest {
         MedicationDAO instance = new MedicationDAO();
         
         ArrayList<MedicationBean> result = instance.findMedicationByID(id);
-        assertEquals(mb, result.get(result.size()-1));
+        assertEquals(mb, result.get(0));
     }
 
     /**
      * Test of update method, of class MedicationDAO.
      */
-    @Ignore
     @Test
     public void testUpdate() throws Exception {
         System.out.println("update");
-        Date dateMed = Date.valueOf("2013-01-01");
-        MedicationBean mb = new MedicationBean();
-        mb.setPatientID(1);
-        mb.setDateOfMed(dateMed);
-        mb.setMed("Snickers");
-        mb.setUnitCost(1.25);
-        mb.setUnits(5);
         
-        int id = 1;
         MedicationDAO instance = new MedicationDAO();
-        int expResult = 1;
+        MedicationBean mb = new MedicationBean();
+        
+        Date date = Date.valueOf("2011-01-25");
+        ArrayList<MedicationBean> findMedsWithLastName = new ArrayList();
+        PatientDAO pdao = new PatientDAO();
+        findMedsWithLastName = instance.findMedicationByID(pdao.findByLastName("TestLastName").getPatientID());
+        
+        mb.setDateOfMed(date);
+        mb.setMed("TestCreateMed2");
+        mb.setUnitCost(321);
+        mb.setUnits(555);
+        
+        MedicationBean mb1 = new MedicationBean();
+        mb1 = findMedsWithLastName.get(0);
+        int id = mb1.getID();
         int result = instance.update(mb, id);
+        int expResult = 1;
         assertEquals(expResult, result);
     }
 
     /**
      * Test of delete method, of class MedicationDAO.
      */
-    @Ignore
     @Test
     public void testDelete() throws Exception {
         System.out.println("delete");
-        int id = 0;
+        PatientDAO pdao = new PatientDAO();
+        int id = pdao.findByLastName("TestLastName").getPatientID();
         MedicationDAO instance = new MedicationDAO();
-        int expResult = 0;
+        int expResult = 1;
         int result = instance.delete(id);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

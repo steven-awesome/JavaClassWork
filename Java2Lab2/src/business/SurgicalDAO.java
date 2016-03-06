@@ -35,7 +35,7 @@ public class SurgicalDAO implements SurgicalInterface {
         
          String preparedSQL = "INSERT INTO SURGICAL (PATIENTID, DATEOFSURGERY, SURGERY,  ROOMFEE, "
                             + "SURGEONFEE, SUPPLIES) "
-                                + "VALUES (?, ?, ?, ?, ?, ?)";
+                                + "VALUES ((SELECT PATIENTID FROM PATIENT WHERE PATIENTID = ?), ?, ?, ?, ?, ?)";
         
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
@@ -99,7 +99,6 @@ public class SurgicalDAO implements SurgicalInterface {
          
          String prepareStatement = "UPDATE SURGICAL "
                  + "SET "
-                 + "PATIENTID = ?, "
                  + "DATEOFSURGERY = ?, "
                  + "SURGERY = ?, "
                  + "ROOMFEE = ?, "
@@ -111,13 +110,12 @@ public class SurgicalDAO implements SurgicalInterface {
                  Connection connection = DriverManager.getConnection(url, user, password);
                  PreparedStatement ps = connection.prepareStatement(prepareStatement)
                  ){
-                    ps.setInt(1, sb.getPatientID());
-                    ps.setDate(2, sb.getDateOfSurgery());
-                    ps.setString(3, sb.getSurgery());
-                    ps.setDouble(4, sb.getRoomFee());
-                    ps.setDouble(5, sb.getSurgeonFee());
-                    ps.setDouble(6, sb.getSupplies());
-                    ps.setInt(7, id);
+                    ps.setDate(1, sb.getDateOfSurgery());
+                    ps.setString(2, sb.getSurgery());
+                    ps.setDouble(3, sb.getRoomFee());
+                    ps.setDouble(4, sb.getSurgeonFee());
+                    ps.setDouble(5, sb.getSupplies());
+                    ps.setInt(6, id);
                     result = ps.executeUpdate();
                     }
          
@@ -131,7 +129,7 @@ public class SurgicalDAO implements SurgicalInterface {
          int result = -1;
          
          String prepareStatement = "DELETE FROM SURGICAL "+
-                            "WHERE ID = ?";
+                            "WHERE SURGICAL.ID IN (SELECT ID FROM SURGICAL WHERE PATIENTID = ?)";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(prepareStatement)

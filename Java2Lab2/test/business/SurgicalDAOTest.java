@@ -6,8 +6,10 @@
 package business;
 
 import data.MedicationBean;
+import data.PatientBean;
 import data.SurgicalBean;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,19 +28,55 @@ public class SurgicalDAOTest {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws SQLException {
+        System.out.println("testsetup");
+        PatientBean pb = new PatientBean();
+        PatientDAO pdao = new PatientDAO();
+        Date dateAdmit = Date.valueOf("2015-01-23");
+        Date dateRelease = Date.valueOf("2015-01-25");
+        PatientBean patient = new PatientBean();
+        patient.setLastName("TestLastName");
+        patient.setFirstName("TestFirstName");
+        patient.setDiagnosis("TestDiagnosis");
+        patient.setAdmissionDate(dateAdmit);
+        patient.setReleaseDate(dateRelease);
+        pdao.createPatient(patient);
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws SQLException {
+        System.out.println("testteardownclass");
+        SurgicalDAO sdao = new SurgicalDAO();
+        PatientDAO pdao = new PatientDAO();
+        
+        sdao.delete(pdao.findByLastName("TestLastName").getPatientID());
+        pdao.delete(pdao.findByLastName("TestLastName").getPatientID());
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
+        System.out.println("testsetup");
+        
+        PatientDAO pdao = new PatientDAO();
+        
+        Date date = Date.valueOf("2000-01-24");
+        SurgicalBean sb = new SurgicalBean();
+        sb.setPatientID(pdao.findByLastName("TestLastName").getPatientID());
+        sb.setDateOfSurgery(date);
+        sb.setSurgery("TestSurgery");
+        sb.setRoomFee(123);
+        sb.setSurgeonFee(456);
+        sb.setSupplies(111);
+        SurgicalDAO instance = new SurgicalDAO();
+        instance.createSurgicalRecord(sb);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
+        System.out.println("Test tear down");
+        PatientDAO pdao = new PatientDAO();
+        MedicationDAO instance = new MedicationDAO();
+        instance.delete(pdao.findByLastName("TestLastName").getPatientID());
     }
 
     /**
@@ -47,9 +85,11 @@ public class SurgicalDAOTest {
     @Test
     public void testCreateSurgicalRecord() throws Exception {
         System.out.println("createSurgicalRecord");
-        Date date = Date.valueOf("2000-01-25");
+        
+        PatientDAO pdao = new PatientDAO();
+        Date date = Date.valueOf("2000-01-24");
         SurgicalBean sb = new SurgicalBean();
-        sb.setPatientID(1);
+        sb.setPatientID(pdao.findByLastName("TestLastName").getPatientID());
         sb.setDateOfSurgery(date);
         sb.setSurgery("TestSurgery");
         sb.setRoomFee(123);
@@ -57,7 +97,7 @@ public class SurgicalDAOTest {
         sb.setSupplies(111);
         SurgicalDAO instance = new SurgicalDAO();
         instance.createSurgicalRecord(sb);
-        ArrayList<SurgicalBean> result = instance.findSurgicalByID(1);
+        ArrayList<SurgicalBean> result = instance.findSurgicalByID(pdao.findByLastName("TestLastName").getPatientID());
         assertEquals(sb, result.get(result.size()-1));
     }
 
@@ -67,10 +107,11 @@ public class SurgicalDAOTest {
     @Test
     public void testFindSurgicalByID() throws Exception {
         System.out.println("findSurgicalByID");
-        int id = 1;
+        PatientDAO pdao = new PatientDAO();
+        int id = pdao.findByLastName("TestLastName").getPatientID();
         Date date = Date.valueOf("2000-01-24");
         SurgicalBean sb = new SurgicalBean();
-        sb.setPatientID(1);
+        sb.setPatientID(id);
         sb.setDateOfSurgery(date);
         sb.setSurgery("TestSurgery");
         sb.setRoomFee(123);
@@ -89,14 +130,23 @@ public class SurgicalDAOTest {
     @Test
     public void testUpdate() throws Exception {
         System.out.println("update");
-        SurgicalBean sb = null;
-        int id = 0;
-        SurgicalDAO instance = new SurgicalDAO();
-        int expResult = 0;
-        int result = instance.update(sb, id);
+        
+        System.out.println("update");
+        PatientDAO pdao = new PatientDAO();
+        SurgicalBean sb = new SurgicalBean();
+        SurgicalDAO sdao = new SurgicalDAO();
+        Date dateStay = Date.valueOf("2009-01-03");
+        ArrayList<SurgicalBean> findResult = new ArrayList();
+        int pID = pdao.findByLastName("TestLastName").getPatientID();
+        sb.setDateOfSurgery(dateStay);
+        sb.setSurgery("TestSurgery");
+        sb.setRoomFee(123);
+        sb.setSurgeonFee(456);
+        sb.setSupplies(111);
+        int result = sdao.update(sb, 1);
+        int expResult = 1;
+        
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -105,13 +155,11 @@ public class SurgicalDAOTest {
     @Test
     public void testDelete() throws Exception {
         System.out.println("delete");
-        int id = 0;
         SurgicalDAO instance = new SurgicalDAO();
-        int expResult = 0;
-        int result = instance.delete(id);
+        PatientDAO pdao = new PatientDAO();
+        int expResult = 3;
+        int result = instance.delete(pdao.findByLastName("TestLastName").getPatientID());
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

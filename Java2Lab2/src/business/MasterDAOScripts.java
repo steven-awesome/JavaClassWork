@@ -9,6 +9,9 @@ import data.InpatientBean;
 import data.MedicationBean;
 import data.PatientBean;
 import data.SurgicalBean;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -22,6 +25,9 @@ public class MasterDAOScripts {
     InpatientDAO indao;
     SurgicalDAO sdao;
     MedicationDAO mdao;
+    String url = "jdbc:derby://localhost:1527/Hospital";
+    String user = "hospital";
+    String password = "hospital";
     
     public ArrayList<Object> findRecordsByID(int id) throws SQLException{
         
@@ -42,12 +48,7 @@ public class MasterDAOScripts {
         patient.add(mList);
         
         return patient;
-        
-        
-        
-        
-        
-    }
+        }    
     
     public ArrayList<Object> findRecordsByLName(String lastName) throws SQLException{
         
@@ -97,8 +98,5 @@ public class MasterDAOScripts {
         
         return count;
     }
-    
-    
-    
     
 }
