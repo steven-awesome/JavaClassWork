@@ -128,8 +128,8 @@ public class PatientBean {
                        "         Last Name = " + lastName + "\n" + 
                        "         First Name = " + firstName + "\n" + 
                        "            Diagnosis = " + diagnosis + "\n" + 
-                       "      Admission Date = " + admissionDate.toString() + "\n" + 
-                       "          Release Date = " + releaseDate.toString() + "\n";
+                       "      Admission Date = " + admissionDate + "\n" + 
+                       "          Release Date = " + releaseDate + "\n";
 
         return s;
     }

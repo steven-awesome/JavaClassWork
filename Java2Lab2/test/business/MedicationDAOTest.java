@@ -15,7 +15,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 /**
  *
@@ -45,17 +44,20 @@ public class MedicationDAOTest {
     /**
      * Test of createMedicationlRecord method, of class MedicationDAO.
      */
-    @Ignore
     @Test
     public void testCreateMedicationlRecord() throws Exception {
         System.out.println("createMedicationlRecord");
-        MedicationBean mb = null;
+        Date date = Date.valueOf("2011-01-25");
+        MedicationBean mb = new MedicationBean();
+        mb.setPatientID(1);
+        mb.setDateOfMed(date);
+        mb.setMed("TestCandy");
+        mb.setUnitCost(123);
+        mb.setUnits(456);
         MedicationDAO instance = new MedicationDAO();
-        int expResult = 0;
-        int result = instance.createMedicationRecord(mb);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.createMedicationRecord(mb);
+        ArrayList<MedicationBean> result = instance.findMedicationByID(1);
+        assertEquals(mb, result.get(result.size()-1));
     }
 
     /**
@@ -76,11 +78,8 @@ public class MedicationDAOTest {
         
         MedicationDAO instance = new MedicationDAO();
         
-        ArrayList<MedicationBean> expResult = null;
-        
-        
         ArrayList<MedicationBean> result = instance.findMedicationByID(id);
-        assertEquals(mb, result.get(0));
+        assertEquals(mb, result.get(result.size()-1));
     }
 
     /**
@@ -90,14 +89,19 @@ public class MedicationDAOTest {
     @Test
     public void testUpdate() throws Exception {
         System.out.println("update");
-        MedicationBean mb = null;
-        int id = 0;
+        Date dateMed = Date.valueOf("2013-01-01");
+        MedicationBean mb = new MedicationBean();
+        mb.setPatientID(1);
+        mb.setDateOfMed(dateMed);
+        mb.setMed("Snickers");
+        mb.setUnitCost(1.25);
+        mb.setUnits(5);
+        
+        int id = 1;
         MedicationDAO instance = new MedicationDAO();
-        int expResult = 0;
+        int expResult = 1;
         int result = instance.update(mb, id);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

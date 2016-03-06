@@ -53,8 +53,8 @@ public class PatientDAO implements PatientInterface {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(preparedSQL);
             ){
-            ps.setString(1, patient.getFirstName());
-            ps.setString(2, patient.getLastName());
+            ps.setString(1, patient.getLastName());
+            ps.setString(2, patient.getFirstName());
             ps.setString(3, patient.getDiagnosis());
             ps.setDate(4, patient.getAdmissionDate());
             ps.setDate(5, patient.getReleaseDate());
@@ -99,9 +99,9 @@ public class PatientDAO implements PatientInterface {
     }
     
     @Override
-    public ArrayList<PatientBean> findByID(int id) throws SQLException {
+    public PatientBean findByID(int id) throws SQLException {
         
-        ArrayList<PatientBean> pats = new ArrayList();
+        PatientBean pt = new PatientBean();
 
         String selectQuery = "SELECT * FROM PATIENT "
                             + "WHERE PATIENTID = ?";
@@ -111,10 +111,7 @@ public class PatientDAO implements PatientInterface {
                 PreparedStatement ps = 
                         connection.prepareStatement(selectQuery)) 
                 {
-                    PatientBean pt = new PatientBean();
-                    InpatientBean ipb = new InpatientBean();
-                    SurgicalBean sb = new SurgicalBean();
-                    MedicationBean mb = new MedicationBean();
+                    
                     
                     ps.setInt(1, id);
                     ResultSet rs = ps.executeQuery();
@@ -127,19 +124,18 @@ public class PatientDAO implements PatientInterface {
                         pt.setDiagnosis(rs.getString("DIAGNOSIS"));
                         pt.setAdmissionDate(rs.getDate("ADMISSIONDATE"));
                         pt.setReleaseDate(rs.getDate("RELEASEDATE"));
-                        pats.add(pt);
                     
                     }
                 }
         
-        return pats;
+        return pt;
     }
     
     @Override
-     public ArrayList<PatientBean> findByLastName(String lName) throws SQLException {
+     public PatientBean findByLastName(String lName) throws SQLException {
 
         int result = -1;
-        ArrayList<PatientBean> pats = new ArrayList();
+        PatientBean pt = new PatientBean();
 
         String selectQuery = "SELECT * FROM PATIENT "
                             + "WHERE LASTNAME = ?";
@@ -149,10 +145,7 @@ public class PatientDAO implements PatientInterface {
                 PreparedStatement ps = 
                         connection.prepareStatement(selectQuery)) 
                 {
-                    PatientBean pt = new PatientBean();
-                    InpatientBean ipb = new InpatientBean();
-                    SurgicalBean sb = new SurgicalBean();
-                    MedicationBean mb = new MedicationBean();
+                    
                     
                     ps.setString(1, lName);
                     ResultSet rs = ps.executeQuery();
@@ -165,12 +158,11 @@ public class PatientDAO implements PatientInterface {
                         pt.setDiagnosis(rs.getString("DIAGNOSIS"));
                         pt.setAdmissionDate(rs.getDate("ADMISSIONDATE"));
                         pt.setReleaseDate(rs.getDate("RELEASEDATE"));
-                        pats.add(pt);
 
                     }
                 }
         
-        return pats;
+        return pt;
     }
      
      //////////////////////////////////////UPDATE RECORDS/////////////////////////////////////
@@ -210,7 +202,7 @@ public class PatientDAO implements PatientInterface {
      public int delete(int id) throws SQLException{
          int result = -1;
          
-         String prepareStatement = "DELETE INNER JOIN INPATIENT ON PATIENT.PATIENTID = INPATIENT.PATIENTID FROM PATIENT "+
+         String prepareStatement = "DELETE FROM PATIENT "+
                             "WHERE PATIENTID = ?";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);

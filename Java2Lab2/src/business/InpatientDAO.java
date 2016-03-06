@@ -90,7 +90,7 @@ public class InpatientDAO {
     public ArrayList<InpatientBean> findByID(int id) throws SQLException {
         
         ArrayList<InpatientBean> arIPB = new ArrayList();
-        InpatientBean ipb = new InpatientBean();
+        
 
         String selectQuery = "SELECT * "
                             + "FROM INPATIENT "
@@ -105,7 +105,7 @@ public class InpatientDAO {
                     ResultSet rs = ps.executeQuery();
                     
                     while(rs.next()){
-
+                        InpatientBean ipb = new InpatientBean();
                         ipb.setPatientID(rs.getInt("PATIENTID"));
                         ipb.setDateOfStay(rs.getDate("DATEOFSTAY"));
                         ipb.setRoomNumber(rs.getString("ROOMNUMBER"));
@@ -128,25 +128,23 @@ public class InpatientDAO {
          
          String prepareStatement = "UPDATE INPATIENT "
                  + "SET "
-                 + "PATIENTID = ?, "
                  + "DATEOFSTAY = ?, "
                  + "ROOMNUMBER = ?, "
                  + "DAILYRATE = ?, "
                  + "SUPPLIES = ?, "
                  + "SERVICES = ? "
-                 + "WHERE ID = ?";
+                 + "WHERE PATIENTID = ?";
          
          try(
                  Connection connection = DriverManager.getConnection(url, user, password);
                  PreparedStatement ps = connection.prepareStatement(prepareStatement)
                  ){
-                    ps.setInt(1, ipb.getPatientID());
-                    ps.setDate(2, ipb.getDateOfStay());
-                    ps.setString(3, ipb.getRoomNumber());
-                    ps.setDouble(4, ipb.getDailyRate());
-                    ps.setDouble(5, ipb.getSupplies());
-                    ps.setDouble(6, ipb.getServices());
-                    ps.setInt(7, id);
+                    ps.setDate(1, ipb.getDateOfStay());
+                    ps.setString(2, ipb.getRoomNumber());
+                    ps.setDouble(3, ipb.getDailyRate());
+                    ps.setDouble(4, ipb.getSupplies());
+                    ps.setDouble(5, ipb.getServices());
+                    ps.setInt(6, id);
                     result = ps.executeUpdate();
                     }
          
@@ -159,7 +157,7 @@ public class InpatientDAO {
          int result = -1;
          
          String prepareStatement = "DELETE FROM INPATIENT "+
-                            "WHERE ID = ?";
+                            "WHERE INPATIENT.ID IN (SELECT ID FROM INPATIENT WHERE PATIENTID = ?)";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(prepareStatement)

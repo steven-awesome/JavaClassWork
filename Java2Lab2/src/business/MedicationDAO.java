@@ -60,7 +60,7 @@ public class MedicationDAO implements MedicationInterface{
     public ArrayList<MedicationBean> findMedicationByID(int id) throws SQLException {
         
         ArrayList<MedicationBean> arMB = new ArrayList();
-        MedicationBean mb = new MedicationBean();
+        
 
         String selectQuery = "SELECT * "
                             + "FROM MEDICATION "
@@ -75,7 +75,7 @@ public class MedicationDAO implements MedicationInterface{
                     ResultSet rs = ps.executeQuery();
                     
                     while(rs.next()){
-
+                        MedicationBean mb = new MedicationBean();
                         mb.setPatientID(rs.getInt("PATIENTID"));
                         mb.setDateOfMed(rs.getDate("DATEOFMED"));
                         mb.setMed(rs.getString("MED"));

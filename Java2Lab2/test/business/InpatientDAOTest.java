@@ -63,7 +63,7 @@ public class InpatientDAOTest {
     @Test
     public void testCreateInpatientRecord() throws Exception {
         System.out.println("createInpatientRecord");
-        InpatientBean ipb = null;
+        InpatientBean ipb = new InpatientBean();
         InpatientDAO instance = new InpatientDAO();
         
         Date dateStay = Date.valueOf("2016-01-04");
@@ -74,10 +74,9 @@ public class InpatientDAOTest {
         ipb.setDailyRate(123);
         ipb.setSupplies(456);
         ipb.setServices(789);
+        int expResult = 1;
         int result = instance.createInpatientRecord(ipb);
-        assertEquals(ipb, instance.findByID(21));
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result);
     }
 
     /**

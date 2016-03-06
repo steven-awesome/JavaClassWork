@@ -5,7 +5,9 @@
  */
 package business;
 
+import data.MedicationBean;
 import data.SurgicalBean;
+import java.sql.Date;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,13 +47,18 @@ public class SurgicalDAOTest {
     @Test
     public void testCreateSurgicalRecord() throws Exception {
         System.out.println("createSurgicalRecord");
-        SurgicalBean sb = null;
+        Date date = Date.valueOf("2000-01-25");
+        SurgicalBean sb = new SurgicalBean();
+        sb.setPatientID(1);
+        sb.setDateOfSurgery(date);
+        sb.setSurgery("TestSurgery");
+        sb.setRoomFee(123);
+        sb.setSurgeonFee(456);
+        sb.setSupplies(111);
         SurgicalDAO instance = new SurgicalDAO();
-        int expResult = 0;
-        int result = instance.createSurgicalRecord(sb);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.createSurgicalRecord(sb);
+        ArrayList<SurgicalBean> result = instance.findSurgicalByID(1);
+        assertEquals(sb, result.get(result.size()-1));
     }
 
     /**
@@ -60,13 +67,20 @@ public class SurgicalDAOTest {
     @Test
     public void testFindSurgicalByID() throws Exception {
         System.out.println("findSurgicalByID");
-        int id = 0;
+        int id = 1;
+        Date date = Date.valueOf("2000-01-24");
+        SurgicalBean sb = new SurgicalBean();
+        sb.setPatientID(1);
+        sb.setDateOfSurgery(date);
+        sb.setSurgery("TestSurgery");
+        sb.setRoomFee(123);
+        sb.setSurgeonFee(456);
+        sb.setSupplies(111);
+        
         SurgicalDAO instance = new SurgicalDAO();
-        ArrayList<SurgicalBean> expResult = null;
+        
         ArrayList<SurgicalBean> result = instance.findSurgicalByID(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(sb, result.get(result.size()-1));
     }
 
     /**

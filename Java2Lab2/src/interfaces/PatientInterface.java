@@ -21,8 +21,8 @@ public interface PatientInterface {
     public int createPatient(PatientBean patient) throws SQLException;
     
     public ArrayList<PatientBean> findAll() throws SQLException;
-    public ArrayList<PatientBean> findByID(int id) throws SQLException;
-    public ArrayList<PatientBean> findByLastName(String lName) throws SQLException;
+    public PatientBean findByID(int id) throws SQLException;
+    public PatientBean findByLastName(String lName) throws SQLException;
     
     public int update(PatientBean ptb, int id) throws SQLException;
     

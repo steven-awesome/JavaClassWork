@@ -6,6 +6,8 @@
 package application;
 
 import business.InpatientDAO;
+import business.MasterDAOScripts;
+import business.MedicationDAO;
 import business.PatientDAO;
 import data.InpatientBean;
 import data.MedicationBean;
@@ -28,21 +30,30 @@ class Application {
         
     }
     
-    public void perform(){
-        PatientDAO dbsql = new PatientDAO();
-        ArrayList<PatientBean> ptb = null;
+    public void findMaster(){
+        MasterDAOScripts mScripts = new MasterDAOScripts();
+        ArrayList<Object> arList = new ArrayList();
+        
         try{
-            ptb = dbsql.findByID(2);
+            arList = mScripts.findRecordsByID(1);
+            
+            for (int i = 0; i < arList.size()-1; i++){
+                System.out.println(arList.get(i).toString());
+                System.out.println("====================");
+            }
+            
         }
-        catch (SQLException sqlex){
+        catch(SQLException sqlex){
             sqlex.printStackTrace();
         }
+    }
+    
+    public void perform() throws SQLException{
+        MedicationDAO dbsql = new MedicationDAO();
+        PatientBean ptb = new PatientBean();
             
-        for(PatientBean pb : ptb){
-            System.out.println(pb.toString());
-        }
-                Timestamp ts = Timestamp.valueOf("2014-01-24 11:00:00.00");
-                Date date = new Date(ts.getTime());
+        Timestamp ts = Timestamp.valueOf("2014-01-24 11:00:00.00");
+        Date date = new Date(ts.getTime());
 
         
          MedicationBean mb = new MedicationBean();
@@ -53,6 +64,8 @@ class Application {
         mb.setUnitCost(1.25);
         mb.setUnits(5);
         
+        dbsql.createMedicationRecord(mb);
+        
          MedicationBean mb1 = new MedicationBean();
         mb1.setID(1);
         mb1.setPatientID(1);
@@ -61,7 +74,7 @@ class Application {
         mb1.setUnitCost(1.25);
         mb1.setUnits(5);
         
-        System.out.println(mb.equals(mb1));
+       
         
     }
     
@@ -92,7 +105,8 @@ class Application {
         PatientDAO dbsql = new PatientDAO();
         
         try{
-        dbsql.delete(1);
+        int temp = dbsql.delete(1);
+            System.out.println(temp);
         }
         catch(SQLException ex){
             ex.printStackTrace();
@@ -114,7 +128,7 @@ class Application {
         System.out.println(ptb.get(3).toString());
     }*/
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException{
         Application pt = new Application();
         pt.delete();
         

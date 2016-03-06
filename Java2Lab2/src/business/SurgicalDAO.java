@@ -61,7 +61,7 @@ public class SurgicalDAO implements SurgicalInterface {
     public ArrayList<SurgicalBean> findSurgicalByID(int id) throws SQLException {
         
         ArrayList<SurgicalBean> arSB = new ArrayList();
-        SurgicalBean sb = new SurgicalBean();
+        
 
         String selectQuery = "SELECT * "
                             + "FROM SURGICAL "
@@ -76,7 +76,7 @@ public class SurgicalDAO implements SurgicalInterface {
                     ResultSet rs = ps.executeQuery();
                     
                     while(rs.next()){
-
+                        SurgicalBean sb = new SurgicalBean();
                         sb.setPatientID(rs.getInt("PATIENTID"));
                         sb.setDateOfSurgery(rs.getDate("DATEOFSURGERY"));
                         sb.setSurgery(rs.getString("SURGERY"));
