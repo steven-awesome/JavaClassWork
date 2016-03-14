@@ -161,6 +161,24 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    public int whichPaneIsVisible(){
+        if (patientPane.isVisible()){
+            return 1;
+        }
+        else if (inpatientPane.isVisible()){
+            return 2;
+        }
+        else if (surgicalPane.isVisible()){
+            return 3;
+        }
+        else if (medicationPane.isVisible()){
+            return 4;
+        }
+        else {
+            return 0;
+        }
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
