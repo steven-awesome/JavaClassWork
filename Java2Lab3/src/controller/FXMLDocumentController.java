@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 /**
@@ -31,12 +32,15 @@ import javafx.scene.layout.Pane;
  */
 public class FXMLDocumentController implements Initializable {
     
-    ArrayList<InpatientBean> arIPB = new ArrayList();
-    ArrayList<SurgicalBean> arSB = new ArrayList();
-    ArrayList<MedicationBean> arMB = new ArrayList();
+    ArrayList<InpatientBean> arIPB;
+    ArrayList<SurgicalBean> arSB;
+    ArrayList<MedicationBean> arMB;
     
     @FXML
     private Pane patientPane, inpatientPane, surgicalPane, medicationPane;
+    
+    @FXML
+    private GridPane patientGrid;
     
     @FXML
     private Label label;
@@ -73,7 +77,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     public void clearClick(ActionEvent e) throws SQLException{
-        for (Node node : patientPane.getChildren()) {
+        for (Node node : patientGrid.getChildren()) {
             System.out.println("Id: " + node.getId());
             if (node instanceof TextField) {
                 // clear
@@ -104,13 +108,18 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void clickFindBtn(ActionEvent e) throws SQLException{
+        inpatientPane.setVisible(false);
+        surgicalPane.setVisible(false);
+        medicationPane.setVisible(false);
         
         //PatientBean ptb = new PatientBean(Integer.parseInt(PID.getText()), fName.getText(), lName.getText(), diag.getText(), Date.valueOf(dAdmit.getText()), Date.valueOf(dRelease.getText()));
         PatientDAO pdao = new PatientDAO();
         MasterDAOScripts mdao = new MasterDAOScripts();
         ArrayList master = new ArrayList();
         PatientBean ptb = new PatientBean();
-        ArrayList<InpatientBean> arIPN = new ArrayList();
+        arIPB = new ArrayList();
+        arSB = new ArrayList();
+        arMB = new ArrayList();
         
         int pid;
         String lastName;
@@ -146,7 +155,10 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     public void inpBtnClick(){
-        
+        if (!arIPB.isEmpty()){
+            patientPane.setVisible(false);
+            inpatientPane.setVisible(true);
+        }
     }
     
     @Override
