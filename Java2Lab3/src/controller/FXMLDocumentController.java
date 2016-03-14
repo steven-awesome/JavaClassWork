@@ -43,9 +43,6 @@ public class FXMLDocumentController implements Initializable {
     private GridPane patientGrid;
     
     @FXML
-    private Label label;
-    
-    @FXML
     private TextField pidFind, lNameFind;
     
     @FXML
@@ -61,19 +58,13 @@ public class FXMLDocumentController implements Initializable {
     private TextField PID, fName, lName, diag, dAdmit, dRelease;
     
     @FXML
-    private TextField inpPid, inpDRate, dateOfStay, inpSupp, inpRNum, inpServ;
+    private TextField inpID, inpPid, inpDRate, dateOfStay, inpSupp, inpRNum, inpServ;
     
     @FXML
-    private TextField pidSurg, surgRFee, dateSurg, surgFee, surg, surgSupp;
+    private TextField surgID, pidSurg, surgRFee, dateSurg, surgFee, surg, surgSupp;
     
     @FXML
-    private TextField pidMed, medUCost, dateMed, medUnits, med;
-    
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
+    private TextField medID, pidMed, medUCost, dateMed, medUnits, med;
     
     @FXML
     public void clearClick(ActionEvent e) throws SQLException{
@@ -87,8 +78,39 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    public void saveClick(){
+    public void saveClick() throws SQLException{
+        PatientDAO pdao = new PatientDAO();
+        InpatientDAO indao = new InpatientDAO();
+        SurgicalDAO sdao = new SurgicalDAO();
+        MedicationDAO mdao = new MedicationDAO();
+        PatientBean pb;
+        InpatientBean ipb;
+        SurgicalBean sb;
+        MedicationBean mb;
         
+        
+        switch(whichPaneVisible()){
+            case 1:
+                pb = new PatientBean();
+                pb.setPatientID(Integer.valueOf(PID.getText()));
+                pb.setFirstName(fName.getText());
+                pb.setLastName(lName.getText());
+                pb.setDiagnosis(diag.getText());
+                if (PID.getText().isEmpty()){
+                    pdao.createPatient(pb);
+                }else {
+                    pdao.update(pb, pb.getPatientID());
+                }
+                
+            case 2:
+                ipb = new InpatientBean();
+                ipb.setPatientID(Integer.valueOf(inpPid.getText()));
+                ipb.setDateOfStay(Date.valueOf(dateOfStay.getText()));
+                ipb.setRoomNumber(inpRNum.getText());
+                ipb.setDailyRate(Double.valueOf(inpDRate.getText().trim()));
+                ipb.setSupplies(Double.valueOf(inpSupp.getText()));
+                ipb.setServices(Double.valueOf(inpServ.getText()));
+        }
     }
     
     @FXML
@@ -161,7 +183,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    public int whichPaneIsVisible(){
+    public int whichPaneVisible(){
         if (patientPane.isVisible()){
             return 1;
         }
