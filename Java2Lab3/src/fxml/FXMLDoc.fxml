@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -43,6 +42,7 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -54,6 +54,8 @@
                   <TextField fx:id="pidFind" GridPane.columnIndex="1" />
                   <TextField fx:id="lNameFind" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button fx:id="findBtn" mnemonicParsing="false" onAction="#clickFindBtn" prefWidth="63.0" text="Find" translateY="25.0" GridPane.columnIndex="2" />
+                  <Button fx:id="prevBtn" mnemonicParsing="false" onAction="#prevBtnPress" prefHeight="31.0" prefWidth="97.0" text="&lt;- Previous" GridPane.columnIndex="3" />
+                  <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#nextBtnPress" prefHeight="31.0" prefWidth="97.0" text="Next -&gt;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>
@@ -95,8 +97,8 @@
                   <FlowPane layoutX="612.0" layoutY="196.0" prefHeight="114.0" prefWidth="75.0">
                      <children>
                         <Button fx:id="inpBtn" mnemonicParsing="false" onAction="#inpBtnClick" text="Inpatient" />
-                       <!-- <Button fx:id="surgBtn" mnemonicParsing="false" onAction="#surgBtnClick" prefHeight="31.0" prefWidth="80.0" text="Surgical" />
-                        <Button fx:id="medBtn" mnemonicParsing="false" onAction="#medBtnClick" prefHeight="31.0" prefWidth="80.0" text="Meds" />-->
+                        <Button fx:id="surgBtn" mnemonicParsing="false" onAction="#surgBtnClick" prefHeight="31.0" prefWidth="80.0" text="Surgical" />
+                        <Button fx:id="medBtn" mnemonicParsing="false" onAction="#medBtnClick" prefHeight="31.0" prefWidth="80.0" text="Meds" />
                      </children>
                   </FlowPane>
                </children>
@@ -171,7 +173,6 @@
                         <Label text="ID" />
                      </children>
                   </GridPane>
-                  <Pagination layoutX="316.0" layoutY="359.0" prefHeight="54.0" prefWidth="188.0" />
                </children>
             </Pane>
             <Pane fx:id="medicationPane" layoutX="7.0" layoutY="10.0" prefHeight="480.0" prefWidth="801.0" visible="false">
@@ -206,7 +207,6 @@
                         <TextField fx:id="medID" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
-                  <Pagination layoutX="316.0" layoutY="359.0" prefHeight="54.0" prefWidth="188.0" />
                </children>
             </Pane>
          </children>
