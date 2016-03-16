@@ -32,6 +32,11 @@ import javafx.scene.layout.Pane;
  */
 public class FXMLDocumentController implements Initializable {
     
+    MasterDAOScripts madao;
+    PatientDAO pdao;
+    InpatientDAO indao;
+    SurgicalDAO sdao;
+    MedicationDAO mdao;
     ArrayList<InpatientBean> arIPB;
     ArrayList<SurgicalBean> arSB;
     ArrayList<MedicationBean> arMB;
@@ -89,19 +94,10 @@ public class FXMLDocumentController implements Initializable {
     private Pane patientPane, inpatientPane, surgicalPane, medicationPane;
     
     @FXML
-    private GridPane patientGrid;
+    private GridPane patientGrid, bottomMenu;
     
     @FXML
     private TextField pidFind, lNameFind;
-    
-    @FXML
-    private Button findBtn, inpBtn, surgBtn, medBtn, prevBtn, nextBtn;
-    
-    @FXML
-    private Hyperlink clear, save, del, rep, exit;
-    
-    @FXML
-    private Pagination pgn;
     
     @FXML
     private TextField PID, fName, lName, diag, dAdmit, dRelease;
@@ -116,6 +112,36 @@ public class FXMLDocumentController implements Initializable {
     private TextField medID, pidMed, medUCost, dateMed, medUnits, med;
     
     @FXML
+    private Alert error, info;
+    
+    
+    
+    ////////////////////////////////////////////////////ALERTS////////////////////////////////////////////////////////
+    
+    
+    public void showErrorMsg(String msg, String header){
+        error = new Alert(AlertType.ERROR);
+        error.setResizable(false);
+        error.setHeaderText(header);
+        error.setContentText(msg);
+        error.showAndWait();
+    }
+    
+    public void showInfoMsg(String msg, String header){
+        info = new Alert(AlertType.INFORMATION);
+        info.setResizable(true);
+        info.setHeaderText(header);
+        info.setContentText(msg);
+        info.showAndWait();
+    }
+    
+    
+    
+    
+    /////////////////////////////////////////////////BOTTOM MENU//////////////////////////////////////////////////////
+    
+    
+    @FXML
     public void clearClick(ActionEvent e) throws SQLException{
         for (Node node : patientGrid.getChildren()) {
             System.out.println("Id: " + node.getId());
@@ -128,10 +154,10 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     public void saveClick() throws SQLException{
-        PatientDAO pdao = new PatientDAO();
-        InpatientDAO indao = new InpatientDAO();
-        SurgicalDAO sdao = new SurgicalDAO();
-        MedicationDAO mdao = new MedicationDAO();
+        pdao = new PatientDAO();
+        indao = new InpatientDAO();
+        sdao = new SurgicalDAO();
+        mdao = new MedicationDAO();
         PatientBean pb;
         InpatientBean ipb;
         SurgicalBean sb;
@@ -168,7 +194,51 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    public void delClick(){
+    public void delClick() throws SQLException{
+        madao = new MasterDAOScripts();
+        pdao = new PatientDAO();
+        indao = new InpatientDAO();
+        sdao = new SurgicalDAO();
+        mdao = new MedicationDAO();
+        int result;
+        int id;
+        String msg = "Records deleted";
+        String header = "Deleted";
+        
+        switch(whichPaneVisible()){
+            case 1:
+                id = Integer.valueOf(PID.getText());
+                result = madao.deleteRecordsByID(id);
+                bottomMenu.setDisable(true);
+                patientPane.setVisible(false);
+                showInfoMsg(msg, header);
+                
+            case 2:
+                id = Integer.valueOf(inpID.getText());
+                result = indao.delete(id);
+                bottomMenu.setDisable(true);
+                inpatientPane.setVisible(false);
+                showInfoMsg(msg, header);
+                
+            case 3:
+                id = Integer.valueOf(surgID.getText());
+                result = sdao.delete(id);
+                bottomMenu.setDisable(true);
+                surgicalPane.setVisible(false);
+                showInfoMsg(msg, header);
+                
+            case 4:
+                id = Integer.valueOf(medID.getText());
+                result = mdao.delete(id);
+                bottomMenu.setDisable(true);
+                medicationPane.setVisible(false);
+                showInfoMsg(msg, header);
+                
+            default:
+                return;
+        }
+        
+        
         
     }
     
@@ -182,9 +252,11 @@ public class FXMLDocumentController implements Initializable {
         System.exit(0);
     }
     
+    //////////////////////////////////////////////////////FIND FUNCTION////////////////////////////////////////////////////
     
     @FXML
     private void clickFindBtn(ActionEvent e) throws SQLException{
+        bottomMenu.setDisable(false);
         inpatientPane.setVisible(false);
         surgicalPane.setVisible(false);
         medicationPane.setVisible(false);
@@ -192,9 +264,8 @@ public class FXMLDocumentController implements Initializable {
         setSurgPageIndex(1);
         setMedPageIndex(1);
         
-        //PatientBean ptb = new PatientBean(Integer.parseInt(PID.getText()), fName.getText(), lName.getText(), diag.getText(), Date.valueOf(dAdmit.getText()), Date.valueOf(dRelease.getText()));
-        PatientDAO pdao = new PatientDAO();
-        MasterDAOScripts mdao = new MasterDAOScripts();
+        pdao = new PatientDAO();
+        madao = new MasterDAOScripts();
         ArrayList master = new ArrayList();
         PatientBean ptb = new PatientBean();
         arIPB = new ArrayList();
@@ -208,9 +279,9 @@ public class FXMLDocumentController implements Initializable {
         
         
         if (!PID.getText().isEmpty()){
-            master  = mdao.findRecordsByID(pid);
+            master  = madao.findRecordsByID(pid);
         } else {
-            master =  mdao.findRecordsByLName(lastName);
+            master =  madao.findRecordsByLName(lastName);
         }
         
         ptb = (PatientBean) master.get(0);
@@ -313,7 +384,7 @@ public class FXMLDocumentController implements Initializable {
                     setMedicationView(arMB, (getMedPageIndex()-1));
                 }
             default:
-                break;
+                return;
         }
     }
     

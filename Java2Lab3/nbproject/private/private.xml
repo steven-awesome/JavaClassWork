@@ -4,12 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/fxml/FXMLDoc.fxml</file>
-            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/business/PatientDAO.java</file>
             <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/controller/FXMLDocumentController.java</file>
-            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/business/InpatientDAO.java</file>
-            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/data/InpatientBean.java</file>
-            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/data/PatientBean.java</file>
-            <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/business/MasterDAOScripts.java</file>
             <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/controller/Java2Lab3.java</file>
             <file>file:/C:/Users/fista/Documents/NetBeansProjects/JavaClassWork/Java2Lab3/src/styles/style.css</file>
         </group>

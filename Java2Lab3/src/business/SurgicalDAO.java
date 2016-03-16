@@ -77,6 +77,7 @@ public class SurgicalDAO implements SurgicalInterface {
                     
                     while(rs.next()){
                         SurgicalBean sb = new SurgicalBean();
+                        sb.setID(rs.getInt("ID"));
                         sb.setPatientID(rs.getInt("PATIENTID"));
                         sb.setDateOfSurgery(rs.getDate("DATEOFSURGERY"));
                         sb.setSurgery(rs.getString("SURGERY"));
@@ -129,7 +130,7 @@ public class SurgicalDAO implements SurgicalInterface {
          int result = -1;
          
          String prepareStatement = "DELETE FROM SURGICAL "+
-                            "WHERE SURGICAL.ID IN (SELECT ID FROM SURGICAL WHERE PATIENTID = ?)";
+                            "WHERE ID = ?";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(prepareStatement)

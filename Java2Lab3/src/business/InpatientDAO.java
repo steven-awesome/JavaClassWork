@@ -110,6 +110,7 @@ public class InpatientDAO implements InpatientInterface {
                     
                     while(rs.next()){
                         InpatientBean ipb = new InpatientBean();
+                        ipb.setID(rs.getInt("ID"));
                         ipb.setPatientID(rs.getInt("PATIENTID"));
                         ipb.setDateOfStay(rs.getDate("DATEOFSTAY"));
                         ipb.setRoomNumber(rs.getString("ROOMNUMBER"));
@@ -163,7 +164,7 @@ public class InpatientDAO implements InpatientInterface {
          int result = -1;
          //This statement deletes all records matching to a patient
          String prepareStatement = "DELETE FROM INPATIENT "+
-                            "WHERE INPATIENT.ID IN (SELECT ID FROM INPATIENT WHERE PATIENTID = ?)";
+                            "WHERE ID = ?";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(prepareStatement)

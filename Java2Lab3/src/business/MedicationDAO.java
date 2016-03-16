@@ -106,6 +106,7 @@ public class MedicationDAO implements MedicationInterface{
                     
                     while(rs.next()){
                         MedicationBean mb = new MedicationBean();
+                        mb.setID(rs.getInt("ID"));
                         mb.setPatientID(rs.getInt("PATIENTID"));
                         mb.setDateOfMed(rs.getDate("DATEOFMED"));
                         mb.setMed(rs.getString("MED"));
@@ -155,7 +156,7 @@ public class MedicationDAO implements MedicationInterface{
          int result = -1;
          
          String prepareStatement = "DELETE FROM MEDICATION "+
-                            "WHERE MEDICATION.ID IN (SELECT ID FROM MEDICATION WHERE PATIENTID = ?)";
+                            "WHERE ID = ?";
         try(
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = connection.prepareStatement(prepareStatement)
