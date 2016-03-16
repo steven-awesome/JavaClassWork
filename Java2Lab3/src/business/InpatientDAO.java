@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 public class InpatientDAO implements InpatientInterface {
     
-    String url = "jdbc:derby://localhost:1527/Hospital";
+    String url = "jdbc:derby://localhost:1527/HospitalDB";
     String user = "hospital";
     String password = "hospital";
     

@@ -25,7 +25,7 @@ public class MasterDAOScripts {
     InpatientDAO indao;
     SurgicalDAO sdao;
     MedicationDAO mdao;
-    String url = "jdbc:derby://localhost:1527/Hospital";
+    String url = "jdbc:derby://localhost:1527/HospitalDB";
     String user = "hospital";
     String password = "hospital";
     
