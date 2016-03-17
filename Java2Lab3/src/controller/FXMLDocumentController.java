@@ -143,7 +143,7 @@ public class FXMLDocumentController implements Initializable {
     
     
     @FXML
-    public void clearClick(ActionEvent e) throws SQLException{
+    public void clearClick() throws SQLException{
         for (Node node : patientGrid.getChildren()) {
             if (node instanceof TextField) {
                 // clear
@@ -380,10 +380,11 @@ public class FXMLDocumentController implements Initializable {
         arSB = (ArrayList<SurgicalBean>) master.get(2);
         arMB = (ArrayList<MedicationBean>) master.get(3);
         
+        clearClick();
         setPatientView(ptb);
-        setInpatientView(arIPB, 0);
-        setSurgicalView(arSB, 0);
-        setMedicationView(arMB, 0);
+        
+        
+        
     }
     
     ///////////////////////////////////////////SETTING VIEWS/////////////////////////////////////////////////
@@ -433,6 +434,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void inpBtnClick(){
         if (!arIPB.isEmpty()){
+            setInpatientView(arIPB, 0);
             patientPane.setVisible(false);
             inpatientPane.setVisible(true);
         }
@@ -441,6 +443,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void surgBtnClick(){
         if(!arSB.isEmpty()){
+            setSurgicalView(arSB, 0);
             patientPane.setVisible(false);
             surgicalPane.setVisible(true);
         }
@@ -449,6 +452,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void medBtnClick(){
         if(!arMB.isEmpty()){
+            setMedicationView(arMB, 0);
             patientPane.setVisible(false);
             medicationPane.setVisible(true);
         }
