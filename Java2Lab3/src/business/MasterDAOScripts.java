@@ -75,31 +75,25 @@ public class MasterDAOScripts {
     
     public int deleteRecordsByID(int id) throws SQLException{
         int count = 0;
-        
-        mdao = new MedicationDAO();
-        sdao = new SurgicalDAO();
-        indao = new InpatientDAO();
         pdao = new PatientDAO();
-        try{
-        if (mdao.delete(id) == 1){
-            count++;
-            Thread.sleep(100);
+        indao = new InpatientDAO();
+        sdao = new SurgicalDAO();
+        mdao = new MedicationDAO();
+        ArrayList<InpatientBean> inList = indao.findByID(id);
+        ArrayList<SurgicalBean> sList = sdao.findSurgicalByID(id);
+        ArrayList<MedicationBean> mList= mdao.findMedicationByID(id);
+        
+        for(InpatientBean ib : inList){
+            count += indao.delete(ib.getID());
         }
-        if (sdao.delete(id) == 1){
-            count++;
-            Thread.sleep(100);
+        for(SurgicalBean sb : sList){
+            count += sdao.delete(sb.getID());
         }
-        if (indao.delete(id) == 1){
-            count++;
-            Thread.sleep(100);
+        for(MedicationBean mb : mList){
+            count += mdao.delete(mb.getID());
         }
-        if (pdao.delete(id) == 1){
-            count++;
-        }
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-        }
+        pdao.delete(id);
+        
         
             System.out.println("Records deleted: "+count);
         

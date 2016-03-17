@@ -37,6 +37,7 @@ public class FXMLDocumentController implements Initializable {
     InpatientDAO indao;
     SurgicalDAO sdao;
     MedicationDAO mdao;
+    PatientBean ptb;
     ArrayList<InpatientBean> arIPB;
     ArrayList<SurgicalBean> arSB;
     ArrayList<MedicationBean> arMB;
@@ -94,7 +95,7 @@ public class FXMLDocumentController implements Initializable {
     private Pane patientPane, inpatientPane, surgicalPane, medicationPane;
     
     @FXML
-    private GridPane patientGrid, bottomMenu;
+    private GridPane patientGrid, inpatientGrid, surgicalGrid, medicationGrid, bottomMenu;
     
     @FXML
     private TextField pidFind, lNameFind;
@@ -144,12 +145,30 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void clearClick(ActionEvent e) throws SQLException{
         for (Node node : patientGrid.getChildren()) {
-            System.out.println("Id: " + node.getId());
             if (node instanceof TextField) {
                 // clear
                 ((TextField)node).setText("");
-    }
-}
+            }
+        }
+        for (Node node : inpatientGrid.getChildren()) {
+            if (node instanceof TextField) {
+                // clear
+                ((TextField)node).setText("");
+            }
+        }
+        for (Node node : surgicalGrid.getChildren()) {
+            if (node instanceof TextField) {
+                // clear
+                ((TextField)node).setText("");
+            }
+        }
+        for (Node node : medicationGrid.getChildren()) {
+            if (node instanceof TextField) {
+                // clear
+                ((TextField)node).setText("");
+            }
+        }
+        
     }
     
     @FXML
@@ -167,29 +186,80 @@ public class FXMLDocumentController implements Initializable {
         switch(whichPaneVisible()){
             case 1:
                 pb = new PatientBean();
-                pb.setPatientID(Integer.valueOf(PID.getText()));
-                pb.setFirstName(fName.getText());
-                pb.setLastName(lName.getText());
-                pb.setDiagnosis(diag.getText());
-                if (PID.getText().isEmpty()){
-                    pdao.createPatient(pb);
-                }else {
+                if(!PID.getText().isEmpty()){
+                    pb.setPatientID(Integer.valueOf(PID.getText().trim()));
+                    pb.setFirstName(fName.getText());
+                    pb.setLastName(lName.getText());
+                    pb.setDiagnosis(diag.getText());
                     pdao.update(pb, pb.getPatientID());
+                } else{
+                    pb.setFirstName(fName.getText());
+                    pb.setLastName(lName.getText());
+                    pb.setDiagnosis(diag.getText());
+                    pdao.createPatient(pb);
                 }
-                
+
             case 2:
                 ipb = new InpatientBean();
-                ipb.setPatientID(Integer.valueOf(inpPid.getText()));
-                ipb.setDateOfStay(Date.valueOf(dateOfStay.getText()));
-                ipb.setRoomNumber(inpRNum.getText());
-                ipb.setDailyRate(Double.valueOf(inpDRate.getText().trim()));
-                ipb.setSupplies(Double.valueOf(inpSupp.getText()));
-                ipb.setServices(Double.valueOf(inpServ.getText()));
-                if (inpID.getText().isEmpty()){
-                    indao.createInpatientRecord(ipb);
-                } else {
+                if(!inpID.getText().isEmpty()){
+                    ipb.setID(Integer.valueOf(inpID.getText().trim()));
+                    ipb.setPatientID(Integer.valueOf(inpPid.getText().trim()));
+                    ipb.setDateOfStay(Date.valueOf(dateOfStay.getText()));
+                    ipb.setRoomNumber(inpRNum.getText());
+                    ipb.setDailyRate(Double.valueOf(inpDRate.getText().trim()));
+                    ipb.setSupplies(Double.valueOf(inpSupp.getText().trim()));
+                    ipb.setServices(Double.valueOf(inpServ.getText().trim()));
                     indao.update(ipb, Integer.valueOf(inpID.getText().trim()));
+                } else{
+                    ipb.setPatientID(Integer.valueOf(inpPid.getText().trim()));
+                    ipb.setDateOfStay(Date.valueOf(dateOfStay.getText()));
+                    ipb.setRoomNumber(inpRNum.getText());
+                    ipb.setDailyRate(Double.valueOf(inpDRate.getText().trim()));
+                    ipb.setSupplies(Double.valueOf(inpSupp.getText().trim()));
+                    ipb.setServices(Double.valueOf(inpServ.getText().trim()));
+                    indao.createInpatientRecord(ipb);
                 }
+                
+            case 3:
+                sb = new SurgicalBean();
+                if(!surgID.getText().isEmpty()){
+                    sb.setID(Integer.valueOf(surgID.getText().trim()));
+                    sb.setPatientID(Integer.valueOf(pidSurg.getText().trim()));
+                    sb.setDateOfSurgery(Date.valueOf(dateSurg.getText()));
+                    sb.setSurgery(surg.getText());
+                    sb.setRoomFee(Double.valueOf(surgRFee.getText().trim()));
+                    sb.setSurgeonFee(Double.valueOf(surgFee.getText().trim()));
+                    sb.setSupplies(Double.valueOf(surgSupp.getText().trim()));
+                    sdao.update(sb, Integer.valueOf(medID.getText().trim()));
+                } else{
+                    sb.setPatientID(Integer.valueOf(pidSurg.getText().trim()));
+                    sb.setDateOfSurgery(Date.valueOf(dateSurg.getText()));
+                    sb.setSurgery(surg.getText());
+                    sb.setRoomFee(Double.valueOf(surgRFee.getText().trim()));
+                    sb.setSurgeonFee(Double.valueOf(surgFee.getText().trim()));
+                    sb.setSupplies(Double.valueOf(surgSupp.getText().trim()));
+                    sdao.createSurgicalRecord(sb);
+                }
+                
+            case 4:
+                mb = new MedicationBean();
+                if(!medID.getText().isEmpty()){
+                    mb.setID(Integer.valueOf(medID.getText().trim()));
+                    mb.setPatientID(Integer.valueOf(pidMed.getText().trim()));
+                    mb.setDateOfMed(Date.valueOf(dateMed.getText()));
+                    mb.setMed(med.getText());
+                    mb.setUnitCost(Double.valueOf(medUCost.getText().trim()));
+                    mb.setUnits(Double.valueOf(medUnits.getText().trim()));
+                    mdao.update(mb, Integer.valueOf(medID.getText().trim()));
+                } else{
+                    mb.setPatientID(Integer.valueOf(pidMed.getText().trim()));
+                    mb.setDateOfMed(Date.valueOf(dateMed.getText()));
+                    mb.setMed(med.getText());
+                    mb.setUnitCost(Double.valueOf(medUCost.getText().trim()));
+                    mb.setUnits(Double.valueOf(medUnits.getText().trim()));
+                    mdao.createMedicationRecord(mb);
+                }
+                //medID, pidMed, medUCost, dateMed, medUnits, med;
         }
     }
     
@@ -207,28 +277,28 @@ public class FXMLDocumentController implements Initializable {
         
         switch(whichPaneVisible()){
             case 1:
-                id = Integer.valueOf(PID.getText());
+                id = Integer.valueOf(PID.getText().trim());
                 result = madao.deleteRecordsByID(id);
                 bottomMenu.setDisable(true);
                 patientPane.setVisible(false);
                 showInfoMsg(msg, header);
                 
             case 2:
-                id = Integer.valueOf(inpID.getText());
+                id = Integer.valueOf(inpID.getText().trim());
                 result = indao.delete(id);
                 bottomMenu.setDisable(true);
                 inpatientPane.setVisible(false);
                 showInfoMsg(msg, header);
                 
             case 3:
-                id = Integer.valueOf(surgID.getText());
+                id = Integer.valueOf(surgID.getText().trim());
                 result = sdao.delete(id);
                 bottomMenu.setDisable(true);
                 surgicalPane.setVisible(false);
                 showInfoMsg(msg, header);
                 
             case 4:
-                id = Integer.valueOf(medID.getText());
+                id = Integer.valueOf(medID.getText().trim());
                 result = mdao.delete(id);
                 bottomMenu.setDisable(true);
                 medicationPane.setVisible(false);
@@ -244,7 +314,28 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     public void repClick(){
+        double total = 0;
+        int numOfDaysStay = 0;
+        String msg;
+        String header = "Total Patient Cost";
         
+        for(InpatientBean ib : arIPB){
+            total+=ib.getServices();
+            total+=ib.getSupplies();
+            total+=ib.getDailyRate();
+        }
+        for(SurgicalBean sb : arSB){
+            total+=sb.getRoomFee();
+            total+=sb.getSupplies();
+            total+=sb.getSurgeonFee();
+        }
+        for(MedicationBean mb : arMB){
+            total+=(mb.getUnits()*mb.getUnitCost());
+        }
+        
+        msg = "Patient Cost = "+total;
+        
+        showInfoMsg(msg, header);
     }
     
     @FXML
@@ -267,7 +358,7 @@ public class FXMLDocumentController implements Initializable {
         pdao = new PatientDAO();
         madao = new MasterDAOScripts();
         ArrayList master = new ArrayList();
-        PatientBean ptb = new PatientBean();
+        ptb = new PatientBean();
         arIPB = new ArrayList();
         arSB = new ArrayList();
         arMB = new ArrayList();
@@ -325,7 +416,6 @@ public class FXMLDocumentController implements Initializable {
         surg.setText(sb.get(index).getSurgery());
         surgFee.setText(String.valueOf(sb.get(index).getSurgeonFee()));
     }
-    //surgID, pidSurg, surgRFee, dateSurg, surgFee, surg, surgSupp
     
     public void setMedicationView(ArrayList<MedicationBean> mb, int index){
         medID.setText(String.valueOf(mb.get(index).getID()));
@@ -335,7 +425,6 @@ public class FXMLDocumentController implements Initializable {
         medUnits.setText(String.valueOf(mb.get(index).getUnits()));
         med.setText(mb.get(index).getMed());
     }
-    //medID, pidMed, medUCost, dateMed, medUnits, med
     
     
     //////////////////////////////////////////////////////DETAIL RECORD BUTTONS///////////////////////////////////////////////////////////
