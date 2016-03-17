@@ -278,7 +278,7 @@ public class FXMLDocumentController implements Initializable {
         switch(whichPaneVisible()){
             case 1:
                 id = Integer.valueOf(PID.getText().trim());
-                result = madao.deleteRecordsByID(id);
+                madao.deleteRecordsByID(id);
                 bottomMenu.setDisable(true);
                 patientPane.setVisible(false);
                 showInfoMsg(msg, header);
