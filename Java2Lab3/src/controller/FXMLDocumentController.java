@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -95,13 +97,16 @@ public class FXMLDocumentController implements Initializable {
     private Pane patientPane, inpatientPane, surgicalPane, medicationPane;
     
     @FXML
+    private AnchorPane centerPane;
+    
+    @FXML
     private GridPane patientGrid, inpatientGrid, surgicalGrid, medicationGrid, bottomMenu;
     
     @FXML
     private TextField pidFind, lNameFind;
     
     @FXML
-    private TextField PID, fName, lName, diag, dAdmit, dRelease;
+    private TextField pID, fName, lName, diag, dAdmit, dRelease;
     
     @FXML
     private TextField inpID, inpPid, inpDRate, dateOfStay, inpSupp, inpRNum, inpServ;
@@ -137,11 +142,9 @@ public class FXMLDocumentController implements Initializable {
     }
     
     
-    
-    
     /////////////////////////////////////////////////BOTTOM MENU//////////////////////////////////////////////////////
     
-    
+    //clears all node children of each pane, if they happen to be text fields
     @FXML
     public void clearClick() throws SQLException{
         for (Node node : patientGrid.getChildren()) {
@@ -182,12 +185,13 @@ public class FXMLDocumentController implements Initializable {
         SurgicalBean sb;
         MedicationBean mb;
         
-        
+        //depending on which pane is currently visible, records are either update
+        //if PatientID/ID is filled in, or create new record if PatientID/ID is empty
         switch(whichPaneVisible()){
             case 1:
                 pb = new PatientBean();
-                if(!PID.getText().isEmpty()){
-                    pb.setPatientID(Integer.valueOf(PID.getText().trim()));
+                if(!pID.getText().isEmpty()){
+                    pb.setPatientID(Integer.valueOf(pID.getText().trim()));
                     pb.setFirstName(fName.getText());
                     pb.setLastName(lName.getText());
                     pb.setDiagnosis(diag.getText());
@@ -198,6 +202,7 @@ public class FXMLDocumentController implements Initializable {
                     pb.setDiagnosis(diag.getText());
                     pdao.createPatient(pb);
                 }
+                break;
 
             case 2:
                 ipb = new InpatientBean();
@@ -219,6 +224,7 @@ public class FXMLDocumentController implements Initializable {
                     ipb.setServices(Double.valueOf(inpServ.getText().trim()));
                     indao.createInpatientRecord(ipb);
                 }
+                break;
                 
             case 3:
                 sb = new SurgicalBean();
@@ -240,6 +246,7 @@ public class FXMLDocumentController implements Initializable {
                     sb.setSupplies(Double.valueOf(surgSupp.getText().trim()));
                     sdao.createSurgicalRecord(sb);
                 }
+                break;
                 
             case 4:
                 mb = new MedicationBean();
@@ -260,6 +267,7 @@ public class FXMLDocumentController implements Initializable {
                     mdao.createMedicationRecord(mb);
                 }
                 //medID, pidMed, medUCost, dateMed, medUnits, med;
+                break;
         }
     }
     
@@ -275,13 +283,18 @@ public class FXMLDocumentController implements Initializable {
         String msg = "Records deleted";
         String header = "Deleted";
         
+        
+        //depending on which pane is currently visible, deletes either all records for a patient
+        //or a single detail record. Then, disables bottom menu as you cannot clear, save, delete
+        //or report after you delete the record you are currently viewing
         switch(whichPaneVisible()){
             case 1:
-                id = Integer.valueOf(PID.getText().trim());
+                id = Integer.valueOf(pID.getText().trim());
                 madao.deleteRecordsByID(id);
                 bottomMenu.setDisable(true);
                 patientPane.setVisible(false);
                 showInfoMsg(msg, header);
+                break;
                 
             case 2:
                 id = Integer.valueOf(inpID.getText().trim());
@@ -289,6 +302,7 @@ public class FXMLDocumentController implements Initializable {
                 bottomMenu.setDisable(true);
                 inpatientPane.setVisible(false);
                 showInfoMsg(msg, header);
+                break;
                 
             case 3:
                 id = Integer.valueOf(surgID.getText().trim());
@@ -296,6 +310,7 @@ public class FXMLDocumentController implements Initializable {
                 bottomMenu.setDisable(true);
                 surgicalPane.setVisible(false);
                 showInfoMsg(msg, header);
+                break;
                 
             case 4:
                 id = Integer.valueOf(medID.getText().trim());
@@ -303,13 +318,11 @@ public class FXMLDocumentController implements Initializable {
                 bottomMenu.setDisable(true);
                 medicationPane.setVisible(false);
                 showInfoMsg(msg, header);
+                break;
                 
             default:
-                return;
+                break;
         }
-        
-        
-        
     }
     
     @FXML
@@ -319,6 +332,9 @@ public class FXMLDocumentController implements Initializable {
         String msg;
         String header = "Total Patient Cost";
         
+        //these for loops total all the costs of inpatient: services, supplies, room rates
+        //surgical: room fee, supplies, surgeon fee
+        //medication: total cost of units
         for(InpatientBean ib : arIPB){
             total+=ib.getServices();
             total+=ib.getSupplies();
@@ -346,11 +362,13 @@ public class FXMLDocumentController implements Initializable {
     //////////////////////////////////////////////////////FIND FUNCTION////////////////////////////////////////////////////
     
     @FXML
-    private void clickFindBtn(ActionEvent e) throws SQLException{
+    private void clickFindBtn() throws SQLException{
+        //Setting bottom menu accessible, and detail records hidden
         bottomMenu.setDisable(false);
         inpatientPane.setVisible(false);
         surgicalPane.setVisible(false);
         medicationPane.setVisible(false);
+        //resets page index for next/prev detail record buttons
         setIPBPageIndex(1);
         setSurgPageIndex(1);
         setMedPageIndex(1);
@@ -363,35 +381,52 @@ public class FXMLDocumentController implements Initializable {
         arSB = new ArrayList();
         arMB = new ArrayList();
         
-        int pid;
+        String badID = "Please enter a valid ID";
+        String badLN = "Please enter a valid name";
+        String header = "Invalid characters";
+        int pid = 0;
         String lastName;
-        pid = Integer.parseInt(pidFind.getText().trim());
-        lastName = lNameFind.getText().trim();
+       
         
         
-        if (!PID.getText().isEmpty()){
+        if (!pID.getText().isEmpty()){
+             try{
+                pid = Integer.parseInt(pidFind.getText().trim());
+            
+            }catch(Exception e){
+                showErrorMsg(badID, header);
+            }
             master  = madao.findRecordsByID(pid);
         } else {
-            master =  madao.findRecordsByLName(lastName);
+            try{
+                lastName = lNameFind.getText().trim();
+                master =  madao.findRecordsByLName(lastName);
+            }
+            catch(Exception e){
+                showErrorMsg(badLN, header);
+            }
+            
         }
         
+        //getting objects from master ArrayList and casting them as individual Bean Types
         ptb = (PatientBean) master.get(0);
         arIPB = (ArrayList<InpatientBean>) master.get(1);
         arSB = (ArrayList<SurgicalBean>) master.get(2);
         arMB = (ArrayList<MedicationBean>) master.get(3);
         
+        //Clearing all fields before setting the view for Patient form
         clearClick();
         setPatientView(ptb);
-        
-        
-        
     }
     
     ///////////////////////////////////////////SETTING VIEWS/////////////////////////////////////////////////
     
+            //these methods are implemented to separate the setting of individual views
+            //from the rest of the functionality
     
+    @FXML
     public void setPatientView(PatientBean pb){
-        PID.setText(String.valueOf(pb.getPatientID()));
+        pID.setText(String.valueOf(pb.getPatientID()));
         fName.setText(pb.getFirstName());
         lName.setText(pb.getLastName());
         diag.setText(pb.getDiagnosis());
@@ -427,13 +462,25 @@ public class FXMLDocumentController implements Initializable {
         med.setText(mb.get(index).getMed());
     }
     
+    public void allNotVisible(){
+        for (Node node : centerPane.getChildren()) {
+            if (node instanceof Pane) {
+                ((Pane)node).setVisible(false);
+            }
+        }
+    }
+    
+    
+    
     
     //////////////////////////////////////////////////////DETAIL RECORD BUTTONS///////////////////////////////////////////////////////////
     
-    
+            //detail record buttons reset page index, get first saved record, 
+            //and set the detail record form to visible
     @FXML
     public void inpBtnClick(){
         if (!arIPB.isEmpty()){
+            setIPBPageIndex(1);
             setInpatientView(arIPB, 0);
             patientPane.setVisible(false);
             inpatientPane.setVisible(true);
@@ -443,6 +490,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void surgBtnClick(){
         if(!arSB.isEmpty()){
+            setSurgPageIndex(1);
             setSurgicalView(arSB, 0);
             patientPane.setVisible(false);
             surgicalPane.setVisible(true);
@@ -452,12 +500,35 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void medBtnClick(){
         if(!arMB.isEmpty()){
+            setMedPageIndex(1);
             setMedicationView(arMB, 0);
             patientPane.setVisible(false);
             medicationPane.setVisible(true);
         }
     }
     
+            //back buttons on each detail record page.
+    @FXML
+    public void inpBackBtnClick(){
+       inpatientPane.setVisible(false);
+       patientPane.setVisible(true);
+    }
+    
+    @FXML
+    public void surgBackBtnClick(){
+        surgicalPane.setVisible(false);
+        patientPane.setVisible(true);
+    }
+    
+    @FXML
+    public void medBackBtnClick(){
+        medicationPane.setVisible(false);
+        patientPane.setVisible(true);
+    }
+    
+            //next button checks which pane is currently visible, and
+            //if the detail record arraylist is bigger than size=1, sets the
+            //view to the next record
     @FXML
     public void nextBtnPress(){
         switch(whichPaneVisible()){
@@ -466,21 +537,28 @@ public class FXMLDocumentController implements Initializable {
                     setIPBPageIndex(getIPBPageIndex()+1);
                     setInpatientView(arIPB, (getIPBPageIndex()-1));
                 }
+                break;
+                
             case 3:
                 if (arSB.size() > 1 && getSurgPageIndex() < arSB.size()){
                     setSurgPageIndex(getSurgPageIndex()+1);
                     setSurgicalView(arSB, (getSurgPageIndex()-1));
                 }
+                break;
+                
             case 4:
                 if (arMB.size() > 1 && getMedPageIndex() < arMB.size()){
                     setMedPageIndex(getMedPageIndex()+1);
                     setMedicationView(arMB, (getMedPageIndex()-1));
                 }
+                break;
+                
             default:
                 return;
         }
     }
     
+            //previous buttons works just like next btn, but in reverse
     @FXML
     public void prevBtnPress(){
         switch(whichPaneVisible()){
@@ -489,21 +567,30 @@ public class FXMLDocumentController implements Initializable {
                     setIPBPageIndex(getIPBPageIndex()-1);
                     setInpatientView(arIPB, (getIPBPageIndex()-1));
                 }
+                break;
+                
             case 3:
                 if (arSB.size() > 1 && getSurgPageIndex() > 1){
                     setSurgPageIndex(getSurgPageIndex()-1);
                     setSurgicalView(arSB, (getSurgPageIndex()-1));
                 }
+                break;
+                
             case 4:
                 if (arMB.size() > 1 && getMedPageIndex() > 1){
                     setMedPageIndex(getMedPageIndex()-1);
                     setMedicationView(arMB, (getMedPageIndex()-1));
                 }
+                break;
+                        
             default:
                 break;
         }
     }
     
+            //this method is core to the whole program. checks which pane is currently visible
+            //and returns an index #.
+            // 1 = patient, 2 = inpatient, 3 = surgical, 4 = medication
     @FXML
     public int whichPaneVisible(){
         if (patientPane.isVisible()){
@@ -523,6 +610,8 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    //this keeps track of how many pages there are correlating to size of detail record
+    //arraylist size
     public void setPageNums(ArrayList ar1, ArrayList ar2, ArrayList ar3){
         setIPBPageNum(ar1.size());
         setSurgPageNum(ar2.size());
