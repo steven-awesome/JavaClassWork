@@ -89,7 +89,7 @@
                         <TextField fx:id="pID" GridPane.rowIndex="1" />
                         <TextField fx:id="diag" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="fName" GridPane.rowIndex="3" />
-                        <TextField fx:id="dAmit" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="dAdmit" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <TextField fx:id="lName" GridPane.rowIndex="5" />
                         <TextField fx:id="dRelease" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>

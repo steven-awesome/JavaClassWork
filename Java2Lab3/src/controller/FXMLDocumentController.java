@@ -540,6 +540,8 @@ public class FXMLDocumentController implements Initializable {
         fName.setText(pb.getFirstName());
         lName.setText(pb.getLastName());
         diag.setText(pb.getDiagnosis());
+        dAdmit.setText(pb.getAdmissionDate().toString());
+        dRelease.setText(pb.getReleaseDate().toString());
         patientPane.setVisible(true);
     }
     
