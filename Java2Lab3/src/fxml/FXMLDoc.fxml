@@ -64,7 +64,7 @@
    <center>
       <AnchorPane fx:id="centerPane" prefHeight="490.0" prefWidth="801.0" styleClass="center" stylesheets="@../styles/style.css" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="patientPane" layoutX="14.0" layoutY="17.0" prefHeight="480.0" prefWidth="801.0" visible="false" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="17.0">
+            <Pane fx:id="patientPane" layoutX="14.0" layoutY="17.0" prefHeight="480.0" prefWidth="801.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="17.0">
                <children>
                   <GridPane fx:id="patientGrid" layoutX="240.0" layoutY="163.0" prefHeight="180.0" prefWidth="339.0">
                     <columnConstraints>
@@ -127,7 +127,7 @@
                         <Label text="Daily Rate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Supplies" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label text="Services" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <TextField fx:id="inpPid" GridPane.rowIndex="3" />
+                        <TextField fx:id="inpPid" disable="true" GridPane.rowIndex="3" />
                         <TextField fx:id="inpDRate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <TextField fx:id="dateOfStay" GridPane.rowIndex="5" />
                         <TextField fx:id="inpSupp" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -163,7 +163,7 @@
                         <Label text="Surgery" GridPane.rowIndex="6" />
                         <Label text="Room Fee" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Surgeon Fee" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="pidSurg" GridPane.rowIndex="3" />
+                        <TextField fx:id="pidSurg" disable="true" GridPane.rowIndex="3" />
                         <TextField fx:id="surgRFee" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <TextField fx:id="dateSurg" GridPane.rowIndex="5" />
                         <TextField fx:id="surgFee" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -198,7 +198,7 @@
                         <Label text="Med" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Unit Cost" GridPane.rowIndex="4" />
                         <Label text="Units" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="pidMed" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="pidMed" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="medUCost" GridPane.rowIndex="5" />
                         <TextField fx:id="dateMed" GridPane.rowIndex="3" />
                         <TextField fx:id="medUnits" GridPane.columnIndex="1" GridPane.rowIndex="5" />

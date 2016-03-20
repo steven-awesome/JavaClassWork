@@ -20,6 +20,7 @@ import data.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -34,6 +35,7 @@ import javafx.scene.layout.Pane;
  */
 public class FXMLDocumentController implements Initializable {
     
+    Scanner sc;
     MasterDAOScripts madao;
     PatientDAO pdao;
     InpatientDAO indao;
@@ -100,6 +102,9 @@ public class FXMLDocumentController implements Initializable {
     private AnchorPane centerPane;
     
     @FXML
+    private Hyperlink rep, exit;
+    
+    @FXML
     private GridPane patientGrid, inpatientGrid, surgicalGrid, medicationGrid, bottomMenu;
     
     @FXML
@@ -146,7 +151,7 @@ public class FXMLDocumentController implements Initializable {
     
     //clears all node children of each pane, if they happen to be text fields
     @FXML
-    public void clearClick() throws SQLException{
+    public void clearClick() throws SQLException{  /////////////////////////////////////CLEAR/////////////////////////////////
         for (Node node : patientGrid.getChildren()) {
             if (node instanceof TextField) {
                 // clear
@@ -172,10 +177,14 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         
+        ptb = new PatientBean();
+        arIPB = new ArrayList();
+        arSB = new ArrayList();
+        arMB = new ArrayList();
     }
     
     @FXML
-    public void saveClick() throws SQLException{
+    public void saveClick() throws SQLException{ ///////////////////////////SAVE/////////////////////////
         pdao = new PatientDAO();
         indao = new InpatientDAO();
         sdao = new SurgicalDAO();
@@ -184,28 +193,74 @@ public class FXMLDocumentController implements Initializable {
         InpatientBean ipb;
         SurgicalBean sb;
         MedicationBean mb;
+        int errors = 0;
         
         //depending on which pane is currently visible, records are either update
         //if PatientID/ID is filled in, or create new record if PatientID/ID is empty
         switch(whichPaneVisible()){
             case 1:
                 pb = new PatientBean();
+                
+                /////////VALIDATION FOR PATIENT FORMS
+                    if(!validateInt(pID.getText().trim()) && !pID.getText().trim().isEmpty()){
+                        showErrorMsg("Invalid Patient ID", "Invalid Int");
+                        errors++;
+                    }
+                    if(!validateStringWithLength(fName.getText(), 31)){
+                        showErrorMsg("Invalid First Name", "Invalid String");
+                        errors++;
+                    }
+                    if(!validateStringWithLength(lName.getText(), 31)){
+                        showErrorMsg("Invalid Last Name", "Invalid String");
+                        errors++;
+                    }
+                    if(!validateStringWithLength(diag.getText(), 61)){
+                        showErrorMsg("Invalid Diagnosis", "Invalid String");
+                        errors++;
+                    }
+                    
                 if(!pID.getText().isEmpty()){
                     pb.setPatientID(Integer.valueOf(pID.getText().trim()));
                     pb.setFirstName(fName.getText());
                     pb.setLastName(lName.getText());
                     pb.setDiagnosis(diag.getText());
-                    pdao.update(pb, pb.getPatientID());
+                    if(errors < 1){
+                        pdao.update(pb, pb.getPatientID());
+                    }
                 } else{
                     pb.setFirstName(fName.getText());
                     pb.setLastName(lName.getText());
                     pb.setDiagnosis(diag.getText());
-                    pdao.createPatient(pb);
+                    if(errors < 1){
+                        pdao.createPatient(pb);
+                    }
                 }
                 break;
 
             case 2:
                 ipb = new InpatientBean();
+                //////////VALIDATION FOR INPATIENT FORM
+                    if(!validateInt(inpID.getText().trim()) && !inpID.getText().trim().isEmpty()){
+                            showErrorMsg("Invalid ID", "Invalid Int");
+                            errors++;
+                        }
+                    if(!validateNonSpecial(inpRNum.getText().trim(), 6)){
+                            showErrorMsg("Invalid Room Number", "Invalid String");
+                            errors++;
+                        }
+                    if(!validateDouble(inpDRate.getText().trim())){
+                            showErrorMsg("Invalid Daily Rate", "Invalid Double");
+                            errors++;
+                        }
+                    if(!validateDouble(inpSupp.getText().trim())){
+                            showErrorMsg("Invalid Supplies", "Invalid Double");
+                            errors++;
+                        }
+                    if(!validateDouble(inpServ.getText().trim())){
+                            showErrorMsg("Invalid Services", "Invalid Double");
+                            errors++;
+                        }
+                
                 if(!inpID.getText().isEmpty()){
                     ipb.setID(Integer.valueOf(inpID.getText().trim()));
                     ipb.setPatientID(Integer.valueOf(inpPid.getText().trim()));
@@ -214,7 +269,9 @@ public class FXMLDocumentController implements Initializable {
                     ipb.setDailyRate(Double.valueOf(inpDRate.getText().trim()));
                     ipb.setSupplies(Double.valueOf(inpSupp.getText().trim()));
                     ipb.setServices(Double.valueOf(inpServ.getText().trim()));
-                    indao.update(ipb, Integer.valueOf(inpID.getText().trim()));
+                    if(errors < 1){
+                        indao.update(ipb, Integer.valueOf(inpID.getText().trim()));
+                    }
                 } else{
                     ipb.setPatientID(Integer.valueOf(inpPid.getText().trim()));
                     ipb.setDateOfStay(Date.valueOf(dateOfStay.getText()));
@@ -222,12 +279,35 @@ public class FXMLDocumentController implements Initializable {
                     ipb.setDailyRate(Double.valueOf(inpDRate.getText().trim()));
                     ipb.setSupplies(Double.valueOf(inpSupp.getText().trim()));
                     ipb.setServices(Double.valueOf(inpServ.getText().trim()));
-                    indao.createInpatientRecord(ipb);
+                    if(errors < 1){
+                        indao.createInpatientRecord(ipb);
+                    }
                 }
                 break;
                 
             case 3:
                 sb = new SurgicalBean();
+                //////////VALIDATION FOR SURGERY FORM
+                    if(!validateInt(surgID.getText().trim()) && !surgID.getText().trim().isEmpty()){
+                            showErrorMsg("Invalid ID", "Invalid Int");
+                            errors++;
+                        }
+                    if(!validateStringWithLength(surg.getText().trim(), 26)){
+                            showErrorMsg("Invalid Surgeryr", "Invalid String");
+                            errors++;
+                        }
+                    if(!validateDouble(surgRFee.getText().trim())){
+                            showErrorMsg("Invalid Room Fee", "Invalid Double");
+                            errors++;
+                        }
+                    if(!validateDouble(surgFee.getText().trim())){
+                            showErrorMsg("Invalid Surgeon Fee", "Invalid Double");
+                            errors++;
+                        }
+                    if(!validateDouble(surgSupp.getText().trim())){
+                            showErrorMsg("Invalid Supplies", "Invalid Double");
+                            errors++;
+                        }
                 if(!surgID.getText().isEmpty()){
                     sb.setID(Integer.valueOf(surgID.getText().trim()));
                     sb.setPatientID(Integer.valueOf(pidSurg.getText().trim()));
@@ -236,7 +316,9 @@ public class FXMLDocumentController implements Initializable {
                     sb.setRoomFee(Double.valueOf(surgRFee.getText().trim()));
                     sb.setSurgeonFee(Double.valueOf(surgFee.getText().trim()));
                     sb.setSupplies(Double.valueOf(surgSupp.getText().trim()));
-                    sdao.update(sb, Integer.valueOf(medID.getText().trim()));
+                    if(errors < 1){
+                        sdao.update(sb, Integer.valueOf(medID.getText().trim()));
+                    }
                 } else{
                     sb.setPatientID(Integer.valueOf(pidSurg.getText().trim()));
                     sb.setDateOfSurgery(Date.valueOf(dateSurg.getText()));
@@ -244,12 +326,31 @@ public class FXMLDocumentController implements Initializable {
                     sb.setRoomFee(Double.valueOf(surgRFee.getText().trim()));
                     sb.setSurgeonFee(Double.valueOf(surgFee.getText().trim()));
                     sb.setSupplies(Double.valueOf(surgSupp.getText().trim()));
-                    sdao.createSurgicalRecord(sb);
+                    if(errors <1 ){
+                        sdao.createSurgicalRecord(sb);
+                    }
                 }
                 break;
                 
             case 4:
                 mb = new MedicationBean();
+                //////////VALIDATION FOR MEDICATION FORM
+                    if(!validateInt(medID.getText().trim()) && !medID.getText().trim().isEmpty()){
+                            showErrorMsg("Invalid ID", "Invalid Int");
+                            errors++;
+                        }
+                    if(!validateStringWithLength(med.getText().trim(), 26)){
+                            showErrorMsg("Invalid Surgery", "Invalid String");
+                            errors++;
+                        }
+                    if(!validateDouble(medUCost.getText().trim())){
+                            showErrorMsg("Invalid Room Fee", "Invalid Double");
+                            errors++;
+                        }
+                    if(!validateDouble(medUnits.getText().trim())){
+                            showErrorMsg("Invalid Surgeon Fee", "Invalid Double");
+                            errors++;
+                        }
                 if(!medID.getText().isEmpty()){
                     mb.setID(Integer.valueOf(medID.getText().trim()));
                     mb.setPatientID(Integer.valueOf(pidMed.getText().trim()));
@@ -257,22 +358,25 @@ public class FXMLDocumentController implements Initializable {
                     mb.setMed(med.getText());
                     mb.setUnitCost(Double.valueOf(medUCost.getText().trim()));
                     mb.setUnits(Double.valueOf(medUnits.getText().trim()));
-                    mdao.update(mb, Integer.valueOf(medID.getText().trim()));
+                    if(errors < 1){
+                        mdao.update(mb, Integer.valueOf(medID.getText().trim()));
+                    }
                 } else{
                     mb.setPatientID(Integer.valueOf(pidMed.getText().trim()));
                     mb.setDateOfMed(Date.valueOf(dateMed.getText()));
                     mb.setMed(med.getText());
                     mb.setUnitCost(Double.valueOf(medUCost.getText().trim()));
                     mb.setUnits(Double.valueOf(medUnits.getText().trim()));
-                    mdao.createMedicationRecord(mb);
+                    if(errors < 1){
+                        mdao.createMedicationRecord(mb);
+                    }
                 }
-                //medID, pidMed, medUCost, dateMed, medUnits, med;
                 break;
         }
     }
     
     @FXML
-    public void delClick() throws SQLException{
+    public void delClick() throws SQLException{  /////////////////////////////////////DELETE////////////////////////////
         madao = new MasterDAOScripts();
         pdao = new PatientDAO();
         indao = new InpatientDAO();
@@ -292,7 +396,7 @@ public class FXMLDocumentController implements Initializable {
                 id = Integer.valueOf(pID.getText().trim());
                 madao.deleteRecordsByID(id);
                 bottomMenu.setDisable(true);
-                patientPane.setVisible(false);
+                patientPane.setVisible(true);
                 showInfoMsg(msg, header);
                 break;
                 
@@ -301,6 +405,7 @@ public class FXMLDocumentController implements Initializable {
                 result = indao.delete(id);
                 bottomMenu.setDisable(true);
                 inpatientPane.setVisible(false);
+                patientPane.setVisible(true);
                 showInfoMsg(msg, header);
                 break;
                 
@@ -309,6 +414,7 @@ public class FXMLDocumentController implements Initializable {
                 result = sdao.delete(id);
                 bottomMenu.setDisable(true);
                 surgicalPane.setVisible(false);
+                patientPane.setVisible(true);
                 showInfoMsg(msg, header);
                 break;
                 
@@ -317,16 +423,18 @@ public class FXMLDocumentController implements Initializable {
                 result = mdao.delete(id);
                 bottomMenu.setDisable(true);
                 medicationPane.setVisible(false);
+                patientPane.setVisible(true);
                 showInfoMsg(msg, header);
                 break;
                 
             default:
                 break;
         }
+        clearClick();
     }
     
     @FXML
-    public void repClick(){
+    public void repClick(){                  ///////////////////////////////////REPORT//////////////////////////////////////
         double total = 0;
         int numOfDaysStay = 0;
         String msg;
@@ -355,7 +463,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    public void exitClick(){
+    public void exitClick(){                       ///////////////////////////////////////////EXIT///////////////////////////////////
         System.exit(0);
     }
     
@@ -363,11 +471,14 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void clickFindBtn() throws SQLException{
+       
         //Setting bottom menu accessible, and detail records hidden
         bottomMenu.setDisable(false);
         inpatientPane.setVisible(false);
         surgicalPane.setVisible(false);
         medicationPane.setVisible(false);
+        rep.setDisable(false);
+        exit.setDisable(false);
         //resets page index for next/prev detail record buttons
         setIPBPageIndex(1);
         setSurgPageIndex(1);
@@ -414,8 +525,7 @@ public class FXMLDocumentController implements Initializable {
         arSB = (ArrayList<SurgicalBean>) master.get(2);
         arMB = (ArrayList<MedicationBean>) master.get(3);
         
-        //Clearing all fields before setting the view for Patient form
-        clearClick();
+        
         setPatientView(ptb);
     }
     
@@ -480,6 +590,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void inpBtnClick(){
         if (!arIPB.isEmpty()){
+            rep.setDisable(true);
+            exit.setDisable(true);
             setIPBPageIndex(1);
             setInpatientView(arIPB, 0);
             patientPane.setVisible(false);
@@ -490,6 +602,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void surgBtnClick(){
         if(!arSB.isEmpty()){
+            rep.setDisable(true);
+            exit.setDisable(true);
             setSurgPageIndex(1);
             setSurgicalView(arSB, 0);
             patientPane.setVisible(false);
@@ -500,6 +614,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void medBtnClick(){
         if(!arMB.isEmpty()){
+            rep.setDisable(true);
+            exit.setDisable(true);
             setMedPageIndex(1);
             setMedicationView(arMB, 0);
             patientPane.setVisible(false);
@@ -511,18 +627,24 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void inpBackBtnClick(){
        inpatientPane.setVisible(false);
+       rep.setDisable(false);
+       exit.setDisable(false);
        patientPane.setVisible(true);
     }
     
     @FXML
     public void surgBackBtnClick(){
         surgicalPane.setVisible(false);
+        rep.setDisable(false);
+        exit.setDisable(false);
         patientPane.setVisible(true);
     }
     
     @FXML
     public void medBackBtnClick(){
         medicationPane.setVisible(false);
+        rep.setDisable(false);
+        exit.setDisable(false);
         patientPane.setVisible(true);
     }
     
@@ -607,6 +729,64 @@ public class FXMLDocumentController implements Initializable {
         }
         else {
             return 0;
+        }
+    }
+    
+    ///////////////////////////////////////////////////VALIDATION///////////////////////////////////////////////////
+    
+    
+    public boolean validateString(String s){
+        sc = new Scanner(s);
+        if (sc.hasNext("[a-zA-Z]")){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    
+    public boolean validateStringWithLength(String s, int n){
+        sc = new Scanner(s);
+        
+        if (s.matches("^[-\\w.]+$") && s.length() < n){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    
+    public boolean validateDouble(String s){
+        try{
+            Double.parseDouble(s);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+    
+    public boolean validateInt(String s){
+        try{
+            Integer.parseInt(s);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+    
+    public boolean validateNonSpecial(String s, int n){
+        if(s.matches("[^A-Za-z0-9_.]") && s.length() < n){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    
+    public boolean validateDate(String s){
+        if(s.matches(  "([0-9]{4})-([0-9]{2})-([0-9]{2})"  )){
+                return true;
+        } else{
+            return false;
         }
     }
     
