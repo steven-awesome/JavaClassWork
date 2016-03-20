@@ -49,3 +49,9 @@
 .bottomMenu{
     border: solid;
 }
+.hyperlink:visited {
+    -fx-fill: blue;
+}
+.hyperlink:link {
+    -fx-fill: blue;
+}

@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
 import business.*;
 import data.*;
@@ -218,14 +217,29 @@ public class FXMLDocumentController implements Initializable {
                         showErrorMsg("Invalid Diagnosis", "Invalid String");
                         errors++;
                     }
+                    if(!validateDate(dAdmit.getText())){
+                        showErrorMsg("Invalid Date", "Invalid Date");
+                        errors++;
+                    }
+                    if(!validateDate(dRelease.getText())){
+                        showErrorMsg("Invalid Date", "Invalid Date");
+                        errors++;
+                    }
+                    
+                if(errors > 0){
+                    break;
+                }
                     
                 if(!pID.getText().isEmpty()){
                     pb.setPatientID(Integer.valueOf(pID.getText().trim()));
                     pb.setFirstName(fName.getText());
                     pb.setLastName(lName.getText());
                     pb.setDiagnosis(diag.getText());
+                    pb.setAdmissionDate(Date.valueOf(dAdmit.getText()));
+                    pb.setReleaseDate(Date.valueOf(dRelease.getText()));
                     if(errors < 1){
                         pdao.update(pb, pb.getPatientID());
+                        showInfoMsg("Record Updated", "Update Successful");
                     }
                 } else{
                     pb.setFirstName(fName.getText());
@@ -233,6 +247,7 @@ public class FXMLDocumentController implements Initializable {
                     pb.setDiagnosis(diag.getText());
                     if(errors < 1){
                         pdao.createPatient(pb);
+                        showInfoMsg("Record Created", "New Entry");
                     }
                 }
                 break;
@@ -244,6 +259,10 @@ public class FXMLDocumentController implements Initializable {
                             showErrorMsg("Invalid ID", "Invalid Int");
                             errors++;
                         }
+                    if(!validateDate(dateOfStay.getText())){
+                        showErrorMsg("Invalid Date", "Invalid Date");
+                        errors++;
+                    }
                     if(!validateNonSpecial(inpRNum.getText().trim(), 6)){
                             showErrorMsg("Invalid Room Number", "Invalid String");
                             errors++;
@@ -260,6 +279,10 @@ public class FXMLDocumentController implements Initializable {
                             showErrorMsg("Invalid Services", "Invalid Double");
                             errors++;
                         }
+                    
+                if(errors > 0){
+                    break;
+                }
                 
                 if(!inpID.getText().isEmpty()){
                     ipb.setID(Integer.valueOf(inpID.getText().trim()));
@@ -271,6 +294,7 @@ public class FXMLDocumentController implements Initializable {
                     ipb.setServices(Double.valueOf(inpServ.getText().trim()));
                     if(errors < 1){
                         indao.update(ipb, Integer.valueOf(inpID.getText().trim()));
+                        showInfoMsg("Record Updated", "Update Successful");
                     }
                 } else{
                     ipb.setPatientID(Integer.valueOf(inpPid.getText().trim()));
@@ -281,6 +305,7 @@ public class FXMLDocumentController implements Initializable {
                     ipb.setServices(Double.valueOf(inpServ.getText().trim()));
                     if(errors < 1){
                         indao.createInpatientRecord(ipb);
+                        showInfoMsg("Record Created", "New Entry");
                     }
                 }
                 break;
@@ -292,6 +317,10 @@ public class FXMLDocumentController implements Initializable {
                             showErrorMsg("Invalid ID", "Invalid Int");
                             errors++;
                         }
+                    if(!validateDate(dateSurg.getText())){
+                        showErrorMsg("Invalid Date", "Invalid Date");
+                        errors++;
+                    }
                     if(!validateStringWithLength(surg.getText().trim(), 26)){
                             showErrorMsg("Invalid Surgeryr", "Invalid String");
                             errors++;
@@ -308,6 +337,11 @@ public class FXMLDocumentController implements Initializable {
                             showErrorMsg("Invalid Supplies", "Invalid Double");
                             errors++;
                         }
+                    
+                if(errors > 0){
+                    break;
+                }
+                    
                 if(!surgID.getText().isEmpty()){
                     sb.setID(Integer.valueOf(surgID.getText().trim()));
                     sb.setPatientID(Integer.valueOf(pidSurg.getText().trim()));
@@ -318,6 +352,7 @@ public class FXMLDocumentController implements Initializable {
                     sb.setSupplies(Double.valueOf(surgSupp.getText().trim()));
                     if(errors < 1){
                         sdao.update(sb, Integer.valueOf(medID.getText().trim()));
+                        showInfoMsg("Record Updated", "Update Successful");
                     }
                 } else{
                     sb.setPatientID(Integer.valueOf(pidSurg.getText().trim()));
@@ -328,6 +363,7 @@ public class FXMLDocumentController implements Initializable {
                     sb.setSupplies(Double.valueOf(surgSupp.getText().trim()));
                     if(errors <1 ){
                         sdao.createSurgicalRecord(sb);
+                        showInfoMsg("Record Created", "New Entry");
                     }
                 }
                 break;
@@ -339,6 +375,10 @@ public class FXMLDocumentController implements Initializable {
                             showErrorMsg("Invalid ID", "Invalid Int");
                             errors++;
                         }
+                    if(!validateDate(dateMed.getText())){
+                        showErrorMsg("Invalid Date", "Invalid Date");
+                        errors++;
+                    }
                     if(!validateStringWithLength(med.getText().trim(), 26)){
                             showErrorMsg("Invalid Surgery", "Invalid String");
                             errors++;
@@ -351,6 +391,11 @@ public class FXMLDocumentController implements Initializable {
                             showErrorMsg("Invalid Surgeon Fee", "Invalid Double");
                             errors++;
                         }
+                    
+                if(errors > 0){
+                    break;
+                }
+                    
                 if(!medID.getText().isEmpty()){
                     mb.setID(Integer.valueOf(medID.getText().trim()));
                     mb.setPatientID(Integer.valueOf(pidMed.getText().trim()));
@@ -360,6 +405,7 @@ public class FXMLDocumentController implements Initializable {
                     mb.setUnits(Double.valueOf(medUnits.getText().trim()));
                     if(errors < 1){
                         mdao.update(mb, Integer.valueOf(medID.getText().trim()));
+                        showInfoMsg("Record Updated", "Update Successful");
                     }
                 } else{
                     mb.setPatientID(Integer.valueOf(pidMed.getText().trim()));
@@ -369,6 +415,7 @@ public class FXMLDocumentController implements Initializable {
                     mb.setUnits(Double.valueOf(medUnits.getText().trim()));
                     if(errors < 1){
                         mdao.createMedicationRecord(mb);
+                        showInfoMsg("Record Created", "New Entry");
                     }
                 }
                 break;
@@ -500,23 +547,26 @@ public class FXMLDocumentController implements Initializable {
        
         
         
-        if (!pID.getText().isEmpty()){
+        if (!pidFind.getText().trim().isEmpty()){
              try{
                 pid = Integer.parseInt(pidFind.getText().trim());
-            
+                master  = madao.findRecordsByID(pid);
             }catch(Exception e){
                 showErrorMsg(badID, header);
+                clearClick();
             }
-            master  = madao.findRecordsByID(pid);
-        } else {
+        } else if (!lNameFind.getText().trim().isEmpty()){
             try{
                 lastName = lNameFind.getText().trim();
                 master =  madao.findRecordsByLName(lastName);
             }
             catch(Exception e){
                 showErrorMsg(badLN, header);
+                clearClick();
             }
-            
+        } else{
+            showErrorMsg("Please enter an ID or Last Name", "Invalid Search");
+            return;
         }
         
         //getting objects from master ArrayList and casting them as individual Bean Types
@@ -525,8 +575,13 @@ public class FXMLDocumentController implements Initializable {
         arSB = (ArrayList<SurgicalBean>) master.get(2);
         arMB = (ArrayList<MedicationBean>) master.get(3);
         
+        try{
+            setPatientView(ptb);
+        }
+        catch(Exception e){
+            showErrorMsg("Invalid Search", "Error");
+        }
         
-        setPatientView(ptb);
     }
     
     ///////////////////////////////////////////SETTING VIEWS/////////////////////////////////////////////////
@@ -535,7 +590,7 @@ public class FXMLDocumentController implements Initializable {
             //from the rest of the functionality
     
     @FXML
-    public void setPatientView(PatientBean pb){
+    public void setPatientView(PatientBean pb) throws Exception{
         pID.setText(String.valueOf(pb.getPatientID()));
         fName.setText(pb.getFirstName());
         lName.setText(pb.getLastName());
@@ -749,7 +804,7 @@ public class FXMLDocumentController implements Initializable {
     public boolean validateStringWithLength(String s, int n){
         sc = new Scanner(s);
         
-        if (s.matches("^[-\\w.]+$") && s.length() < n){
+        if (s.matches("^[a-zA-Z]+$") && s.length() < n){
             return true;
         } else{
             return false;
@@ -777,7 +832,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     public boolean validateNonSpecial(String s, int n){
-        if(s.matches("[^A-Za-z0-9_.]") && s.length() < n){
+        if(s.matches("^[-\\w.]+$") && s.length() < n){
             return true;
         } else{
             return false;
