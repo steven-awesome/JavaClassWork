@@ -791,15 +791,8 @@ public class FXMLDocumentController implements Initializable {
     
     ///////////////////////////////////////////////////VALIDATION///////////////////////////////////////////////////
     
-    
-    public boolean validateString(String s){
-        sc = new Scanner(s);
-        if (sc.hasNext("[a-zA-Z]")){
-            return true;
-        } else{
-            return false;
-        }
-    }
+    ////////////using Regex to do most validation, as it cuts down the amount of code
+    ////////////needed
     
     public boolean validateStringWithLength(String s, int n){
         sc = new Scanner(s);
