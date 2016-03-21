@@ -18,6 +18,7 @@ import business.*;
 import data.*;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.scene.Node;
@@ -434,6 +435,10 @@ public class FXMLDocumentController implements Initializable {
         String msg = "Records deleted";
         String header = "Deleted";
         
+        if (pID.getText().trim().isEmpty()){
+            showErrorMsg("Please do not leave Patient ID form field blank", "Invalid Delete");
+            return;
+        }
         
         //depending on which pane is currently visible, deletes either all records for a patient
         //or a single detail record. Then, disables bottom menu as you cannot clear, save, delete
@@ -448,6 +453,10 @@ public class FXMLDocumentController implements Initializable {
                 break;
                 
             case 2:
+                if (inpID.getText().trim().isEmpty()){
+                    showErrorMsg("Please do not leave ID form field blank", "Invalid Delete");
+                    return;
+                }
                 id = Integer.valueOf(inpID.getText().trim());
                 result = indao.delete(id);
                 bottomMenu.setDisable(true);
@@ -457,6 +466,10 @@ public class FXMLDocumentController implements Initializable {
                 break;
                 
             case 3:
+                if (surgID.getText().trim().isEmpty()){
+                    showErrorMsg("Please do not leave ID form field blank", "Invalid Delete");
+                    return;
+                }
                 id = Integer.valueOf(surgID.getText().trim());
                 result = sdao.delete(id);
                 bottomMenu.setDisable(true);
@@ -466,6 +479,10 @@ public class FXMLDocumentController implements Initializable {
                 break;
                 
             case 4:
+                if (medID.getText().trim().isEmpty()){
+                    showErrorMsg("Please do not leave ID form field blank", "Invalid Delete");
+                    return;
+                }
                 id = Integer.valueOf(medID.getText().trim());
                 result = mdao.delete(id);
                 bottomMenu.setDisable(true);
@@ -484,6 +501,9 @@ public class FXMLDocumentController implements Initializable {
     public void repClick(){                  ///////////////////////////////////REPORT//////////////////////////////////////
         double total = 0;
         int numOfDaysStay = 0;
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
         String msg;
         String header = "Total Patient Cost";
         
@@ -504,7 +524,7 @@ public class FXMLDocumentController implements Initializable {
             total+=(mb.getUnits()*mb.getUnitCost());
         }
         
-        msg = "Patient Cost = "+total;
+        msg = "Patient Cost = "+df.format(total);
         
         showInfoMsg(msg, header);
     }
@@ -554,6 +574,7 @@ public class FXMLDocumentController implements Initializable {
             }catch(Exception e){
                 showErrorMsg(badID, header);
                 clearClick();
+                return;
             }
         } else if (!lNameFind.getText().trim().isEmpty()){
             try{
@@ -563,9 +584,11 @@ public class FXMLDocumentController implements Initializable {
             catch(Exception e){
                 showErrorMsg(badLN, header);
                 clearClick();
+                return;
             }
         } else{
             showErrorMsg("Please enter an ID or Last Name", "Invalid Search");
+            clearClick();
             return;
         }
         
@@ -580,6 +603,7 @@ public class FXMLDocumentController implements Initializable {
         }
         catch(Exception e){
             showErrorMsg("Invalid Search", "Error");
+            clearClick();
         }
         
     }
